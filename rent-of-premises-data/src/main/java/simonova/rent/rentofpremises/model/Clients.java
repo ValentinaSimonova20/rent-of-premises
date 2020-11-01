@@ -1,4 +1,8 @@
 package simonova.rent.rentofpremises.model;
 
-public class Clients {
+/**
+ * Класс клиенты бизнес-центра
+ */
+public class Clients extends BaseEntity{
+
 }
