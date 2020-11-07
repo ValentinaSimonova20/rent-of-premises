@@ -7,32 +7,21 @@ import java.util.Date;
  * Класс оплата за аренду помещений бизнес-центра
  */
 @Entity
-public class Payment {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(name = "payments")
+public class Payment extends BaseEntity{
 
     /** Поле для хранения контракта, по которому совершена оплата*/
     @ManyToOne
-    private Contracts contract;
+    private Contract contract;
 
     /** Поле для хранения даты, когда была совершена оплата по договору*/
     private Date paymentDate;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Contracts getContract() {
+    public Contract getContract() {
         return contract;
     }
 
-    public void setContract(Contracts contract) {
+    public void setContract(Contract contract) {
         this.contract = contract;
     }
 

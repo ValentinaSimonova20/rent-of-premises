@@ -1,57 +1,48 @@
 package simonova.rent.rentofpremises.model;
 
-import javax.persistence.*;
-import java.util.Set;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.MappedSuperclass;
 
 /**
- * Класс клиенты бизнес-центра
+ * Базовый класс для объектов сотрудников и клиентов
  */
-@Entity
-public class Clients {
+@MappedSuperclass
+public class Person extends BaseEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    /** Поле для хранения фамилии клиента*/
+    /** Поле для хранения фамилии */
     private String surname;
 
-    /** Поле для хранения имени клиента*/
+    /** Поле для хранения имени */
     private String name;
 
-    /** Поле для хранения отчества клиента*/
+    /** Поле для хранения отчества */
     private String patronymic;
 
-    /** Поле для хранения серии паспорта клиента*/
+    /** Поле для хранения серии паспорта*/
     private String seriesNumberOfPassport;
 
-    /** Поле для хранения номера паспорта клиента*/
+    /** Поле для хранения номера паспорта */
     private String passportNumber;
 
-    /** Поле для хранения номера телефона клиента*/
+    /** Поле для хранения номера телефона */
     private String phoneNumber;
 
-    /** Поле для хранения логина клиента*/
+    /** Поле для хранения логина */
     private String login;
 
-    /** Поле для хранения электронной почты клиента*/
+    /** Поле для хранения электронной почты */
     private String email;
 
-    /** Поле для хранения пароля клиента */
+    /** Поле для хранения пароля  */
     private String pass;
 
-    /** Поле для хранения списка заявок клиента*/
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "client") // CascadeType.ALL - если удалится информация о клиенте - удалится информация о всех его заявках
-    private Set<Application> applications;
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
 
+    @Enumerated(value = EnumType.STRING)
+    private Status status;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getSurname() {
         return surname;
@@ -125,11 +116,19 @@ public class Clients {
         this.pass = pass;
     }
 
-    public Set<Application> getApplications() {
-        return applications;
+    public Role getRole() {
+        return role;
     }
 
-    public void setApplications(Set<Application> applications) {
-        this.applications = applications;
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

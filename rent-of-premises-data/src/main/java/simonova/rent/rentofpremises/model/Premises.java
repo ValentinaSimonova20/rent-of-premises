@@ -7,11 +7,8 @@ import java.util.Set;
  * Класс помещения на аренду бизнес-центра
  */
 @Entity
-public class Premises {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(name = "premises")
+public class Premises extends BaseEntity{
 
 
     /** Поле для хранения названия помещения*/
@@ -39,14 +36,6 @@ public class Premises {
     /** Поле для хранения списка заявок нв данное помещение*/
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "premises")
     private Set<Application> applications;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

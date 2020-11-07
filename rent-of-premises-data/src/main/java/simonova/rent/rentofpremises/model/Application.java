@@ -6,16 +6,13 @@ import javax.persistence.*;
  * Класс заявки на аренду помещения бизнес-центров
  */
 @Entity
-public class Application {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(name = "applications")
+public class Application extends BaseEntity{
 
 
     /** Поле для хранения клиента, который подал заявку*/
     @ManyToOne
-    private Clients client;
+    private Client client;
 
     /** Поле для хранения площади, на которую подана заявка*/
     @ManyToOne
@@ -36,22 +33,13 @@ public class Application {
 
     /** Поле для хранения договора по данной заявке*/
     @OneToOne(mappedBy = "application")
-    private Contracts contract;
+    private Contract contract;
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Clients getClient() {
+    public Client getClient() {
         return client;
     }
 
-    public void setClient(Clients client) {
+    public void setClient(Client client) {
         this.client = client;
     }
 
@@ -95,11 +83,11 @@ public class Application {
         this.status = status;
     }
 
-    public Contracts getContract() {
+    public Contract getContract() {
         return contract;
     }
 
-    public void setContract(Contracts contract) {
+    public void setContract(Contract contract) {
         this.contract = contract;
     }
 }

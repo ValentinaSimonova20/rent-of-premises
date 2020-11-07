@@ -8,11 +8,9 @@ import java.util.Set;
  * Класс контракты на аренду с клиентами бизнес-центра
  */
 @Entity
-public class Contracts {
+@Table(name = "contracts")
+public class Contract extends BaseEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     /** Поле для хранения заявки, по которой заключен договор*/
     @OneToOne
@@ -20,7 +18,7 @@ public class Contracts {
 
     /** Поле для хранения сотрудника, который заключил договор*/
     @ManyToOne
-    private Employees employee;
+    private Employee employee;
 
     /** Поле для хранения даты заключения договора*/
     private Date contractDate;
@@ -35,14 +33,6 @@ public class Contracts {
     @OneToMany(mappedBy = "contract")
     private Set<Payment> payments;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Application getApplication() {
         return application;
     }
@@ -51,11 +41,11 @@ public class Contracts {
         this.application = application;
     }
 
-    public Employees getEmployee() {
+    public Employee getEmployee() {
         return employee;
     }
 
-    public void setEmployee(Employees employee) {
+    public void setEmployee(Employee employee) {
         this.employee = employee;
     }
 
