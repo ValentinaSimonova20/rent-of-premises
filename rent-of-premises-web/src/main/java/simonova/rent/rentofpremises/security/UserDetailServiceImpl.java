@@ -37,12 +37,14 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
         Optional<Employee> employee = employeeRepository.findByEmail(email);
         if(employee.isPresent()){
             Employee employee1 = employeeRepository.findByEmail(email).orElseThrow(()->
                     new UsernameNotFoundException("User doesn't exists"));
             return SecurityUser.fromUser(employee1);
         }
+
 
         Client client1 = clientRepository.findByEmail(email).orElseThrow(()->
                 new UsernameNotFoundException("User doesn't exists"));

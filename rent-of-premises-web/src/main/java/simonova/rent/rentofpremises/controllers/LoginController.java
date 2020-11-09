@@ -15,6 +15,11 @@ public class LoginController {
         return "index";
     }
 
+    /**
+     * Главная страница клиента
+     * @param model
+     * @return html страница клиента
+     */
     @GetMapping("/success")
     public String getSuccessPage(Model model){
 
@@ -23,5 +28,20 @@ public class LoginController {
 
         model.addAttribute("user_name",authentication.getName());
         return "clients/index";
+    }
+
+    /**
+     * Главная страница менеджера
+     * @param model
+     * @return страница менеджера
+     */
+    @GetMapping("/manager_success")
+    public String getSuccessPageManager(Model model){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        model.addAttribute("user_name",authentication.getName());
+        return "managers/index";
     }
 }

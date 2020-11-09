@@ -6,7 +6,8 @@ package simonova.rent.rentofpremises.model;
 public enum Permission {
 
     DEVELOPERS_READ("developers:read"),
-    DEVELOPERS_WRITE("developers:write");
+    DEVELOPERS_WRITE("developers:write"),
+    DEVELOPERS_ADD_USERS("developers:addUsers");
 
     private final String permission;
 
