@@ -3,6 +3,7 @@ package simonova.rent.rentofpremises.controllers;
 import org.dom4j.rule.Mode;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,35 +60,7 @@ public class LoginController {
         return "managers/index";
     }
 
-    /**
-     * Отображение страницы регистрации
-     * @return html страница регистрации
-     */
-    @GetMapping("/register")
-    public String getRegisterPage(){
-        return "register/index";
-    }
 
-    /**
-     * Добавить нового клиента в бд
-     * @param newClient
-     * @param model
-     * @return
-     * // TODO: захешировать пароль и так его записать в БД. Убрать Контроллеры регистрации в отдельный файл
-     */
-    @PostMapping("/register")
-    public String addClient(Client newClient, Model model){
-        Optional<Client> client = clientRepository.findByEmail(newClient.getEmail());
-        if(client.isPresent()){
-            model.addAttribute("message","Пользователь с таким email уже зарегистрирован");
-            return "register/index";
-        }
-
-        newClient.setStatus(Status.ACTIVE);
-        newClient.setRole(Role.USER);
-        clientRepository.save(newClient);
-        return "redirect:/login";
-    }
 
 
 }
