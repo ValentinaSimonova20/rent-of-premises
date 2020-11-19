@@ -23,10 +23,6 @@
         <java.version>11</java.version>
     </properties>
 
-    <dependencies>
-
-
-    </dependencies>
 
     <build>
         <plugins>
