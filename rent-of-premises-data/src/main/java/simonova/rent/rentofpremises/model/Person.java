@@ -1,11 +1,10 @@
 package simonova.rent.rentofpremises.model;
 
-import com.sun.istack.NotNull;
+
+import org.hibernate.validator.NotEmpty;
 
 import javax.persistence.Column;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,10 +17,12 @@ import javax.persistence.MappedSuperclass;
 public class Person extends BaseEntity{
 
     /** Поле для хранения фамилии */
+    @NotEmpty(message = "surname is required.")
     private String surname;
 
     /** Поле для хранения имени */
-    private String name;
+    @NotEmpty(message = "name is required.")
+    private String person_name;
 
     /** Поле для хранения отчества */
     private String patronymic;
@@ -59,12 +60,12 @@ public class Person extends BaseEntity{
         this.surname = surname;
     }
 
-    public String getName() {
-        return name;
+    public String getPerson_name() {
+        return person_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPerson_name(String person_name) {
+        this.person_name = person_name;
     }
 
     public String getPatronymic() {
