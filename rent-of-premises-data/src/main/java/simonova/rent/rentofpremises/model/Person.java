@@ -1,11 +1,14 @@
 package simonova.rent.rentofpremises.model;
 
 
-import org.hibernate.validator.NotEmpty;
-
-import javax.persistence.Column;
+import javax.validation.constraints.NotEmpty;
 
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
+
+
+import javax.validation.constraints.NotBlank;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
@@ -17,12 +20,20 @@ import javax.persistence.MappedSuperclass;
 public class Person extends BaseEntity{
 
     /** Поле для хранения фамилии */
-    @NotEmpty(message = "surname is required.")
+    @Size(min = 3, max = 50)
     private String surname;
 
     /** Поле для хранения имени */
-    @NotEmpty(message = "name is required.")
-    private String person_name;
+    @Size(min = 3, max = 50)
+    private String name;
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
 
     /** Поле для хранения отчества */
     private String patronymic;
@@ -40,6 +51,8 @@ public class Person extends BaseEntity{
     private String login;
 
     /** Поле для хранения электронной почты */
+    @NotBlank
+    @Email(message = "Please enter a valid e-mail address")
     private String email;
 
     /** Поле для хранения пароля  */
@@ -52,20 +65,14 @@ public class Person extends BaseEntity{
     private Status status;
 
 
-    public String getSurname() {
-        return surname;
+
+
+    public String getName() {
+        return name;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getPerson_name() {
-        return person_name;
-    }
-
-    public void setPerson_name(String person_name) {
-        this.person_name = person_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPatronymic() {

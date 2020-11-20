@@ -6,8 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import simonova.rent.rentofpremises.model.Client;
+import simonova.rent.rentofpremises.model.Person;
 import simonova.rent.rentofpremises.model.Role;
 import simonova.rent.rentofpremises.model.Status;
 import simonova.rent.rentofpremises.repositories.ClientRepository;
@@ -29,38 +29,40 @@ public class RegisterController {
      * @return html страница регистрации
      */
     @GetMapping("/register")
-    public String getRegisterPage(){
+    public String getRegisterPage(Model model){
+        Person person = new Person();
+        model.addAttribute("client",person);
         return "register/index";
     }
 
     /**
      * Добавить нового клиента в бд
-     * @param newClient - объект нового клиента
+     * @param client - объект нового клиента
      * @param model
      * @return страницу регистрации или страницу логирования
-     * TODO: вынести добавление сообщения и валидацию в отдельный метод
      */
     @PostMapping("/register")
-    public ModelAndView addClient(@Valid Client newClient, BindingResult result, Model model){
+    public String addClient(@Valid @ModelAttribute("client") Client client, BindingResult result, Model model){
+
 
         if (result.hasErrors()) {
-            return new ModelAndView("register/index", "formErrors", result.getAllErrors());
+            return "register/index";
         }
 
-        Optional<Client> client = clientRepository.findByEmail(newClient.getEmail());
-        if(client.isPresent()){
+        Optional<Client> client1 = clientRepository.findByEmail(client.getEmail());
+        if(client1.isPresent()){
+            System.out.println("hi");
             model.addAttribute("message","Пользователь с таким email уже зарегистрирован");
-            model.addAttribute("email",client.get().getEmail());
-            return  new ModelAndView("register/index");
+            return  "register/index";
         }
 
+        System.out.println("все супер");
 
-
-        newClient.setStatus(Status.ACTIVE);
-        newClient.setRole(Role.USER);
-        newClient.setPass(BCrypt.hashpw(newClient.getPass(), BCrypt.gensalt(12)));
-        clientRepository.save(newClient);
-        return new ModelAndView("redirect:/login");
+        client.setStatus(Status.ACTIVE);
+        client.setRole(Role.USER);
+        client.setPass(BCrypt.hashpw(client.getPass(), BCrypt.gensalt(12)));
+        clientRepository.save(client);
+        return "redirect:/login";
     }
 
 }
