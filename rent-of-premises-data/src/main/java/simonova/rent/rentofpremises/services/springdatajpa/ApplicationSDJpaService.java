@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Сервис предоставляет взаимодействие с заявками на аренду клиентов
+ * Сервис предоставляет взаимодействие с заявками на аренду (таблицей) клиентов
  */
 @Service
 public class ApplicationSDJpaService implements ApplicationService {
