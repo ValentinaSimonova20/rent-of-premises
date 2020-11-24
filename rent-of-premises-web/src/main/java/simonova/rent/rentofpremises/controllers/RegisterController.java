@@ -11,6 +11,7 @@ import simonova.rent.rentofpremises.model.Person;
 import simonova.rent.rentofpremises.model.Role;
 import simonova.rent.rentofpremises.model.Status;
 import simonova.rent.rentofpremises.repositories.ClientRepository;
+import simonova.rent.rentofpremises.services.ClientService;
 
 
 import javax.validation.Valid;
@@ -18,10 +19,10 @@ import java.util.Optional;
 
 @Controller
 public class RegisterController {
-    ClientRepository clientRepository;
+    ClientService clientService;
 
-    public RegisterController(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
+    public RegisterController(ClientService clientService) {
+        this.clientService = clientService;
     }
 
     /**
@@ -49,8 +50,9 @@ public class RegisterController {
             return "register/index";
         }
 
-        Optional<Client> client1 = clientRepository.findByEmail(client.getEmail());
-        if(client1.isPresent()){
+        // Проверка на то, нет ли в базе данных уже пользователя с таким email
+        Client newClient = clientService.findClientByEmail(client.getEmail());
+        if(newClient != null){
             System.out.println("hi");
             model.addAttribute("message","Пользователь с таким email уже зарегистрирован");
             return  "register/index";
@@ -61,7 +63,7 @@ public class RegisterController {
         client.setStatus(Status.ACTIVE);
         client.setRole(Role.USER);
         client.setPass(BCrypt.hashpw(client.getPass(), BCrypt.gensalt(12)));
-        clientRepository.save(client);
+        clientService.save(client);
         return "redirect:/login";
     }
 

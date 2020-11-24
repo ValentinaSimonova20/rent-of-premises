@@ -6,6 +6,7 @@ import simonova.rent.rentofpremises.repositories.ClientRepository;
 import simonova.rent.rentofpremises.services.ClientService;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -26,6 +27,11 @@ public class ClientSDJpaService implements ClientService {
         Set<Client> clients = new HashSet<>();
         clientRepository.findAll().forEach(clients::add);
         return clients;
+    }
+
+    @Override
+    public Client findClientByEmail(String email) {
+        return clientRepository.findByEmail(email).orElse(null);
     }
 
     @Override
