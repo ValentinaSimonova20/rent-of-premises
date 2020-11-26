@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface ClientService extends CrudService<Client, Long>{
 
-    Client findClientByEmail(String email);
+    Client findByEmail(String email);
 }

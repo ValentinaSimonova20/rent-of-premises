@@ -1,6 +1,7 @@
 package simonova.rent.rentofpremises.controllers;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,17 +11,18 @@ import simonova.rent.rentofpremises.model.Client;
 import simonova.rent.rentofpremises.model.Person;
 import simonova.rent.rentofpremises.model.Role;
 import simonova.rent.rentofpremises.model.Status;
-import simonova.rent.rentofpremises.repositories.ClientRepository;
 import simonova.rent.rentofpremises.services.ClientService;
 
 
 import javax.validation.Valid;
-import java.util.Optional;
+
 
 @Controller
 public class RegisterController {
+
     ClientService clientService;
 
+    @Autowired
     public RegisterController(ClientService clientService) {
         this.clientService = clientService;
     }
@@ -51,7 +53,7 @@ public class RegisterController {
         }
 
         // Проверка на то, нет ли в базе данных уже пользователя с таким email
-        Client newClient = clientService.findClientByEmail(client.getEmail());
+        Client newClient = clientService.findByEmail(client.getEmail());
         if(newClient != null){
             System.out.println("hi");
             model.addAttribute("message","Пользователь с таким email уже зарегистрирован");

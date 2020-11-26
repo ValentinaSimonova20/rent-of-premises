@@ -31,7 +31,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             httpServletResponse.sendRedirect("/manager_success");
         }
         else {
-            httpServletResponse.sendRedirect("/success");
+            httpServletResponse.sendRedirect("/areas");
         }
 
 

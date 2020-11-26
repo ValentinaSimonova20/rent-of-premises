@@ -30,7 +30,7 @@ public class ClientSDJpaService implements ClientService {
     }
 
     @Override
-    public Client findClientByEmail(String email) {
+    public Client findByEmail(String email) {
         return clientRepository.findByEmail(email).orElse(null);
     }
 

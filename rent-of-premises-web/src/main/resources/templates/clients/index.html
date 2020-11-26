@@ -11,5 +11,30 @@
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
+    <h2 th:text="'Офисы бизнес-центра'">Офисы бизнес-центра</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Площадь (м^2)</th>
+            <th>Цена/месяц</th>
+            <th>Этаж</th>
+            <th>Количество рабочих мест</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="prem : ${premises}">
+            <td th:text="${prem.name}">Название</td>
+            <td th:text="${prem.description}">Описание</td>
+            <td th:text="${prem.area}">Площадь</td>
+            <td th:text="${prem.price}">Цена</td>
+            <td th:text="${prem.floor}">Этаж</td>
+            <td th:text="${prem.workplaces}">Раб.мест</td>
+        </tr>
+        </tbody>
+    </table>
+
 </body>
 </html>
