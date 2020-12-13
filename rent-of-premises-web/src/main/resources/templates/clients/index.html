@@ -41,7 +41,7 @@
         </thead>
         <tbody>
         <tr th:each="prem : ${premises}">
-            <td th:text="${prem.name}">Название</td>
+            <td><a href="#"  th:text="${prem.name}" th:href="@{'/areas/'+${prem.id}+'/show'}">Название</a></td>
             <td th:text="${prem.description}">Описание</td>
             <td th:text="${prem.area}">Площадь</td>
             <td th:text="${prem.price}">Цена</td>

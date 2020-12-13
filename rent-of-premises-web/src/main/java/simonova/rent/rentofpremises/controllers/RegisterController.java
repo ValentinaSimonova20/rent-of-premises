@@ -60,7 +60,6 @@ public class RegisterController {
             return  "register/index";
         }
 
-        System.out.println("все супер");
 
         client.setStatus(Status.ACTIVE);
         client.setRole(Role.USER);

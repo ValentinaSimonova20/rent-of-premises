@@ -1,10 +1,15 @@
 package simonova.rent.rentofpremises.controllers;
 
+import org.dom4j.rule.Mode;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import simonova.rent.rentofpremises.model.Premises;
 import simonova.rent.rentofpremises.services.PremisesService;
 
 @Controller
@@ -33,6 +38,33 @@ public class UserController {
         model.addAttribute("premises", premisesService.findAll());
 
         return "clients/index";
+    }
+
+    /**
+     * Подать заявку на площадь
+     * @param premises
+     * @return
+     */
+    @PostMapping("area")
+    public String sendApp(@ModelAttribute Premises premises){
+
+        System.out.println(premises.getId());
+
+        return "redirect:/areas/"+premises.getId()+"/show";
+    }
+
+    /**
+     * Открывает страницу просмотра офиса
+     * @param id
+     * @param model
+     * @return
+     */
+    @GetMapping("/areas/{id}/show")
+    public String getAreaById(@PathVariable String id, Model model){
+
+        model.addAttribute("premises", premisesService.findById(Long.valueOf(id)));
+
+        return "areas/show";
     }
 
     /**
