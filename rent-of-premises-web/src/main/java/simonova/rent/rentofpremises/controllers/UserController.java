@@ -42,15 +42,17 @@ public class UserController {
 
     /**
      * Подать заявку на площадь
-     * @param premises
+     * @param id
+     * @param model
      * @return
      */
-    @PostMapping("area")
-    public String sendApp(@ModelAttribute Premises premises){
+    @GetMapping("areas/{id}/show/sendApp")
+    public String sendApp(@PathVariable String id, Model model){
 
-        System.out.println(premises.getId());
+        System.out.println(id);
+        System.out.println("заявка на площадь подана");
 
-        return "redirect:/areas/"+premises.getId()+"/show";
+        return "redirect:/areas/"+id+"/show";
     }
 
     /**

@@ -36,11 +36,10 @@
 <div th:text="${premises.workplaces}">Кол-во рабочих мест</div><br><br>
 
 
+<div class="col-md-4" >
+    <a href="#" class="btn btn-default"  th:href="@{'/areas/' + ${premises.id} + '/show/sendApp'}" role="button">Подать заявку на аренду</a>
+</div>
 
-<form  th:object="${premises}" th:action="@{/area/}"  method="post">
-    <input type="hidden" th:field="*{id}"/>
-    <button type="submit" >Отправить заявку</button>
-</form>
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
