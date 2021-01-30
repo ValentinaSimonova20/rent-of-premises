@@ -1,5 +1,7 @@
 package simonova.rent.rentofpremises.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 /**
@@ -31,9 +33,21 @@ public class Application extends BaseEntity{
     @Enumerated(value = EnumType.STRING)
     private AppStatus status;
 
-    /** Поле для хранения договора по данной заявке*/
-    @OneToOne(mappedBy = "application")
-    private Contract contract;
+
+
+    public Application(Client client, Premises premises, int rentalPeriodYears, int rentalPeriodMonth, String additionalInfo, AppStatus status) {
+        this.client = client;
+        this.premises = premises;
+        this.rentalPeriodYears = rentalPeriodYears;
+        this.rentalPeriodMonth = rentalPeriodMonth;
+        this.additionalInfo = additionalInfo;
+        this.status = status;
+
+    }
+
+    public Application() {
+
+    }
 
     public Client getClient() {
         return client;
@@ -83,11 +97,4 @@ public class Application extends BaseEntity{
         this.status = status;
     }
 
-    public Contract getContract() {
-        return contract;
-    }
-
-    public void setContract(Contract contract) {
-        this.contract = contract;
-    }
 }

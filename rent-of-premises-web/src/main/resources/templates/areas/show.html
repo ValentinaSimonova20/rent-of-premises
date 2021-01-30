@@ -18,6 +18,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
+<div th:text="${premises.id}">Id</div><br><br>
 
 <div th:text="${premises.name}">Название</div><br><br>
 
@@ -35,6 +36,16 @@
 <div>Количество рабочих мест</div><br>
 <div th:text="${premises.workplaces}">Кол-во рабочих мест</div><br><br>
 
+<form action="#" th:action="@{/areas/__${premises.id}__/show}"  th:object="${applicationn}"  method="post" >
+
+    <div><label> Период аренды(месяцев) : </label><input type="text"  name="rentalPeriodMonths" th:field="*{rentalPeriodMonth}"/></div>
+
+    <div><label> Период аренды(лет): </label>
+        <input type="text" th:field="*{rentalPeriodYears}" name="rentalPeriodYears"/>
+    </div>
+    <div><label> Дополнительна информация: <input type="text" th:field="*{additionalInfo}" name="additionalInfo"/> </label></div>
+    <div><input type="submit" value="Подать заявку на аренду"/></div>
+</form>
 
 <div class="col-md-4" >
     <a href="#" class="btn btn-default"  th:href="@{'/areas/' + ${premises.id} + '/show/sendApp'}" role="button">Подать заявку на аренду</a>

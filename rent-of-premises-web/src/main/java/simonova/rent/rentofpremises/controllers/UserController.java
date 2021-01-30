@@ -1,24 +1,35 @@
 package simonova.rent.rentofpremises.controllers;
 
-import org.dom4j.rule.Mode;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import simonova.rent.rentofpremises.model.Premises;
+import simonova.rent.rentofpremises.model.*;
+import simonova.rent.rentofpremises.services.ApplicationService;
+import simonova.rent.rentofpremises.services.ClientService;
 import simonova.rent.rentofpremises.services.PremisesService;
+
+import javax.validation.Valid;
+import java.util.Locale;
 
 @Controller
 public class UserController {
 
     private final PremisesService premisesService;
+    private final ApplicationService applicationService;
+    private final ClientService clientService;
 
-    public UserController(PremisesService premisesService) {
+
+
+    public UserController(PremisesService premisesService, ApplicationService applicationService, ClientService clientService) {
         this.premisesService = premisesService;
+        this.applicationService = applicationService;
+        this.clientService = clientService;
     }
 
     /**
@@ -40,20 +51,7 @@ public class UserController {
         return "clients/index";
     }
 
-    /**
-     * Подать заявку на площадь
-     * @param id
-     * @param model
-     * @return
-     */
-    @GetMapping("areas/{id}/show/sendApp")
-    public String sendApp(@PathVariable String id, Model model){
 
-        System.out.println(id);
-        System.out.println("заявка на площадь подана");
-
-        return "redirect:/areas/"+id+"/show";
-    }
 
     /**
      * Открывает страницу просмотра офиса
@@ -65,8 +63,35 @@ public class UserController {
     public String getAreaById(@PathVariable String id, Model model){
 
         model.addAttribute("premises", premisesService.findById(Long.valueOf(id)));
+        ApplInfo application = new ApplInfo();
+        model.addAttribute("applicationn", application);
 
         return "areas/show";
+    }
+
+    @PostMapping("/areas/{id}/show")
+    public String sendAppl(@PathVariable String id, @Valid @ModelAttribute("applicationn") ApplInfo applInfo, BindingResult result, Model model){
+
+        System.out.println(id);
+        System.out.println(applInfo.getAdditionalInfo());
+
+        // получить информацию об авторизованном пользователе
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        Client client = clientService.findByEmail(currentPrincipalName);
+        Premises premises = premisesService.findById(Long.parseLong(id));
+
+
+
+
+
+        // Добавить заявку
+        Application newApp = new Application(client, premises, applInfo.getRentalPeriodYears(), applInfo.getRentalPeriodMonth(), applInfo.getAdditionalInfo(), AppStatus.WAIT_FOR_CONSIDERATION );
+        applicationService.save(newApp);
+        System.out.println("Заявка добавлена");
+
+        return "redirect:/areas/"+id+"/show";
     }
 
     /**
