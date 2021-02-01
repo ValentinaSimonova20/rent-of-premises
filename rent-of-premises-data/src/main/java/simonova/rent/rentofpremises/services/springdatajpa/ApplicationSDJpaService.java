@@ -5,8 +5,11 @@ import simonova.rent.rentofpremises.model.Application;
 import simonova.rent.rentofpremises.repositories.ApplicationRepository;
 import simonova.rent.rentofpremises.services.ApplicationService;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Сервис предоставляет взаимодействие с заявками на аренду (таблицей) клиентов
@@ -46,5 +49,11 @@ public class ApplicationSDJpaService implements ApplicationService {
     @Override
     public void deleteById(Long aLong) {
         applicationRepository.deleteById(aLong);
+    }
+
+    @Override
+    public List<Application> findByClientId(Long id) {
+
+        return new ArrayList<>(applicationRepository.findByClientId(id));
     }
 }

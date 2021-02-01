@@ -15,6 +15,7 @@ import simonova.rent.rentofpremises.services.ClientService;
 import simonova.rent.rentofpremises.services.PremisesService;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Locale;
 
 @Controller
@@ -83,9 +84,6 @@ public class UserController {
         Premises premises = premisesService.findById(Long.parseLong(id));
 
 
-
-
-
         // Добавить заявку
         Application newApp = new Application(client, premises, applInfo.getRentalPeriodYears(), applInfo.getRentalPeriodMonth(), applInfo.getAdditionalInfo(), AppStatus.WAIT_FOR_CONSIDERATION );
         applicationService.save(newApp);
@@ -101,6 +99,13 @@ public class UserController {
     @GetMapping("/applications")
     public String getApplications(Model model){
         model.addAttribute("activePage","applications");
+
+        // получить информацию об авторизованном пользователе
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        Client client = clientService.findByEmail(currentPrincipalName);
+        List<Application> apps = applicationService.findByClientId(client.getId());
+        model.addAttribute("apps", apps);
         return "clients/applications";
     }
 

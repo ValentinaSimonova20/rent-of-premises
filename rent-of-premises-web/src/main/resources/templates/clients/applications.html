@@ -21,7 +21,28 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
-<div>Your applications</div>
+<table>
+    <thead>
+    <tr>
+        <th>Помещение</th>
+        <th>Дополнительная информация</th>
+        <th>Месяцев</th>
+        <th>Лет</th>
+        <th>Статус</th>
+        <th>цена/месяц</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="app : ${apps}">
+        <td><a href="#"  th:text="${app.getPremises().getName()}">Название</a></td>
+        <td th:text="${app.getAdditionalInfo()}">Доп инф</td>
+        <td th:text="${app.getRentalPeriodMonth()}">Месяцев</td>
+        <td th:text="${app.getRentalPeriodYears()}">Лет</td>
+        <td th:text="${app.getStatus()}">Статус</td>
+        <td th:text="${app.getPremises().getPrice()}">Цена</td>
+    </tr>
+    </tbody>
+</table>
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
