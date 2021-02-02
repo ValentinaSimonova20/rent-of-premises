@@ -21,6 +21,25 @@
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
 <div>Ваш профиль</div>
+
+
+<form action="#" th:action="@{/profile}"  th:object="${client}"  method="post" >
+
+    <div><label> Имя : </label><input type="text"  name="name" th:field="*{name}"/></div>
+
+    <div><label> Фамилия: </label>
+        <input type="text" th:field="*{surname}" name="surname"/>
+    </div>
+    <div><label> Отчество: <input type="text" name="patronymic" th:field="*{patronymic}"/> </label></div>
+    <div><label> Номер паспорта: <input type="text" name="passportNumber" th:field="*{passportNumber}"/> </label></div>
+    <div><label> Серия паспорта: <input type="text" name="seriesNumberOfPassport" th:field="*{seriesNumberOfPassport}"/></label></div>
+    <div><label> Номер телефона: <input type="text" name="phoneNumber" th:field="*{phoneNumber}"/></label></div>
+    <div><label> Логин: <input type="text" name="login" th:field="*{login}"/></label></div>
+    <div><label> Почта: <input type="text" th:field="*{email}"  name="email"/></label></div>
+    <div><input type="submit" value="Изменить"/></div>
+</form>
+
+
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

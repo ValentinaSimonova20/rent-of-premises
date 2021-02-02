@@ -109,13 +109,4 @@ public class UserController {
         return "clients/applications";
     }
 
-    /**
-     * Страница c профилем клиента(личной информацией)
-     * @return
-     */
-    @GetMapping("/profile")
-    public String getContracts(Model model){
-        model.addAttribute("activePage","profile");
-        return "clients/profile";
-    }
 }
