@@ -36,19 +36,18 @@
 <div>Количество рабочих мест</div><br>
 <div th:text="${premises.workplaces}">Кол-во рабочих мест</div><br><br>
 
-<form action="#" th:action="@{/areas/__${premises.id}__/show}"  th:object="${applicationn}"  method="post" >
+<div th:switch="${userRole}">
+    <form action="#" th:action="@{/areas/__${premises.id}__/show}"  th:object="${applicationn}"  method="post" th:case="'USER'">
 
     <div><label> Период аренды(месяцев) : </label><input type="text"  name="rentalPeriodMonths" th:field="*{rentalPeriodMonth}"/></div>
 
-    <div><label> Период аренды(лет): </label>
+    <div ><label> Период аренды(лет): </label>
         <input type="text" th:field="*{rentalPeriodYears}" name="rentalPeriodYears"/>
     </div>
     <div><label> Дополнительна информация: <input type="text" th:field="*{additionalInfo}" name="additionalInfo"/> </label></div>
     <div><input type="submit" value="Подать заявку на аренду"/></div>
 </form>
 
-<div class="col-md-4" >
-    <a href="#" class="btn btn-default"  th:href="@{'/areas/' + ${premises.id} + '/show/sendApp'}" role="button">Подать заявку на аренду</a>
 </div>
 
 <div th:replace="~{fragments/footer :: footer}"></div>

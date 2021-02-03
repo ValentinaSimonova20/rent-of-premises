@@ -36,6 +36,10 @@
     <div><label> Номер телефона: <input type="text" name="phoneNumber" th:field="*{phoneNumber}"/></label></div>
     <div><label> Логин: <input type="text" name="login" th:field="*{login}"/></label></div>
     <div><label> Почта: <input type="text" th:field="*{email}"  name="email"/></label></div>
+    <div th:switch="${client.getRole().toString()}">
+    <label th:case="'USER'"><div th:text="'Роль: Арендатор'"/></label>
+    <label th:case="'MANAGER'"><div th:text="'Роль: Менеджер'"/></label>
+    </div>
     <div><input type="submit" value="Изменить"/></div>
 </form>
 

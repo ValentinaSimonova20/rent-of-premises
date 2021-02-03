@@ -67,6 +67,15 @@ public class UserController {
         ApplInfo application = new ApplInfo();
         model.addAttribute("applicationn", application);
 
+        // получить информацию об авторизованном пользователе
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        Client client = clientService.findByEmail(currentPrincipalName);
+
+
+        model.addAttribute("userRole", client.getRole().toString());
+
         return "areas/show";
     }
 
