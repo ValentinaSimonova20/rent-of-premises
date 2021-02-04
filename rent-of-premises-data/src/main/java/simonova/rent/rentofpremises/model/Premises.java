@@ -1,5 +1,7 @@
 package simonova.rent.rentofpremises.model;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -15,7 +17,8 @@ public class Premises extends BaseEntity{
     private String name;
 
     /** Поле для хранения описания помещения*/
-    @Lob // для хранения большого объема данных
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
     private String description;
 
     /** Поле для хранения площади помещения (в м^2)*/

@@ -5,7 +5,9 @@ import simonova.rent.rentofpremises.model.Premises;
 import simonova.rent.rentofpremises.repositories.PremisesRepository;
 import simonova.rent.rentofpremises.services.PremisesService;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -31,8 +33,8 @@ public class PremisesSDJpaService implements PremisesService {
     }
 
     @Override
-    public Set<Premises> findAll() {
-        Set<Premises> premises = new HashSet<>();
+    public List<Premises> findAll() {
+        List<Premises> premises = new ArrayList<>();
         premisesRepository.findAll().forEach(premises::add);
         return premises;
     }

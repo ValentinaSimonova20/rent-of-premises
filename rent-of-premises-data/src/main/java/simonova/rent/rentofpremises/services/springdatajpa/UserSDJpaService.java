@@ -1,51 +1,52 @@
 package simonova.rent.rentofpremises.services.springdatajpa;
 
 import org.springframework.stereotype.Service;
-import simonova.rent.rentofpremises.model.Client;
-import simonova.rent.rentofpremises.repositories.ClientRepository;
-import simonova.rent.rentofpremises.services.ClientService;
+import simonova.rent.rentofpremises.model.User;
+import simonova.rent.rentofpremises.repositories.UserRepository;
+import simonova.rent.rentofpremises.services.UserService;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Optional;
+import java.util.List;
 import java.util.Set;
 
 /**
  * Сервис для взаимодействия с таблицей клиентов бизнес-центра
  */
 @Service
-public class ClientSDJpaService implements ClientService {
+public class UserSDJpaService implements UserService {
 
-    ClientRepository clientRepository;
+    UserRepository clientRepository;
 
-    public ClientSDJpaService(ClientRepository clientRepository) {
+    public UserSDJpaService(UserRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
     @Override
-    public Set<Client> findAll() {
+    public List<User> findAll() {
 
-        Set<Client> clients = new HashSet<>();
+        List<User> clients = new ArrayList<>();
         clientRepository.findAll().forEach(clients::add);
         return clients;
     }
 
     @Override
-    public Client findByEmail(String email) {
+    public User findByEmail(String email) {
         return clientRepository.findByEmail(email).orElse(null);
     }
 
     @Override
-    public Client findById(Long aLong) {
+    public User findById(Long aLong) {
         return clientRepository.findById(aLong).orElse(null);
     }
 
     @Override
-    public Client save(Client object) {
+    public User save(User object) {
         return clientRepository.save(object);
     }
 
     @Override
-    public void delete(Client object) {
+    public void delete(User object) {
         clientRepository.delete(object);
     }
 

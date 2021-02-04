@@ -24,9 +24,9 @@ public class ApplicationSDJpaService implements ApplicationService {
     }
 
     @Override
-    public Set<Application> findAll() {
+    public List<Application> findAll() {
 
-        Set<Application> applications = new HashSet<>();
+        List<Application> applications = new ArrayList<>();
         applicationRepository.findAll().forEach(applications::add);
         return applications;
     }
@@ -52,8 +52,8 @@ public class ApplicationSDJpaService implements ApplicationService {
     }
 
     @Override
-    public List<Application> findByClientId(Long id) {
+    public List<Application> findByUserId(Long id) {
 
-        return new ArrayList<>(applicationRepository.findByClientId(id));
+        return new ArrayList<>(applicationRepository.findByUserId(id));
     }
 }

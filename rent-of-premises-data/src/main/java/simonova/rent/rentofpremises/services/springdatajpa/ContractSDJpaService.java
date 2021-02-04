@@ -5,7 +5,9 @@ import simonova.rent.rentofpremises.model.Contract;
 import simonova.rent.rentofpremises.repositories.ContractRepository;
 import simonova.rent.rentofpremises.services.ContractService;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -22,8 +24,8 @@ public class ContractSDJpaService implements ContractService {
     }
 
     @Override
-    public Set<Contract> findAll() {
-        Set<Contract> contracts = new HashSet<>();
+    public List<Contract> findAll() {
+        List<Contract> contracts = new ArrayList<>();
         contractRepository.findAll().forEach(contracts::add);
         return contracts;
     }

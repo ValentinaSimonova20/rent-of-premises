@@ -7,11 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import simonova.rent.rentofpremises.model.Client;
+import simonova.rent.rentofpremises.model.User;
 import simonova.rent.rentofpremises.model.Person;
 import simonova.rent.rentofpremises.model.Role;
 import simonova.rent.rentofpremises.model.Status;
-import simonova.rent.rentofpremises.services.ClientService;
+import simonova.rent.rentofpremises.services.UserService;
 
 
 import javax.validation.Valid;
@@ -20,10 +20,10 @@ import javax.validation.Valid;
 @Controller
 public class RegisterController {
 
-    ClientService clientService;
+    UserService clientService;
 
     @Autowired
-    public RegisterController(ClientService clientService) {
+    public RegisterController(UserService clientService) {
         this.clientService = clientService;
     }
 
@@ -45,7 +45,7 @@ public class RegisterController {
      * @return страницу регистрации или страницу логирования
      */
     @PostMapping("/register")
-    public String addClient(@Valid @ModelAttribute("client") Client client, BindingResult result, Model model){
+    public String addClient(@Valid @ModelAttribute("client") User client, BindingResult result, Model model){
 
 
         if (result.hasErrors()) {
@@ -53,7 +53,7 @@ public class RegisterController {
         }
 
         // Проверка на то, нет ли в базе данных уже пользователя с таким email
-        Client newClient = clientService.findByEmail(client.getEmail());
+        User newClient = clientService.findByEmail(client.getEmail());
         if(newClient != null){
             System.out.println("hi");
             model.addAttribute("message","Пользователь с таким email уже зарегистрирован");

@@ -30,6 +30,9 @@
         <th>Лет</th>
         <th>Статус</th>
         <th>цена/месяц</th>
+        <div th:switch="${role}">
+            <th th:case="'MANAGER'">Арендатор</th>
+        </div>
     </tr>
     </thead>
     <tbody>
@@ -40,6 +43,9 @@
         <td th:text="${app.getRentalPeriodYears()}">Лет</td>
         <td th:text="${app.getStatus()}">Статус</td>
         <td th:text="${app.getPremises().getPrice()}">Цена</td>
+        <div th:switch="${role}">
+            <td th:case="'MANAGER'" th:text="${app.getClient().getName()}+' '+${app.getClient().getSurname()}">Цена</td>
+        </div>
     </tr>
     </tbody>
 </table>

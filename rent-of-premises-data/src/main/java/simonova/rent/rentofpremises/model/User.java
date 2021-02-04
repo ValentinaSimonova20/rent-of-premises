@@ -10,12 +10,12 @@ import java.util.Set;
  * Класс клиенты бизнес-центра
  */
 @Entity
-@Table(name = "clients")
-public class Client extends Person{
+@Table(name = "users")
+public class User extends Person{
 
 
     /** Поле для хранения списка заявок клиента*/
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "client") // CascadeType.ALL - если удалится информация о клиенте - удалится информация о всех его заявках
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // CascadeType.ALL - если удалится информация о клиенте - удалится информация о всех его заявках
     private Set<Application> applications;
 
 

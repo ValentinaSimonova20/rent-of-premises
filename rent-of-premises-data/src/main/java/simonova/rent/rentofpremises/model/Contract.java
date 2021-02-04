@@ -18,7 +18,7 @@ public class Contract extends BaseEntity{
 
     /** Поле для хранения сотрудника, который заключил договор*/
     @ManyToOne
-    private Employee employee;
+    private User user;
 
     /** Поле для хранения даты заключения договора*/
     private Date contractDate;
@@ -41,12 +41,12 @@ public class Contract extends BaseEntity{
         this.application = application;
     }
 
-    public Employee getEmployee() {
-        return employee;
+    public User getEmployee() {
+        return user;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setEmployee(User employee) {
+        this.user = employee;
     }
 
     public Date getContractDate() {

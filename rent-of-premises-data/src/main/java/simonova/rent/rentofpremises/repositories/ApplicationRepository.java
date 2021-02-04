@@ -8,5 +8,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ApplicationRepository extends CrudRepository<Application, Long> {
-    List<Application> findByClientId(Long id);
+    List<Application> findByUserId(Long id);
 }

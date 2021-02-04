@@ -6,23 +6,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import simonova.rent.rentofpremises.model.Client;
-import simonova.rent.rentofpremises.services.ClientService;
+import simonova.rent.rentofpremises.model.User;
+import simonova.rent.rentofpremises.services.UserService;
 
 import javax.validation.Valid;
+
+/**
+ * Контроллер для обработки действий в пункте меню "Ваш профиль"
+ */
 
 @Controller
 public class ProfileController {
 
-    private final ClientService clientService;
+    private final UserService clientService;
 
-    public ProfileController(ClientService clientService) {
+    public ProfileController(UserService clientService) {
         this.clientService = clientService;
     }
 
     /**
-     * Страница c профилем клиента(личной информацией)
-     * @return
+     * Отображение страницы c профилем клиента или менеджера(личной информацией)
+     * @return html страница с информацией пользователя
      */
     @GetMapping("/profile")
     public String getProfile( Model model){
@@ -35,11 +39,16 @@ public class ProfileController {
         return "clients/profile";
     }
 
+    /**
+     * Подтвердить изменения на странице профиля
+     * @param client - информация об авторизованном клиенте
+     * @return html страница с обновленной информацией пользователя
+     */
     @PostMapping("/profile")
-    public String editProfile(@Valid Client client,Model model){
+    public String editProfile(@Valid User client){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        Client currentClient = clientService.findByEmail(currentPrincipalName);
+        User currentClient = clientService.findByEmail(currentPrincipalName);
 
         client.setId(currentClient.getId());
         client.setPass(currentClient.getPass());
@@ -47,7 +56,8 @@ public class ProfileController {
         client.setRole(currentClient.getRole());
 
 
-        Client savedClient = clientService.save(client);
+        // сохранить изменения в базе данных
+        User savedClient = clientService.save(client);
         return "clients/profile";
 
     }

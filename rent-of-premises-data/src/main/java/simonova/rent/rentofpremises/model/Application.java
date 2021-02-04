@@ -1,7 +1,5 @@
 package simonova.rent.rentofpremises.model;
 
-import lombok.Data;
-
 import javax.persistence.*;
 
 /**
@@ -14,7 +12,7 @@ public class Application extends BaseEntity{
 
     /** Поле для хранения клиента, который подал заявку*/
     @ManyToOne
-    private Client client;
+    private User user;
 
     /** Поле для хранения площади, на которую подана заявка*/
     @ManyToOne
@@ -35,8 +33,8 @@ public class Application extends BaseEntity{
 
 
 
-    public Application(Client client, Premises premises, int rentalPeriodYears, int rentalPeriodMonth, String additionalInfo, AppStatus status) {
-        this.client = client;
+    public Application(User user, Premises premises, int rentalPeriodYears, int rentalPeriodMonth, String additionalInfo, AppStatus status) {
+        this.user = user;
         this.premises = premises;
         this.rentalPeriodYears = rentalPeriodYears;
         this.rentalPeriodMonth = rentalPeriodMonth;
@@ -49,12 +47,12 @@ public class Application extends BaseEntity{
 
     }
 
-    public Client getClient() {
-        return client;
+    public User getClient() {
+        return user;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setClient(User client) {
+        this.user = client;
     }
 
     public Premises getPremises() {
