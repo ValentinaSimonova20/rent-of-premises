@@ -1,5 +1,6 @@
 package simonova.rent.rentofpremises.controllers;
 
+import org.dom4j.rule.Mode;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -23,14 +24,14 @@ public class UserController {
 
     private final PremisesService premisesService;
     private final ApplicationService applicationService;
-    private final UserService clientService;
+    private final UserService userService;
 
 
 
-    public UserController(PremisesService premisesService, ApplicationService applicationService, UserService clientService) {
+    public UserController(PremisesService premisesService, ApplicationService applicationService, UserService userService) {
         this.premisesService = premisesService;
         this.applicationService = applicationService;
-        this.clientService = clientService;
+        this.userService = userService;
     }
 
     /**
@@ -71,7 +72,7 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
-        User client = clientService.findByEmail(currentPrincipalName);
+        User client = userService.findByEmail(currentPrincipalName);
 
 
         model.addAttribute("userRole", client.getRole().toString());
@@ -89,7 +90,7 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
-        User client = clientService.findByEmail(currentPrincipalName);
+        User client = userService.findByEmail(currentPrincipalName);
         Premises premises = premisesService.findById(Long.parseLong(id));
 
 
@@ -113,20 +114,26 @@ public class UserController {
         // получить информацию об авторизованном пользователе
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        User user = clientService.findByEmail(currentPrincipalName);
+        User user = userService.findByEmail(currentPrincipalName);
         List<Application> apps = new ArrayList<>();
         if(user.getRole().equals("USER")){
+            // если роль пользователя - user(клиент) - высвечивать его заявки
             apps = applicationService.findByUserId(user.getId());
         }
         else {
+            // если роль пользователя manager - высвечивать все заявки
             apps = applicationService.findAll();
         }
-
-
 
         model.addAttribute("apps", apps);
         model.addAttribute("role", user.getRole().toString());
         return "clients/applications";
+    }
+
+    @GetMapping("/clientInfo/{id}/show")
+    public String showClientInfo(Model model, @PathVariable Long id){
+        model.addAttribute("client", userService.findById(id));
+        return "clients/show";
     }
 
 }

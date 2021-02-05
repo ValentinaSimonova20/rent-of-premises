@@ -37,14 +37,14 @@
     </thead>
     <tbody>
     <tr th:each="app : ${apps}">
-        <td><a href="#"  th:text="${app.getPremises().getName()}">Название</a></td>
+        <td><a href="#" th:href="@{'/areas/'+${app.getPremises().getId()}+'/show'}" th:text="${app.getPremises().getName()}">Название</a></td>
         <td th:text="${app.getAdditionalInfo()}">Доп инф</td>
         <td th:text="${app.getRentalPeriodMonth()}">Месяцев</td>
         <td th:text="${app.getRentalPeriodYears()}">Лет</td>
         <td th:text="${app.getStatus()}">Статус</td>
         <td th:text="${app.getPremises().getPrice()}">Цена</td>
         <div th:switch="${role}">
-            <td th:case="'MANAGER'" th:text="${app.getClient().getName()}+' '+${app.getClient().getSurname()}">Цена</td>
+            <td><a th:case="'MANAGER'" th:href="@{'/clientInfo/'+${app.getClient().getId()}+'/show'}" th:text="${app.getClient().getName()}+' '+${app.getClient().getSurname()}">фио</a></td>
         </div>
     </tr>
     </tbody>
