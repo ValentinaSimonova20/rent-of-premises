@@ -28,11 +28,15 @@
         <th>Дополнительная информация</th>
         <th>Месяцев</th>
         <th>Лет</th>
-        <th>Статус</th>
         <th>цена/месяц</th>
         <div th:switch="${role}">
             <th th:case="'MANAGER'">Арендатор</th>
         </div>
+        <th>Статус</th>
+        <div th:switch="${role}">
+            <th th:case="'MANAGER'">Подтверждение</th>
+        </div>
+
     </tr>
     </thead>
     <tbody>
@@ -41,10 +45,34 @@
         <td th:text="${app.getAdditionalInfo()}">Доп инф</td>
         <td th:text="${app.getRentalPeriodMonth()}">Месяцев</td>
         <td th:text="${app.getRentalPeriodYears()}">Лет</td>
-        <td th:text="${app.getStatus()}">Статус</td>
+
+
         <td th:text="${app.getPremises().getPrice()}">Цена</td>
         <div th:switch="${role}">
             <td><a th:case="'MANAGER'" th:href="@{'/clientInfo/'+${app.getClient().getId()}+'/show'}" th:text="${app.getClient().getName()}+' '+${app.getClient().getSurname()}">фио</a></td>
+        </div>
+
+        <div th:switch="${role}">
+            <div class="form-group blu-margin" th:case="'MANAGER'">
+                <form th:action="@{'/app/' + ${app.id} + '/changeStat'} " method="post">
+                <td>
+
+                    <select class="form-control" th:name="stat"  id="dropOperator">
+                        <option th:each="status : ${statuses}" th:value="${status}" th:text="${status.getName()}" th:selected="${status==app.getStatus()}"></option>
+                    </select>
+
+                </td>
+
+                <td>
+
+                    <button type="submit" class="btn btn-primary">Подтвердить изменение</button>
+
+                </td>
+                </form>
+            </div>
+            <div class="form-group blu-margin" th:case="'USER'">
+                <td th:text="${app.getStatus().getName()}">Статус</td>
+            </div>
         </div>
     </tr>
     </tbody>

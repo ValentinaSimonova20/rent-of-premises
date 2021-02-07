@@ -19,8 +19,21 @@
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
 <div th:text="${client.id}">Id</div><br><br>
+<div>Имя</div>
+<div th:text="${client.name}">Имя</div><br><br>
+<div>Отчество</div>
+<div th:text="${client.patronymic}">Отчество</div><br><br>
+<div>Фамилия</div>
+<div th:text="${client.surname}">Фамилия</div><br><br>
+<div>email</div>
+<div th:text="${client.email}">email</div><br><br>
+<div>телефон</div>
+<div th:text="${client.phoneNumber}">телефон</div><br><br>
+<div>Серия паспорта</div>
+<div th:text="${client.seriesNumberOfPassport}">Серия паспорта</div><br><br>
+<div>Номер паспорта</div>
+<div th:text="${client.passportNumber}">Номер паспорта</div><br><br>
 
-<div th:text="${client.name}">Название</div><br><br>
 
 
 <div th:replace="~{fragments/footer :: footer}"></div>

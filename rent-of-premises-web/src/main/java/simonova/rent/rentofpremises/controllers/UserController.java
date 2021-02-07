@@ -4,12 +4,10 @@ import org.dom4j.rule.Mode;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import simonova.rent.rentofpremises.model.*;
 import simonova.rent.rentofpremises.services.ApplicationService;
 import simonova.rent.rentofpremises.services.UserService;
@@ -106,6 +104,7 @@ public class UserController {
      * Страница со списком заявок на аренду клиента
      * @return
      */
+    @Transactional
     @GetMapping("/applications")
     public String getApplications(Model model){
         model.addAttribute("activePage","applications");
@@ -126,8 +125,26 @@ public class UserController {
         }
 
         model.addAttribute("apps", apps);
+        model.addAttribute("statuses",AppStatus.values());
         model.addAttribute("role", user.getRole().toString());
         return "clients/applications";
+    }
+
+    /**
+     * Изменить статус выбранной заявки
+     * @param appId
+     * @param appStatus
+     * @return
+     */
+    @Transactional
+    @PostMapping("/app/{appId}/changeStat")
+    public String changeStatus(@PathVariable Long appId, @RequestParam("stat") AppStatus appStatus){
+
+        Application app = applicationService.findById(appId);
+        app.setStatus(appStatus);
+        applicationService.save(app);
+        return "redirect:/applications";
+
     }
 
     @GetMapping("/clientInfo/{id}/show")
