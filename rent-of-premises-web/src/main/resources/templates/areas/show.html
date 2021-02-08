@@ -37,7 +37,7 @@
 <div th:text="${premises.workplaces}">Кол-во рабочих мест</div><br><br>
 
 <div th:switch="${userRole}">
-    <form action="#" th:action="@{/areas/__${premises.id}__/show}"  th:object="${applicationn}"  method="post" th:case="'USER'">
+    <form action="#" th:action="@{/areas/__${premises.id}__/show}"  th:object="${application}"  method="post" th:case="'USER'">
 
     <div><label> Период аренды(месяцев) : </label><input type="text"  name="rentalPeriodMonths" th:field="*{rentalPeriodMonth}"/></div>
 

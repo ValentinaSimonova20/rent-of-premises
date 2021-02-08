@@ -59,8 +59,8 @@ public class UserController {
     public String getAreaById(@PathVariable String id, Model model){
 
         model.addAttribute("premises", premisesService.findById(Long.valueOf(id)));
-        ApplInfo application = new ApplInfo();
-        model.addAttribute("applicationn", application);
+        Application application = new Application();
+        model.addAttribute("application", application);
 
         // получить информацию об авторизованном пользователе
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -75,7 +75,7 @@ public class UserController {
     }
 
     @PostMapping("/areas/{id}/show")
-    public String sendAppl(@PathVariable String id, @Valid @ModelAttribute("applicationn") ApplInfo applInfo, BindingResult result, Model model){
+    public String sendAppl(@PathVariable String id, @Valid @ModelAttribute("application") Application application, BindingResult result, Model model){
         // получить информацию об авторизованном пользователе
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -85,7 +85,7 @@ public class UserController {
 
 
         // Добавить заявку
-        Application newApp = new Application(client, premises, applInfo.getRentalPeriodYears(), applInfo.getRentalPeriodMonth(), applInfo.getAdditionalInfo(), AppStatus.WAIT_FOR_CONSIDERATION );
+        Application newApp = new Application(client, premises, application.getRentalPeriodYears(), application.getRentalPeriodMonth(), application.getAdditionalInfo(), AppStatus.WAIT_FOR_CONSIDERATION );
         applicationService.save(newApp);
 
         return "redirect:/areas/"+id+"/show";
