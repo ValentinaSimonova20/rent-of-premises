@@ -5,6 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import simonova.rent.rentofpremises.model.User;
 import simonova.rent.rentofpremises.services.UserService;
@@ -45,7 +46,7 @@ public class ProfileController {
      * @return html страница с обновленной информацией пользователя
      */
     @PostMapping("/profile")
-    public String editProfile(@Valid User client){
+    public String editProfile(@Valid @ModelAttribute("client") User client){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User currentClient = clientService.findByEmail(currentPrincipalName);

@@ -1,22 +1,20 @@
 package simonova.rent.rentofpremises.services;
-
 import java.util.List;
-import java.util.Set;
 
 /**
  * В интерфейсе определены общие для всех таблиц операции
  * @param <T> тип объекта (Client, Payment ...)
- * @param <ID> тип первичного ключа
+ * @param <L> тип первичного ключа
  */
-public interface CrudService<T, ID> {
+public interface CrudService<T, L> {
 
     List<T> findAll();
 
-    T findById(ID id);
+    T findById(L id);
 
     T save(T object);
 
     void delete(T object);
 
-    void deleteById(ID id);
+    void deleteById(L id);
 }

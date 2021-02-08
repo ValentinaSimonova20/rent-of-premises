@@ -6,9 +6,7 @@ import simonova.rent.rentofpremises.repositories.ContractRepository;
 import simonova.rent.rentofpremises.services.ContractService;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 /**

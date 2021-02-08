@@ -6,9 +6,7 @@ import simonova.rent.rentofpremises.repositories.PremisesRepository;
 import simonova.rent.rentofpremises.services.PremisesService;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Сервис для взаимодействия с таблицей, хранящей информацию о площадях бизнес-центра
