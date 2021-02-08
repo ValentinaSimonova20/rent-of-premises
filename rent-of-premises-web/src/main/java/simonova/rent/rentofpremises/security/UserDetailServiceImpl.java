@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 import simonova.rent.rentofpremises.model.User;
 import simonova.rent.rentofpremises.repositories.UserRepository;
 
-import java.util.Optional;
-
 @Service("userDetailServiceImpl")
 public class UserDetailServiceImpl implements UserDetailsService {
 
@@ -20,21 +18,13 @@ public class UserDetailServiceImpl implements UserDetailsService {
     }
 
 
-    private Optional<User> findByClientName(String clientMail){
-        return clientRepository.findByEmail(clientMail);
-    }
-
-
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email){
 
         User client1 = clientRepository.findByEmail(email).orElseThrow(()->
                 new UsernameNotFoundException("User doesn't exists"));
         return SecurityUser.fromUser(client1);
-
-
-
 
     }
 }

@@ -1,6 +1,4 @@
 package simonova.rent.rentofpremises.controllers;
-
-import org.dom4j.rule.Mode;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -12,9 +10,7 @@ import simonova.rent.rentofpremises.model.*;
 import simonova.rent.rentofpremises.services.ApplicationService;
 import simonova.rent.rentofpremises.services.UserService;
 import simonova.rent.rentofpremises.services.PremisesService;
-
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -34,8 +30,8 @@ public class UserController {
 
     /**
      * Главная страница клиентов бизнес-центра - список доступных площадей
-     * @param model
-     * @return
+     * @param model - контейнер, содержащий информацию приложения
+     * @return html страница со списком площадей бизнес-центра
      */
     @GetMapping("/areas")
     public String getAreas(Model model){
@@ -55,9 +51,9 @@ public class UserController {
 
     /**
      * Открывает страницу просмотра офиса
-     * @param id
-     * @param model
-     * @return
+     * @param id - идентификатор выбранного офиса
+     * @param model - контейнер информации
+     * @return html-страницу с расширенной информацией о выбранном офисе
      */
     @GetMapping("/areas/{id}/show")
     public String getAreaById(@PathVariable String id, Model model){
@@ -80,10 +76,6 @@ public class UserController {
 
     @PostMapping("/areas/{id}/show")
     public String sendAppl(@PathVariable String id, @Valid @ModelAttribute("applicationn") ApplInfo applInfo, BindingResult result, Model model){
-
-        System.out.println(id);
-        System.out.println(applInfo.getAdditionalInfo());
-
         // получить информацию об авторизованном пользователе
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -95,14 +87,13 @@ public class UserController {
         // Добавить заявку
         Application newApp = new Application(client, premises, applInfo.getRentalPeriodYears(), applInfo.getRentalPeriodMonth(), applInfo.getAdditionalInfo(), AppStatus.WAIT_FOR_CONSIDERATION );
         applicationService.save(newApp);
-        System.out.println("Заявка добавлена");
 
         return "redirect:/areas/"+id+"/show";
     }
 
     /**
      * Страница со списком заявок на аренду клиента
-     * @return
+     * @return html-страницу со списком заявок клиента или со всеми заявками на аренду для менеджера
      */
     @Transactional
     @GetMapping("/applications")
@@ -114,8 +105,8 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User user = userService.findByEmail(currentPrincipalName);
-        List<Application> apps = new ArrayList<>();
-        if(user.getRole().equals("USER")){
+        List<Application> apps;
+        if(user.getRole().toString().equals("USER")){
             // если роль пользователя - user(клиент) - высвечивать его заявки
             apps = applicationService.findByUserId(user.getId());
         }
@@ -132,9 +123,9 @@ public class UserController {
 
     /**
      * Изменить статус выбранной заявки
-     * @param appId
-     * @param appStatus
-     * @return
+     * @param appId - идентификатор заявки на аренду
+     * @param appStatus - измененный статус заявки (выбранный менеджером)
+     * @return html-страницу со списком заявок
      */
     @Transactional
     @PostMapping("/app/{appId}/changeStat")

@@ -57,7 +57,7 @@ public class ProfileController {
 
 
         // сохранить изменения в базе данных
-        User savedClient = clientService.save(client);
+        clientService.save(client);
         return "clients/profile";
 
     }

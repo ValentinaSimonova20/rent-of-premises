@@ -9,13 +9,13 @@ public enum Permission {
     DEVELOPERS_WRITE("developers:write"),
     DEVELOPERS_ADD_USERS("developers:addUsers");
 
-    private final String permission;
+    private final String name;
 
     public String getPermission() {
-        return permission;
+        return name;
     }
 
-    Permission(String permission) {
-        this.permission = permission;
+    Permission(String name) {
+        this.name = name;
     }
 }

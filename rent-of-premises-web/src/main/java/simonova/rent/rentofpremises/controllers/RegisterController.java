@@ -22,6 +22,8 @@ public class RegisterController {
 
     UserService clientService;
 
+    private static final String VIEWS_REGISTER_FORM = "register/index";
+
     @Autowired
     public RegisterController(UserService clientService) {
         this.clientService = clientService;
@@ -35,13 +37,13 @@ public class RegisterController {
     public String getRegisterPage(Model model){
         Person person = new Person();
         model.addAttribute("client",person);
-        return "register/index";
+        return VIEWS_REGISTER_FORM;
     }
 
     /**
      * Добавить нового клиента в бд
      * @param client - объект нового клиента
-     * @param model
+     * @param model - контейнер информации приложения
      * @return страницу регистрации или страницу логирования
      */
     @PostMapping("/register")
@@ -49,15 +51,14 @@ public class RegisterController {
 
 
         if (result.hasErrors()) {
-            return "register/index";
+            return VIEWS_REGISTER_FORM;
         }
 
         // Проверка на то, нет ли в базе данных уже пользователя с таким email
         User newClient = clientService.findByEmail(client.getEmail());
         if(newClient != null){
-            System.out.println("hi");
             model.addAttribute("message","Пользователь с таким email уже зарегистрирован");
-            return  "register/index";
+            return  VIEWS_REGISTER_FORM;
         }
 
 
