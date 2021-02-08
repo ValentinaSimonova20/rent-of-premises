@@ -1,9 +1,9 @@
 package simonova.rent.rentofpremises.services;
 
-import simonova.rent.rentofpremises.model.Application;
+import simonova.rent.rentofpremises.dto.ApplicationDTO;
 
 import java.util.List;
 
-public interface ApplicationService extends CrudService<Application, Long>{
-    List<Application> findByUserId(Long id);
+public interface ApplicationService extends CrudService<ApplicationDTO, Long>{
+    List<ApplicationDTO> findByUserId(Long id);
 }

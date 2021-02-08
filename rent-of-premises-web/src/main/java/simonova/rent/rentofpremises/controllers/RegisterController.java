@@ -54,7 +54,7 @@ public class RegisterController {
             return VIEWS_REGISTER_FORM;
         }
 
-        // Проверка на то, нет ли в базе данных уже пользователя с таким email
+        // Проверка на то, нет ли в базе данных пользователя с таким email
         User newClient = clientService.findByEmail(client.getEmail());
         if(newClient != null){
             model.addAttribute("message","Пользователь с таким email уже зарегистрирован");

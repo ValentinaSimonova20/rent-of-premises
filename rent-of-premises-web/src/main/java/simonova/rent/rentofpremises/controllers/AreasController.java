@@ -4,6 +4,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import simonova.rent.rentofpremises.dto.ApplicationDTO;
 import simonova.rent.rentofpremises.model.*;
 import simonova.rent.rentofpremises.services.ApplicationService;
 import simonova.rent.rentofpremises.services.UserService;
@@ -72,11 +73,11 @@ public class AreasController {
     /**
      * Подать заявку на аренду данного офиса
      * @param id идентификатор офиса
-     * @param application информация о заявке на аренду
-     * @return
+     * @param applicationDTO информация о заявке на аренду
+     * @return html-страницу с информацией об офисе
      */
     @PostMapping("/areas/{id}/show")
-    public String sendApplication(@PathVariable String id, @Valid @ModelAttribute("application") Application application){
+    public String sendApplication(@PathVariable String id, @Valid @ModelAttribute("application") ApplicationDTO applicationDTO){
         // получить информацию об авторизованном пользователе
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -85,7 +86,7 @@ public class AreasController {
         Premises premises = premisesService.findById(Long.parseLong(id));
 
         // Добавить заявку
-        Application newApp = new Application(client, premises, application.getRentalPeriodYears(), application.getRentalPeriodMonth(), application.getAdditionalInfo(), AppStatus.WAIT_FOR_CONSIDERATION );
+        ApplicationDTO newApp = new ApplicationDTO(client, premises, applicationDTO.getRentalPeriodYears(), applicationDTO.getRentalPeriodMonth(), applicationDTO.getAdditionalInfo(), AppStatus.WAIT_FOR_CONSIDERATION );
         applicationService.save(newApp);
 
         return "redirect:/areas/"+id+"/show";

@@ -1,5 +1,6 @@
 package simonova.rent.rentofpremises.controllers;
 
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -9,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import simonova.rent.rentofpremises.dto.ApplicationDTO;
 import simonova.rent.rentofpremises.model.AppStatus;
-import simonova.rent.rentofpremises.model.Application;
 import simonova.rent.rentofpremises.model.User;
 import simonova.rent.rentofpremises.services.ApplicationService;
 import simonova.rent.rentofpremises.services.UserService;
@@ -42,7 +43,7 @@ public class ApplicationController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User user = userService.findByEmail(currentPrincipalName);
-        List<Application> apps;
+        List<ApplicationDTO> apps;
         if(user.getRole().toString().equals("USER")){
             // если роль пользователя - user(клиент) - высвечивать его заявки
             apps = applicationService.findByUserId(user.getId());
@@ -68,7 +69,7 @@ public class ApplicationController {
     @PostMapping("/app/{appId}/changeStat")
     public String changeStatus(@PathVariable Long appId, @RequestParam("stat") AppStatus appStatus){
 
-        Application app = applicationService.findById(appId);
+        ApplicationDTO app = applicationService.findById(appId);
         app.setStatus(appStatus);
         applicationService.save(app);
         return "redirect:/applications";
