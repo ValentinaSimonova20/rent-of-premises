@@ -2,19 +2,16 @@ package simonova.rent.rentofpremises.controllers;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import simonova.rent.rentofpremises.model.*;
 import simonova.rent.rentofpremises.services.ApplicationService;
 import simonova.rent.rentofpremises.services.UserService;
 import simonova.rent.rentofpremises.services.PremisesService;
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
-public class UserController {
+public class AreasController {
 
     private final PremisesService premisesService;
     private final ApplicationService applicationService;
@@ -22,7 +19,7 @@ public class UserController {
 
 
 
-    public UserController(PremisesService premisesService, ApplicationService applicationService, UserService userService) {
+    public AreasController(PremisesService premisesService, ApplicationService applicationService, UserService userService) {
         this.premisesService = premisesService;
         this.applicationService = applicationService;
         this.userService = userService;
@@ -46,8 +43,6 @@ public class UserController {
 
         return "clients/index";
     }
-
-
 
     /**
      * Открывает страницу просмотра офиса
@@ -74,15 +69,20 @@ public class UserController {
         return "areas/show";
     }
 
+    /**
+     * Подать заявку на аренду данного офиса
+     * @param id идентификатор офиса
+     * @param application информация о заявке на аренду
+     * @return
+     */
     @PostMapping("/areas/{id}/show")
-    public String sendAppl(@PathVariable String id, @Valid @ModelAttribute("application") Application application, BindingResult result, Model model){
+    public String sendApplication(@PathVariable String id, @Valid @ModelAttribute("application") Application application){
         // получить информацию об авторизованном пользователе
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
         User client = userService.findByEmail(currentPrincipalName);
         Premises premises = premisesService.findById(Long.parseLong(id));
-
 
         // Добавить заявку
         Application newApp = new Application(client, premises, application.getRentalPeriodYears(), application.getRentalPeriodMonth(), application.getAdditionalInfo(), AppStatus.WAIT_FOR_CONSIDERATION );
@@ -92,52 +92,11 @@ public class UserController {
     }
 
     /**
-     * Страница со списком заявок на аренду клиента
-     * @return html-страницу со списком заявок клиента или со всеми заявками на аренду для менеджера
+     * Страница просмотра менеджером информаии об определенном клиенте
+     * @param model контейнер данных
+     * @param id идентификатор клиента
+     * @return html-страницу с информацией о клиенте
      */
-    @Transactional
-    @GetMapping("/applications")
-    public String getApplications(Model model){
-        model.addAttribute("activePage","applications");
-
-
-        // получить информацию об авторизованном пользователе
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        User user = userService.findByEmail(currentPrincipalName);
-        List<Application> apps;
-        if(user.getRole().toString().equals("USER")){
-            // если роль пользователя - user(клиент) - высвечивать его заявки
-            apps = applicationService.findByUserId(user.getId());
-        }
-        else {
-            // если роль пользователя manager - высвечивать все заявки
-            apps = applicationService.findAll();
-        }
-
-        model.addAttribute("apps", apps);
-        model.addAttribute("statuses",AppStatus.values());
-        model.addAttribute("role", user.getRole().toString());
-        return "clients/applications";
-    }
-
-    /**
-     * Изменить статус выбранной заявки
-     * @param appId - идентификатор заявки на аренду
-     * @param appStatus - измененный статус заявки (выбранный менеджером)
-     * @return html-страницу со списком заявок
-     */
-    @Transactional
-    @PostMapping("/app/{appId}/changeStat")
-    public String changeStatus(@PathVariable Long appId, @RequestParam("stat") AppStatus appStatus){
-
-        Application app = applicationService.findById(appId);
-        app.setStatus(appStatus);
-        applicationService.save(app);
-        return "redirect:/applications";
-
-    }
-
     @GetMapping("/clientInfo/{id}/show")
     public String showClientInfo(Model model, @PathVariable Long id){
         model.addAttribute("client", userService.findById(id));

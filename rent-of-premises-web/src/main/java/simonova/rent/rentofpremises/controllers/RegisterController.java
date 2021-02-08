@@ -42,8 +42,8 @@ public class RegisterController {
 
     /**
      * Добавить нового клиента в бд
-     * @param client - объект нового клиента
-     * @param model - контейнер информации приложения
+     * @param client объект нового клиента
+     * @param model контейнер информации приложения
      * @return страницу регистрации или страницу логирования
      */
     @PostMapping("/register")
