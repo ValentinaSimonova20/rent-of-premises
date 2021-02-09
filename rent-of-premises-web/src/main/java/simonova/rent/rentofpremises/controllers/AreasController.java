@@ -1,4 +1,6 @@
 package simonova.rent.rentofpremises.controllers;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,8 @@ import simonova.rent.rentofpremises.model.*;
 import simonova.rent.rentofpremises.services.ApplicationService;
 import simonova.rent.rentofpremises.services.UserService;
 import simonova.rent.rentofpremises.services.PremisesService;
+
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
 @Controller
@@ -94,10 +98,13 @@ public class AreasController {
 
     /**
      * Страница просмотра менеджером информаии об определенном клиенте
+     * hasAuthority('developers:write') - проверяет существуют ли у пользователя права на просмотр данной страницы
+     * в данном случае доступ имеет только менеджер todo: add controller for error page
      * @param model контейнер данных
      * @param id идентификатор клиента
      * @return html-страницу с информацией о клиенте
      */
+    @PreAuthorize("hasAuthority('developers:write')")
     @GetMapping("/clientInfo/{id}/show")
     public String showClientInfo(Model model, @PathVariable Long id){
         model.addAttribute("client", userService.findById(id));

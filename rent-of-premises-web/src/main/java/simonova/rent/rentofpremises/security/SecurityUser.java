@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import simonova.rent.rentofpremises.model.Person;
 import simonova.rent.rentofpremises.model.Status;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
         return authorities;
     }
 
@@ -67,4 +69,6 @@ public class SecurityUser implements UserDetails {
                 person.getStatus().equals(Status.ACTIVE),
                 person.getRole().getAuthorities());
     }
+
+
 }
