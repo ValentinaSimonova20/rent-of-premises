@@ -48,6 +48,10 @@
     <div><input type="submit" value="Подать заявку на аренду"/></div>
 </form>
 
+    <div th:case="'MANAGER'">
+        <div ><a href="#" th:href="@{'/areas/'+${premises.id}+'/edit'}">Изменить информацию о помещении</a></div>
+    </div>
+
 </div>
 
 <div th:replace="~{fragments/footer :: footer}"></div>

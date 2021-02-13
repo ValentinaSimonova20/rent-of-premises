@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление помещения</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+    <link rel="stylesheet"
+          th:href="@{main.css}"/>
+</head>
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/navigation :: navigation}"></div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+<form action="#" th:action="@{/areas/__${premisesId}__/edit}"  th:object="${premises}"  method="post" >
+
+    <div><label> Название : </label><label>
+        <input type="text"  name="name" th:field="*{name}"/>
+    </label></div>
+
+    <div><label> Описание: </label><label>
+        <textarea  th:field="*{description}" name="description"></textarea>
+    </label></div>
+
+    <div><label> Площадь: <input type="number" step="0.01" th:field="*{area}"  name="area"/> </label></div>
+
+    <div><label> Цена/месяца: <input type="number" step="0.01" th:field="*{price}" name="price"/> </label></div>
+    <div><label> Этаж: <input type="number" th:field="*{floor}" name="floor"/></label></div>
+    <div><label> Рабочих мест <input type="number" th:field="*{workplaces}" name="workplaces"/></label></div>
+    <div><input type="submit" value="Внести изменения"/></div>
+</form>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

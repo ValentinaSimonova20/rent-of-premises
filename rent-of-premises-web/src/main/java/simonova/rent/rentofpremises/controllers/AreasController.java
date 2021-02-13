@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import simonova.rent.rentofpremises.dto.ApplicationDTO;
 import simonova.rent.rentofpremises.model.*;
@@ -110,5 +111,23 @@ public class AreasController {
         model.addAttribute("client", userService.findById(id));
         return "clients/show";
     }
+
+    @PreAuthorize("hasAuthority('developers:write')")
+    @GetMapping("/areas/{premisesId}/edit")
+    public String updatePremises(@PathVariable Long premisesId, Model model){
+        model.addAttribute("premises", premisesService.findById(premisesId));
+        return "areas/addOrEditPremisesForm";
+    }
+
+    @PreAuthorize("hasAuthority('developers:write')")
+    @PostMapping("/areas/{premisesId}/edit")
+    public String processUpdatePremises(@Valid Premises premises, BindingResult result, @PathVariable Long premisesId){
+        // todo add validation
+        premises.setId(premisesId);
+        Premises savedPremises = premisesService.save(premises);
+        return "redirect:/areas/"+savedPremises.getId()+"/show";
+    }
+
+
 
 }
