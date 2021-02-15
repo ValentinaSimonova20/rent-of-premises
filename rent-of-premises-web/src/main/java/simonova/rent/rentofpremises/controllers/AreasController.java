@@ -1,5 +1,4 @@
 package simonova.rent.rentofpremises.controllers;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,9 +11,8 @@ import simonova.rent.rentofpremises.model.*;
 import simonova.rent.rentofpremises.services.ApplicationService;
 import simonova.rent.rentofpremises.services.UserService;
 import simonova.rent.rentofpremises.services.PremisesService;
-
-import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
+
 
 @Controller
 public class AreasController {
@@ -22,6 +20,7 @@ public class AreasController {
     private final PremisesService premisesService;
     private final ApplicationService applicationService;
     private final UserService userService;
+    private final String premises = "premises";
 
 
 
@@ -41,11 +40,13 @@ public class AreasController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
+        User user = userService.findByEmail(currentPrincipalName);
 
         model.addAttribute("user_name",currentPrincipalName);
 
         // передача на страницу списка всех площадей
-        model.addAttribute("premises", premisesService.findAll());
+        model.addAttribute(premises, premisesService.findAll());
+        model.addAttribute("userRole", user.getRole().toString());
 
         return "clients/index";
     }
@@ -59,7 +60,7 @@ public class AreasController {
     @GetMapping("/areas/{id}/show")
     public String getAreaById(@PathVariable String id, Model model){
 
-        model.addAttribute("premises", premisesService.findById(Long.valueOf(id)));
+        model.addAttribute(premises, premisesService.findById(Long.valueOf(id)));
         Application application = new Application();
         model.addAttribute("application", application);
 
@@ -115,11 +116,11 @@ public class AreasController {
     @PreAuthorize("hasAuthority('developers:write')")
     @GetMapping("/areas/{premisesId}/edit")
     public String updatePremises(@PathVariable Long premisesId, Model model){
-        model.addAttribute("premises", premisesService.findById(premisesId));
+        model.addAttribute(premises, premisesService.findById(premisesId));
         return "areas/addOrEditPremisesForm";
     }
 
-    @PreAuthorize("hasAuthority('developers:write')")
+   @PreAuthorize("hasAuthority('developers:write')")
     @PostMapping("/areas/{premisesId}/edit")
     public String processUpdatePremises(@Valid Premises premises, BindingResult result, @PathVariable Long premisesId){
         // todo add validation
@@ -127,6 +128,21 @@ public class AreasController {
         Premises savedPremises = premisesService.save(premises);
         return "redirect:/areas/"+savedPremises.getId()+"/show";
     }
+
+    @PreAuthorize("hasAuthority('developers:write')")
+    @GetMapping("/areas/add")
+    public String initFormPremises(Model model){
+        model.addAttribute(premises, new Premises());
+        return "areas/addOrEditPremisesForm";
+    }
+
+    @PreAuthorize("hasAuthority('developers:write')")
+    @PostMapping("/areas/add")
+    public String addPremises(@Valid Premises premises){
+        Premises savedPremises = premisesService.save(premises);
+        return "redirect:/areas/"+savedPremises.getId()+"/show";
+    }
+
 
 
 
