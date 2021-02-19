@@ -11,7 +11,10 @@ import simonova.rent.rentofpremises.model.*;
 import simonova.rent.rentofpremises.services.ApplicationService;
 import simonova.rent.rentofpremises.services.UserService;
 import simonova.rent.rentofpremises.services.PremisesService;
+
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
+import java.util.Optional;
 
 
 @Controller
@@ -46,6 +49,7 @@ public class AreasController {
 
         // передача на страницу списка всех площадей
         model.addAttribute(premises, premisesService.findAll());
+        model.addAttribute("floors", premisesService.getAllFloors());
         model.addAttribute("userRole", user.getRole().toString());
 
         return "clients/index";
@@ -69,6 +73,7 @@ public class AreasController {
         String currentPrincipalName = authentication.getName();
 
         User client = userService.findByEmail(currentPrincipalName);
+        model.addAttribute("floors", premisesService.getAllFloors());
 
 
         model.addAttribute("userRole", client.getRole().toString());
@@ -141,6 +146,54 @@ public class AreasController {
     public String addPremises(@Valid Premises premises){
         Premises savedPremises = premisesService.save(premises);
         return "redirect:/areas/"+savedPremises.getId()+"/show";
+    }
+
+
+    // Фильтрация помещений
+    @PostMapping("/areas")
+    public String filterAreas(@RequestParam(value = "areaName", required = false) Optional<String> areaName,
+                              @RequestParam(value = "areaMax", required = false) Optional<Double> areaMax,
+                              @RequestParam(value = "areaMin", required = false) Optional<Double> areaMin,
+                              @RequestParam(value = "priceMin", required = false) Optional<Double> priceMin,
+                              @RequestParam(value = "priceMax", required = false) Optional<Double> priceMax,
+                              @RequestParam(value = "floor", required = false) Optional<Integer> floor,
+                              @RequestParam(value = "workplace", required = false) Optional<Integer> workplace,
+                              Model model){
+
+        model.addAttribute("areaName", areaName.orElse(""));
+        model.addAttribute("areaMax", areaMax.orElse(null));
+        model.addAttribute("areaMin", areaMin.orElse(null));
+        model.addAttribute("priceMin", priceMin.orElse(null));
+        model.addAttribute("priceMax", priceMax.orElse(null));
+        model.addAttribute("floorAttr", floor.orElse(-1));
+        model.addAttribute("workplace", workplace.orElse(null));
+        model.addAttribute("floors", premisesService.getAllFloors());
+
+        int selectedFloor = floor.orElse(-1);
+
+        if(selectedFloor == -1){
+            model.addAttribute("premises", premisesService.findAllPremises(
+                    areaName.orElse(""),
+                    areaMax.orElseGet(premisesService::getMaxArea),areaMin.orElse(0.0),
+                    workplace.orElseGet(premisesService::getMaxWorkplaces),
+                    priceMin.orElse(0.0), priceMax.orElseGet(premisesService::getMaxPrice)));
+        }
+        else {
+            model.addAttribute("premises", premisesService.findAllPremises(
+                    areaName.orElse(""),
+                    areaMax.orElseGet(premisesService::getMaxArea),areaMin.orElse(0.0), selectedFloor,
+                    workplace.orElseGet(premisesService::getMaxWorkplaces),
+                    priceMin.orElse(0.0), priceMax.orElseGet(premisesService::getMaxPrice)));
+        }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userService.findByEmail(currentPrincipalName);
+        model.addAttribute("userRole", user.getRole().toString());
+
+
+        return "clients/index";
+
     }
 
 

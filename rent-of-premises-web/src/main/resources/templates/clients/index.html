@@ -34,6 +34,34 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/}]]";
+    }
+</script>
+
+<form  method="post">
+    Название: <input type="text" th:name="areaName" th:value="${areaName}"  id="areaName" size="50" /><br>
+    &nbsp;
+    Площадь от: <input type="number" step="0.01" th:value="${areaMin}" th:name="area" id="areaMin" size="50"/>
+    Площадь до: <input type="number" step="0.01" th:value="${areaMax}" th:name="area" id="areaMax" size="50"/><br>
+    &nbsp;
+    Цена от: <input type="number" step="0.01" th:value="${priceMin}" th:name="priceMin" id="priceMin" size="50"  />
+    &nbsp;
+    Цена до: <input type="number" step="0.01" th:value="${priceMax}"  th:name="priceMax" id="priceMax" size="50"  /><br>
+
+    Этаж: <select class="form-control" th:name="floor"  id="dropOperator">
+    <option th:value="-1">Не выбран</option>
+    <option th:each="floor : ${floors}" th:value="${floor}" th:text="${floor}" th:selected="${floor==floorAttr}"></option>
+
+</select><br>
+    Рабочих мест до: <input type="number" th:name="workplace" th:value="${workplace}" id="workPlace" size="50"  /><br>
+    &nbsp;
+    <input type="submit" value="Поиск" />
+    &nbsp;
+    <input type="button" value="Очистить" id="btnClear" onclick="clearSearch()" />
+</form>
+
     <table>
         <thead>
         <tr>

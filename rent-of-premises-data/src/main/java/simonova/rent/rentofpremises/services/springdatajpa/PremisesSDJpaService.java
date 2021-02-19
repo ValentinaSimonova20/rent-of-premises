@@ -31,6 +31,11 @@ public class PremisesSDJpaService implements PremisesService {
     }
 
     @Override
+    public List<Premises> findAllPremises(String name, double areaMax,double areaMin, int floor, int workplaces, double minPrice, double maxPrice) {
+        return premisesRepository.findAllPremises(name, areaMax, areaMin, floor, workplaces, minPrice, maxPrice);
+    }
+
+    @Override
     public List<Premises> findAll() {
         List<Premises> premises = new ArrayList<>();
         premisesRepository.findAll().forEach(premises::add);
@@ -55,5 +60,36 @@ public class PremisesSDJpaService implements PremisesService {
     @Override
     public void deleteById(Long aLong) {
         premisesRepository.deleteById(aLong);
+    }
+
+    @Override
+    public Double getMaxArea() {
+        return premisesRepository.getMaxArea();
+    }
+
+    @Override
+    public Double getMaxPrice() {
+        return premisesRepository.getMaxPrice();
+    }
+
+    @Override
+    public Integer getMaxWorkplaces() {
+        return premisesRepository.getMaxWorkplaces();
+    }
+
+    @Override
+    public Integer getMaxFloor() {
+        return premisesRepository.getMaxFloor();
+    }
+
+    @Override
+    public List<Integer> getAllFloors() {
+        return premisesRepository.getAllFloors();
+    }
+
+
+    @Override
+    public List<Premises> findAllPremises(String name, double areaMax, double areMin, int workplaces, double minPrice, double maxPrice) {
+        return premisesRepository.findAllPremises(name, areaMax, areMin, workplaces, minPrice, maxPrice);
     }
 }
