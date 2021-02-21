@@ -36,6 +36,7 @@ public class RegisterController {
     @GetMapping("/register")
     public String getRegisterPage(Model model){
         Person person = new Person();
+        model.addAttribute("activePage","reg");
         model.addAttribute("client",person);
         return VIEWS_REGISTER_FORM;
     }

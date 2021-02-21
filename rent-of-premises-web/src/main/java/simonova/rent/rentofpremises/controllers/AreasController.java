@@ -23,7 +23,7 @@ public class AreasController {
     private final PremisesService premisesService;
     private final ApplicationService applicationService;
     private final UserService userService;
-    private final String premises = "premises";
+    private final static String premises = "premises";
 
 
 
@@ -41,7 +41,8 @@ public class AreasController {
     @GetMapping("/areas")
     public String getAreas(Model model){
 
-        checkAnonymous(model);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("userRole", Person.getAuthUserRole(authentication, userService));
 
         // передача на страницу списка всех площадей
         model.addAttribute(premises, premisesService.findAll());
@@ -182,30 +183,16 @@ public class AreasController {
                     priceMin.orElse(0.0), priceMax.orElseGet(premisesService::getMaxPrice)));
         }
 
-        checkAnonymous(model);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        model.addAttribute("userRole", Person.getAuthUserRole(authentication, userService));
 
 
         return "clients/index";
 
     }
 
-    // Обеспечение корректной работы с авторизованными и не авторизованными пользователями
-    void checkAnonymous(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println();
-        if(!(authentication  instanceof AnonymousAuthenticationToken)){
-            String currentPrincipalName = authentication.getName();
-            User user = userService.findByEmail(currentPrincipalName);
-            model.addAttribute("userRole", user.getRole().toString());
 
-            model.addAttribute("user_name",currentPrincipalName);
-        }
-        else {
-            model.addAttribute("userRole", "None");
-
-            model.addAttribute("user_name","Не авторизованный пользователь");
-        }
-    }
 
 
 

@@ -1,4 +1,8 @@
 package simonova.rent.rentofpremises.model;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import simonova.rent.rentofpremises.services.UserService;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotBlank;
@@ -126,6 +130,19 @@ public class Person extends BaseEntity{
 
     public Role getRole() {
         return role;
+    }
+
+    public static String getAuthUserRole(Authentication auth, UserService clientService){
+        if(!(auth  instanceof AnonymousAuthenticationToken)){
+            String currentPrincipalName = auth.getName();
+            User user = clientService.findByEmail(currentPrincipalName);
+            return user.getRole().toString();
+
+        }
+        else {
+            return  "None";
+
+        }
     }
 
     public void setRole(Role role) {
