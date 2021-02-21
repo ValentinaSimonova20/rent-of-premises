@@ -1,5 +1,7 @@
 package simonova.rent.rentofpremises.controllers;
+import org.dom4j.rule.Mode;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -11,8 +13,6 @@ import simonova.rent.rentofpremises.model.*;
 import simonova.rent.rentofpremises.services.ApplicationService;
 import simonova.rent.rentofpremises.services.UserService;
 import simonova.rent.rentofpremises.services.PremisesService;
-
-import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -41,16 +41,12 @@ public class AreasController {
     @GetMapping("/areas")
     public String getAreas(Model model){
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        User user = userService.findByEmail(currentPrincipalName);
-
-        model.addAttribute("user_name",currentPrincipalName);
+        checkAnonymous(model);
 
         // передача на страницу списка всех площадей
         model.addAttribute(premises, premisesService.findAll());
         model.addAttribute("floors", premisesService.getAllFloors());
-        model.addAttribute("userRole", user.getRole().toString());
+
 
         return "clients/index";
     }
@@ -186,14 +182,29 @@ public class AreasController {
                     priceMin.orElse(0.0), priceMax.orElseGet(premisesService::getMaxPrice)));
         }
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        User user = userService.findByEmail(currentPrincipalName);
-        model.addAttribute("userRole", user.getRole().toString());
+        checkAnonymous(model);
 
 
         return "clients/index";
 
+    }
+
+    // Обеспечение корректной работы с авторизованными и не авторизованными пользователями
+    void checkAnonymous(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println();
+        if(!(authentication  instanceof AnonymousAuthenticationToken)){
+            String currentPrincipalName = authentication.getName();
+            User user = userService.findByEmail(currentPrincipalName);
+            model.addAttribute("userRole", user.getRole().toString());
+
+            model.addAttribute("user_name",currentPrincipalName);
+        }
+        else {
+            model.addAttribute("userRole", "None");
+
+            model.addAttribute("user_name","Не авторизованный пользователь");
+        }
     }
 
 
