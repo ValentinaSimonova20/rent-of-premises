@@ -1,5 +1,6 @@
 package simonova.rent.rentofpremises.services;
 
+import simonova.rent.rentofpremises.model.FilterArea;
 import simonova.rent.rentofpremises.model.Premises;
 
 import java.util.List;
@@ -12,12 +13,9 @@ public interface PremisesService extends CrudService<Premises, Long>{
     // поиск помещения по площади
     Premises findByArea(double area);
 
-    List<Premises> findAllPremises(String name, double areaMax, double areMin,
-                                   int floor, int workplaces,
-                                   double minPrice, double maxPrice);
+    List<Premises> findAllPremises(FilterArea filterArea, int floor);
 
-    List<Premises> findAllPremises(String name, double areaMax, double areMin,int workplaces,
-                                   double minPrice, double maxPrice);
+    List<Premises> findAllPremises(FilterArea filterArea);
 
     Double getMaxArea();
 

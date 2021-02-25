@@ -2,6 +2,8 @@ package simonova.rent.rentofpremises.repositories;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import simonova.rent.rentofpremises.model.FilterArea;
 import simonova.rent.rentofpremises.model.Premises;
 
 import java.util.List;
@@ -14,17 +16,13 @@ public interface PremisesRepository extends CrudRepository<Premises, Long> {
     Optional<Premises> findByArea(double area);
 
 
-    @Query(value = "SELECT * FROM premises WHERE name LIKE %?1% " +
-            "AND area BETWEEN ?3 AND ?2 AND floor= ?4 AND workplaces<= ?5 AND price BETWEEN ?6 AND ?7", nativeQuery = true)
-    List<Premises> findAllPremises(String name, double areaMax, double areaMin,
-                                   int floor, int workplaces,
-                                   double minPrice, double maxPrice);
 
-    @Query(value = "SELECT * FROM premises WHERE name LIKE %?1% " +
-            "AND area BETWEEN ?3 AND ?2  AND workplaces<= ?4 AND price BETWEEN ?5 AND ?6", nativeQuery = true)
-    List<Premises> findAllPremises(String name, double areaMax, double areaMin,
-                                   int workplaces,
-                                   double minPrice, double maxPrice);
+
+    @Query(value = "SELECT * FROM premises WHERE name= :#{#filter.areaName} AND floor= :filteredFloor", nativeQuery = true)
+    List<Premises> findAllPremises(@Param("filter") FilterArea filterArea,@Param("filteredFloor") int filteredFloor);
+
+    @Query(value = "SELECT * FROM premises WHERE name LIKE %:#{#filter.areaName}%", nativeQuery = true)
+    List<Premises> findAllPremises(@Param("filter") FilterArea filterArea);
 
 
     @Query(value = "SELECT max(area) FROM premises ", nativeQuery = true)

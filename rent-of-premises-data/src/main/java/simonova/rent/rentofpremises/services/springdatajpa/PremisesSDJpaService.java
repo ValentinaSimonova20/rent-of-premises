@@ -1,6 +1,7 @@
 package simonova.rent.rentofpremises.services.springdatajpa;
 
 import org.springframework.stereotype.Service;
+import simonova.rent.rentofpremises.model.FilterArea;
 import simonova.rent.rentofpremises.model.Premises;
 import simonova.rent.rentofpremises.repositories.PremisesRepository;
 import simonova.rent.rentofpremises.services.PremisesService;
@@ -31,8 +32,8 @@ public class PremisesSDJpaService implements PremisesService {
     }
 
     @Override
-    public List<Premises> findAllPremises(String name, double areaMax,double areaMin, int floor, int workplaces, double minPrice, double maxPrice) {
-        return premisesRepository.findAllPremises(name, areaMax, areaMin, floor, workplaces, minPrice, maxPrice);
+    public List<Premises> findAllPremises(FilterArea filterArea, int floor) {
+        return premisesRepository.findAllPremises(filterArea, floor);
     }
 
     @Override
@@ -87,9 +88,8 @@ public class PremisesSDJpaService implements PremisesService {
         return premisesRepository.getAllFloors();
     }
 
-
     @Override
-    public List<Premises> findAllPremises(String name, double areaMax, double areMin, int workplaces, double minPrice, double maxPrice) {
-        return premisesRepository.findAllPremises(name, areaMax, areMin, workplaces, minPrice, maxPrice);
+    public List<Premises> findAllPremises(FilterArea filterArea) {
+        return premisesRepository.findAllPremises(filterArea);
     }
 }

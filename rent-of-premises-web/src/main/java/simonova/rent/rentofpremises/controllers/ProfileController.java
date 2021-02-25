@@ -55,6 +55,7 @@ public class ProfileController {
         String currentPrincipalName = authentication.getName();
         User currentClient = clientService.findByEmail(currentPrincipalName);
 
+        client = currentClient;
         client.setId(currentClient.getId());
         client.setPass(currentClient.getPass());
         client.setStatus(currentClient.getStatus());

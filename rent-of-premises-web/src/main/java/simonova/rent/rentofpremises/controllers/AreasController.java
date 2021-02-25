@@ -38,7 +38,7 @@ public class AreasController {
      * @param model - контейнер, содержащий информацию приложения
      * @return html страница со списком площадей бизнес-центра
      */
-    @GetMapping("/areas")
+    @GetMapping({"/areas", "/"})
     public String getAreas(Model model){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -46,6 +46,7 @@ public class AreasController {
 
         // передача на страницу списка всех площадей
         model.addAttribute(premises, premisesService.findAll());
+        model.addAttribute("filter", new FilterArea());
         model.addAttribute("floors", premisesService.getAllFloors());
 
 
@@ -148,44 +149,28 @@ public class AreasController {
 
     // Фильтрация помещений
     @PostMapping("/areas")
-    public String filterAreas(@RequestParam(value = "areaName", required = false) Optional<String> areaName,
-                              @RequestParam(value = "areaMax", required = false) Optional<Double> areaMax,
-                              @RequestParam(value = "areaMin", required = false) Optional<Double> areaMin,
-                              @RequestParam(value = "priceMin", required = false) Optional<Double> priceMin,
-                              @RequestParam(value = "priceMax", required = false) Optional<Double> priceMax,
+    public String filterAreas(@Valid FilterArea filterArea,
                               @RequestParam(value = "floor", required = false) Optional<Integer> floor,
-                              @RequestParam(value = "workplace", required = false) Optional<Integer> workplace,
                               Model model){
 
-        model.addAttribute("areaName", areaName.orElse(""));
-        model.addAttribute("areaMax", areaMax.orElse(null));
-        model.addAttribute("areaMin", areaMin.orElse(null));
-        model.addAttribute("priceMin", priceMin.orElse(null));
-        model.addAttribute("priceMax", priceMax.orElse(null));
         model.addAttribute("floorAttr", floor.orElse(-1));
-        model.addAttribute("workplace", workplace.orElse(null));
         model.addAttribute("floors", premisesService.getAllFloors());
 
         int selectedFloor = floor.orElse(-1);
+        System.out.println(selectedFloor);
+
 
         if(selectedFloor == -1){
-            model.addAttribute("premises", premisesService.findAllPremises(
-                    areaName.orElse(""),
-                    areaMax.orElseGet(premisesService::getMaxArea),areaMin.orElse(0.0),
-                    workplace.orElseGet(premisesService::getMaxWorkplaces),
-                    priceMin.orElse(0.0), priceMax.orElseGet(premisesService::getMaxPrice)));
+            model.addAttribute("premises", premisesService.findAllPremises(filterArea));
         }
         else {
-            model.addAttribute("premises", premisesService.findAllPremises(
-                    areaName.orElse(""),
-                    areaMax.orElseGet(premisesService::getMaxArea),areaMin.orElse(0.0), selectedFloor,
-                    workplace.orElseGet(premisesService::getMaxWorkplaces),
-                    priceMin.orElse(0.0), priceMax.orElseGet(premisesService::getMaxPrice)));
+            model.addAttribute("premises", premisesService.findAllPremises(filterArea, selectedFloor));
         }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         model.addAttribute("userRole", Person.getAuthUserRole(authentication, userService));
+        model.addAttribute("filter", filterArea);
 
 
         return "clients/index";
