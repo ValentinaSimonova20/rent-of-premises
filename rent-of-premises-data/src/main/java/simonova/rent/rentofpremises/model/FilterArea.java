@@ -1,6 +1,6 @@
 package simonova.rent.rentofpremises.model;
 
-public class FilterArea {
+public class FilterArea implements Cloneable{
     private String areaName;
     private Double priceMin;
     private Double priceMax;
@@ -67,5 +67,10 @@ public class FilterArea {
 
     public void setWorkplaces(Integer workplaces) {
         this.workplaces = workplaces;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

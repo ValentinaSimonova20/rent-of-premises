@@ -149,22 +149,15 @@ public class AreasController {
 
     // Фильтрация помещений
     @PostMapping("/areas")
-    public String filterAreas(@Valid FilterArea filterArea,
-                              @RequestParam(value = "floor", required = false) Optional<Integer> floor,
-                              Model model){
+    public String filterAreas(@Valid FilterArea filterArea,Model model){
 
-        model.addAttribute("floorAttr", floor.orElse(-1));
         model.addAttribute("floors", premisesService.getAllFloors());
 
-        int selectedFloor = floor.orElse(-1);
-        System.out.println(selectedFloor);
-
-
-        if(selectedFloor == -1){
-            model.addAttribute("premises", premisesService.findAllPremises(filterArea));
+        if(filterArea.getFloor() == -1){
+            model.addAttribute(premises, premisesService.findAllPremises(filterArea));
         }
         else {
-            model.addAttribute("premises", premisesService.findAllPremises(filterArea, selectedFloor));
+            model.addAttribute(premises, premisesService.findAllPremises(filterArea, filterArea.getFloor()));
         }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

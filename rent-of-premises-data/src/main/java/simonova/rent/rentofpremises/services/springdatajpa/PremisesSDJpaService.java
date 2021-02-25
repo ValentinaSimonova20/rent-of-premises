@@ -33,7 +33,8 @@ public class PremisesSDJpaService implements PremisesService {
 
     @Override
     public List<Premises> findAllPremises(FilterArea filterArea, int floor) {
-        return premisesRepository.findAllPremises(filterArea, floor);
+
+        return premisesRepository.findAllPremises(copyObject(filterArea), floor);
     }
 
     @Override
@@ -90,6 +91,28 @@ public class PremisesSDJpaService implements PremisesService {
 
     @Override
     public List<Premises> findAllPremises(FilterArea filterArea) {
-        return premisesRepository.findAllPremises(filterArea);
+
+
+        return premisesRepository.findAllPremises(copyObject(filterArea));
+    }
+
+
+    private FilterArea copyObject(FilterArea filterArea){
+        FilterArea filterArea2 = new FilterArea();
+
+        filterArea2.setAreaMin(filterArea.getAreaMin() == null ? 0.0 : filterArea.getAreaMin());
+
+        filterArea2.setAreaMax(filterArea.getAreaMax() == null ? getMaxArea() : filterArea.getAreaMax());
+
+        filterArea2.setPriceMin(filterArea.getPriceMin() == null ? 0.0 : filterArea.getPriceMin());
+
+        filterArea2.setPriceMax(filterArea.getPriceMax() == null ? getMaxPrice() : filterArea.getPriceMax());
+
+        filterArea2.setWorkplaces(filterArea.getWorkplaces() == null ? getMaxWorkplaces(): filterArea.getWorkplaces());
+
+        filterArea2.setAreaName(filterArea.getAreaName());
+        filterArea2.setFloor(filterArea2.getFloor());
+
+        return filterArea2;
     }
 }
