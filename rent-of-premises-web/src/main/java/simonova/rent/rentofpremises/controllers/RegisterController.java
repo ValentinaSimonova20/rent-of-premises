@@ -2,6 +2,8 @@ package simonova.rent.rentofpremises.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,14 +20,16 @@ import javax.validation.Valid;
 
 
 @Controller
+@RequestMapping("/register")
 public class RegisterController {
 
-    UserService clientService;
+    private final UserService clientService;
 
     private static final String VIEWS_REGISTER_FORM = "register/index";
 
     @Autowired
     public RegisterController(UserService clientService) {
+
         this.clientService = clientService;
     }
 
@@ -33,10 +37,9 @@ public class RegisterController {
      * Отображение страницы регистрации
      * @return html страница регистрации
      */
-    @GetMapping("/register")
+    @GetMapping
     public String getRegisterPage(Model model){
         Person person = new Person();
-        model.addAttribute("activePage","reg");
         model.addAttribute("client",person);
         return VIEWS_REGISTER_FORM;
     }
@@ -47,9 +50,8 @@ public class RegisterController {
      * @param model контейнер информации приложения
      * @return страницу регистрации или страницу логирования
      */
-    @PostMapping("/register")
+    @PostMapping
     public String addClient(@Valid @ModelAttribute("client") User client, BindingResult result, Model model){
-
 
         if (result.hasErrors()) {
             return VIEWS_REGISTER_FORM;
@@ -62,12 +64,16 @@ public class RegisterController {
             return  VIEWS_REGISTER_FORM;
         }
 
-
         client.setStatus(Status.ACTIVE);
         client.setRole(Role.USER);
         client.setPass(BCrypt.hashpw(client.getPass(), BCrypt.gensalt(12)));
         clientService.save(client);
         return "redirect:/login";
+    }
+
+    @ModelAttribute("activePage")
+    public String setActivePage(){
+        return "reg";
     }
 
 }

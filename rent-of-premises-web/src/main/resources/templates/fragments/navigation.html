@@ -17,15 +17,15 @@
                 <a class="nav-link" th:href="@{/applications}">Список ваших заявок <span class="sr-only">(current)</span></a>
             </li>
 
-            <li  th:if="${userRole != 'None'}" th:class="${activePage == 'profile'} ? 'nav-item active' : 'nav-item'">
+            <li  th:if="${userRole != 'NONE'}" th:class="${activePage == 'profile'} ? 'nav-item active' : 'nav-item'">
                 <a class="nav-link" th:href="@{/profile}">Ваш профиль</a>
             </li>
 
-            <li th:if="${userRole == 'None'}" th:class="${activePage == 'login'} ? 'nav-item active' : 'nav-item'">
+            <li th:if="${userRole == 'NONE'}" th:class="${activePage == 'login'} ? 'nav-item active' : 'nav-item'">
                 <a class="nav-link" th:href="@{/login}">Авторизация</a>
             </li>
 
-            <li th:if="${userRole == 'None'}" th:class="${activePage == 'reg'} ? 'nav-item active' : 'nav-item'">
+            <li th:if="${userRole == 'NONE'}" th:class="${activePage == 'reg'} ? 'nav-item active' : 'nav-item'">
                 <a class="nav-link" th:href="@{/register}">Регистрация</a>
             </li>
 

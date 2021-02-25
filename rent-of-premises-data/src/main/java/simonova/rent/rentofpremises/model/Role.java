@@ -12,7 +12,8 @@ public enum Role {
 
     USER(Set.of(Permission.DEVELOPERS_READ)),
     ADMIN(Set.of(Permission.DEVELOPERS_READ, Permission.DEVELOPERS_WRITE, Permission.DEVELOPERS_ADD_USERS)),
-    MANAGER(Set.of(Permission.DEVELOPERS_READ, Permission.DEVELOPERS_WRITE));
+    MANAGER(Set.of(Permission.DEVELOPERS_READ, Permission.DEVELOPERS_WRITE)),
+    NONE(Set.of(Permission.CLIENT));
     private final Set<Permission> permissions;
 
     Role(Set<Permission> permissions) {

@@ -14,7 +14,7 @@ import simonova.rent.rentofpremises.services.ApplicationService;
 import simonova.rent.rentofpremises.services.UserService;
 import simonova.rent.rentofpremises.services.PremisesService;
 import javax.validation.Valid;
-import java.util.Optional;
+import java.util.List;
 
 
 @Controller
@@ -41,9 +41,6 @@ public class AreasController {
     @GetMapping({"/areas", "/"})
     public String getAreas(Model model){
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("userRole", Person.getAuthUserRole(authentication, userService));
-
         // передача на страницу списка всех площадей
         model.addAttribute(premises, premisesService.findAll());
         model.addAttribute("filter", new FilterArea());
@@ -66,16 +63,6 @@ public class AreasController {
         Application application = new Application();
         model.addAttribute("application", application);
 
-        // получить информацию об авторизованном пользователе
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-
-        User client = userService.findByEmail(currentPrincipalName);
-        model.addAttribute("floors", premisesService.getAllFloors());
-
-
-        model.addAttribute("userRole", client.getRole().toString());
-
         return "areas/show";
     }
 
@@ -89,13 +76,12 @@ public class AreasController {
     public String sendApplication(@PathVariable String id, @Valid @ModelAttribute("application") ApplicationDTO applicationDTO){
         // получить информацию об авторизованном пользователе
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
 
-        User client = userService.findByEmail(currentPrincipalName);
-        Premises premises = premisesService.findById(Long.parseLong(id));
+        User client = Person.getAuthUserRole(authentication, userService);
+        Premises premisesList = premisesService.findById(Long.parseLong(id));
 
         // Добавить заявку
-        ApplicationDTO newApp = new ApplicationDTO(client, premises, applicationDTO.getRentalPeriodYears(), applicationDTO.getRentalPeriodMonth(), applicationDTO.getAdditionalInfo(), AppStatus.WAIT_FOR_CONSIDERATION );
+        ApplicationDTO newApp = new ApplicationDTO(client, premisesList, applicationDTO.getRentalPeriodYears(), applicationDTO.getRentalPeriodMonth(), applicationDTO.getAdditionalInfo(), AppStatus.WAIT_FOR_CONSIDERATION );
         applicationService.save(newApp);
 
         return "redirect:/areas/"+id+"/show";
@@ -151,8 +137,6 @@ public class AreasController {
     @PostMapping("/areas")
     public String filterAreas(@Valid FilterArea filterArea,Model model){
 
-        model.addAttribute("floors", premisesService.getAllFloors());
-
         if(filterArea.getFloor() == -1){
             model.addAttribute(premises, premisesService.findAllPremises(filterArea));
         }
@@ -160,14 +144,16 @@ public class AreasController {
             model.addAttribute(premises, premisesService.findAllPremises(filterArea, filterArea.getFloor()));
         }
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        model.addAttribute("userRole", Person.getAuthUserRole(authentication, userService));
         model.addAttribute("filter", filterArea);
 
 
         return "clients/index";
 
+    }
+
+    @ModelAttribute("floors")
+    public List<Integer> setFloorsForFilter(){
+        return premisesService.getAllFloors();
     }
 
 

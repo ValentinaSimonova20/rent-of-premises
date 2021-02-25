@@ -31,12 +31,8 @@ public class ProfileController {
      */
     @GetMapping("/profile")
     public String getProfile( Model model){
-        model.addAttribute("activePage","profile");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        model.addAttribute("userRole", Person.getAuthUserRole(authentication, clientService));
-
 
         String currentPrincipalName = authentication.getName();
 
@@ -61,10 +57,14 @@ public class ProfileController {
         client.setStatus(currentClient.getStatus());
         client.setRole(currentClient.getRole());
 
-
         // сохранить изменения в базе данных
         clientService.save(client);
         return "clients/profile";
 
+    }
+
+    @ModelAttribute("activePage")
+    public String setActivePage(){
+        return "profile";
     }
 }

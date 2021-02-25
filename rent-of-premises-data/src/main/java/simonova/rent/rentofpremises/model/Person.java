@@ -132,15 +132,17 @@ public class Person extends BaseEntity{
         return role;
     }
 
-    public static String getAuthUserRole(Authentication auth, UserService clientService){
+    public static User getAuthUserRole(Authentication auth, UserService clientService){
         if(!(auth  instanceof AnonymousAuthenticationToken)){
             String currentPrincipalName = auth.getName();
-            User user = clientService.findByEmail(currentPrincipalName);
-            return user.getRole().toString();
+            return clientService.findByEmail(currentPrincipalName);
 
         }
         else {
-            return  "None";
+            User anon = new User();
+
+            anon.setRole(Role.NONE);
+            return  anon;
 
         }
     }

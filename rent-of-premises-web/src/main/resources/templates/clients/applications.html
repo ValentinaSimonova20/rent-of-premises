@@ -29,11 +29,11 @@
         <th>Месяцев</th>
         <th>Лет</th>
         <th>цена/месяц</th>
-        <div th:switch="${role}">
+        <div th:switch="${userRole}">
             <th th:case="'MANAGER'">Арендатор</th>
         </div>
         <th>Статус</th>
-        <div th:switch="${role}">
+        <div th:switch="${userRole}">
             <th th:case="'MANAGER'">Подтверждение</th>
         </div>
 
@@ -48,11 +48,11 @@
 
 
         <td th:text="${app.getPremises().getPrice()}">Цена</td>
-        <div th:switch="${role}">
+        <div th:switch="${userRole}">
             <td><a th:case="'MANAGER'" th:href="@{'/clientInfo/'+${app.getClient().getId()}+'/show'}" th:text="${app.getClient().getName()}+' '+${app.getClient().getSurname()}">фио</a></td>
         </div>
 
-        <div th:switch="${role}">
+        <div th:switch="${userRole}">
             <div class="form-group blu-margin" th:case="'MANAGER'">
                 <form th:action="@{'/app/' + ${app.id} + '/changeStat'} " method="post">
                 <td>

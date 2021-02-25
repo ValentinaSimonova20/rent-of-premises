@@ -1,17 +1,17 @@
 package simonova.rent.rentofpremises.controllers;
 
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import simonova.rent.rentofpremises.dto.ApplicationDTO;
+import simonova.rent.rentofpremises.exception.NoAppException;
 import simonova.rent.rentofpremises.model.AppStatus;
+import simonova.rent.rentofpremises.model.Person;
 import simonova.rent.rentofpremises.model.User;
 import simonova.rent.rentofpremises.services.ApplicationService;
 import simonova.rent.rentofpremises.services.UserService;
@@ -36,11 +36,14 @@ public class ApplicationController {
     @Transactional
     @GetMapping("/applications")
     public String getApplications(Model model){
-        model.addAttribute("activePage","applications");
-
-
         // получить информацию об авторизованном пользователе
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if(authentication instanceof AnonymousAuthenticationToken){
+
+            throw new NoAppException("Зарегистрирутесь, для того чтобы подавать заявки и просматривать их.");
+        }
+
         String currentPrincipalName = authentication.getName();
         User user = userService.findByEmail(currentPrincipalName);
         List<ApplicationDTO> apps;
@@ -55,7 +58,6 @@ public class ApplicationController {
 
         model.addAttribute("apps", apps);
         model.addAttribute("statuses", AppStatus.values());
-        model.addAttribute("role", user.getRole().toString());
         return "clients/applications";
     }
 
@@ -75,4 +77,14 @@ public class ApplicationController {
         return "redirect:/applications";
 
     }
+
+    /**
+     * Сераница заявок активная
+     * @return свойство applications
+     */
+    @ModelAttribute("activePage")
+    public String setActivePage(){
+        return "applications";
+    }
+
 }
