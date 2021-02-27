@@ -1,31 +1,21 @@
-package simonova.rent.rentofpremises.model;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import simonova.rent.rentofpremises.dto.UserDTO;
-import simonova.rent.rentofpremises.services.UserService;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.MappedSuperclass;
+package simonova.rent.rentofpremises.dto;
 
-/**
- * Базовый класс для объектов сотрудников и клиентов
- */
-@MappedSuperclass
-public class Person extends BaseEntity{
+import simonova.rent.rentofpremises.model.Role;
+import simonova.rent.rentofpremises.model.Status;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
+
+
+public class PersonDTO extends BaseDTO{
 
     /** Поле для хранения фамилии */
+    @Size(min = 3, max = 255)
     private String surname;
 
     /** Поле для хранения имени */
+    @Size(min = 3, max = 255)
     private String name;
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
 
     /** Поле для хранения отчества */
     private String patronymic;
@@ -43,19 +33,16 @@ public class Person extends BaseEntity{
     private String login;
 
     /** Поле для хранения электронной почты */
+    @Email
     private String email;
 
     /** Поле для хранения пароля  */
+    @Size(min = 8, max = 255)
     private String pass;
 
-    @Enumerated(value = EnumType.STRING)
     private Role role;
 
-    @Enumerated(value = EnumType.STRING)
     private Status status;
-
-
-
 
     public String getName() {
         return name;
@@ -125,21 +112,6 @@ public class Person extends BaseEntity{
         return role;
     }
 
-    public static UserDTO getAuthUser(Authentication auth, UserService clientService){
-        if(!(auth  instanceof AnonymousAuthenticationToken)){
-            String currentPrincipalName = auth.getName();
-            return clientService.findByEmail(currentPrincipalName);
-
-        }
-        else {
-            UserDTO anon = new UserDTO();
-
-            anon.setRole(Role.NONE);
-            return  anon;
-
-        }
-    }
-
     public void setRole(Role role) {
         this.role = role;
     }
@@ -150,5 +122,13 @@ public class Person extends BaseEntity{
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 }

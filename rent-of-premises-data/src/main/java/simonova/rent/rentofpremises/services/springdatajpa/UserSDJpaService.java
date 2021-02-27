@@ -1,6 +1,10 @@
 package simonova.rent.rentofpremises.services.springdatajpa;
 
+import org.dom4j.rule.Mode;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import simonova.rent.rentofpremises.converters.UserConverter;
+import simonova.rent.rentofpremises.dto.UserDTO;
 import simonova.rent.rentofpremises.model.User;
 import simonova.rent.rentofpremises.repositories.UserRepository;
 import simonova.rent.rentofpremises.services.UserService;
@@ -21,31 +25,53 @@ public class UserSDJpaService implements UserService {
     }
 
     @Override
-    public List<User> findAll() {
+    public List<UserDTO> findAll() {
 
-        List<User> clients = new ArrayList<>();
-        clientRepository.findAll().forEach(clients::add);
+        UserConverter userConverter = new UserConverter(new ModelMapper());
+
+        List<UserDTO> clients = new ArrayList<>();
+
+        clientRepository.findAll().forEach(client -> clients.add(userConverter.convertToDto(client)));
         return clients;
     }
 
     @Override
-    public User findByEmail(String email) {
-        return clientRepository.findByEmail(email).orElse(null);
+    public UserDTO findByEmail(String email)
+    {
+        ModelMapper modelMapper = new ModelMapper();
+        UserConverter userConverter = new UserConverter(modelMapper);
+        User user = clientRepository.findByEmail(email).orElse(null);
+
+        if(user== null) return null;
+
+        return userConverter.convertToDto(user);
+    }
+
+
+
+    @Override
+    public UserDTO findById(Long aLong) {
+
+        UserConverter userConverter = new UserConverter(new ModelMapper());
+        User user = clientRepository.findById(aLong).orElse(null);
+        return userConverter.convertToDto(user);
     }
 
     @Override
-    public User findById(Long aLong) {
-        return clientRepository.findById(aLong).orElse(null);
+    public UserDTO save(UserDTO userDTO) {
+
+        UserConverter userConverter = new UserConverter(new ModelMapper());
+
+        User user = userConverter.convertToEntity(userDTO);
+        clientRepository.save(user);
+
+        return userConverter.convertToDto(user);
     }
 
     @Override
-    public User save(User object) {
-        return clientRepository.save(object);
-    }
-
-    @Override
-    public void delete(User object) {
-        clientRepository.delete(object);
+    public void delete(UserDTO userDTO) {
+        UserConverter userConverter = new UserConverter(new ModelMapper());
+        clientRepository.delete(userConverter.convertToEntity(userDTO));
     }
 
     @Override

@@ -1,21 +1,22 @@
 package simonova.rent.rentofpremises.services;
 
+import simonova.rent.rentofpremises.dto.PremisesDTO;
 import simonova.rent.rentofpremises.model.FilterArea;
 import simonova.rent.rentofpremises.model.Premises;
 
 import java.util.List;
 
-public interface PremisesService extends CrudService<Premises, Long>{
+public interface PremisesService extends CrudService<PremisesDTO, Long>{
 
     // Поиск помещения по названию
-    Premises findByName(String name);
+    PremisesDTO findByName(String name);
 
     // поиск помещения по площади
-    Premises findByArea(double area);
+    PremisesDTO findByArea(double area);
 
-    List<Premises> findAllPremises(FilterArea filterArea, int floor);
+    List<PremisesDTO> findAllPremises(FilterArea filterArea, int floor);
 
-    List<Premises> findAllPremises(FilterArea filterArea);
+    List<PremisesDTO> findAllPremises(FilterArea filterArea);
 
     Double getMaxArea();
 

@@ -1,6 +1,9 @@
 package simonova.rent.rentofpremises.services.springdatajpa;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import simonova.rent.rentofpremises.converters.PremisesConverter;
+import simonova.rent.rentofpremises.dto.PremisesDTO;
 import simonova.rent.rentofpremises.model.FilterArea;
 import simonova.rent.rentofpremises.model.Premises;
 import simonova.rent.rentofpremises.repositories.PremisesRepository;
@@ -22,41 +25,58 @@ public class PremisesSDJpaService implements PremisesService {
     }
 
     @Override
-    public Premises findByName(String name) {
-        return premisesRepository.findByName(name).orElse(null);
+    public PremisesDTO findByName(String name) {
+        PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
+        Premises premises = premisesRepository.findByName(name).orElse(null);
+
+        return premisesConverter.convertToDTO(premises);
     }
 
     @Override
-    public Premises findByArea(double area) {
-        return premisesRepository.findByArea(area).orElse(null);
+    public PremisesDTO findByArea(double area) {
+        PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
+        Premises premises =premisesRepository.findByArea(area).orElse(null);
+        return premisesConverter.convertToDTO(premises);
     }
 
     @Override
-    public List<Premises> findAllPremises(FilterArea filterArea, int floor) {
+    public List<PremisesDTO> findAllPremises(FilterArea filterArea, int floor) {
 
-        return premisesRepository.findAllPremises(copyObject(filterArea), floor);
-    }
+        PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
+        List<PremisesDTO> premises = new ArrayList<>();
 
-    @Override
-    public List<Premises> findAll() {
-        List<Premises> premises = new ArrayList<>();
-        premisesRepository.findAll().forEach(premises::add);
+        premisesRepository.findAllPremises(copyObject(filterArea), floor).forEach(prem -> premises.add(premisesConverter.convertToDTO(prem)));
         return premises;
     }
 
     @Override
-    public Premises findById(Long aLong) {
-        return premisesRepository.findById(aLong).orElse(null);
+    public List<PremisesDTO> findAll() {
+        PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
+        List<PremisesDTO> premises = new ArrayList<>();
+        premisesRepository.findAll().forEach(prem -> premises.add(premisesConverter.convertToDTO(prem)));
+        return premises;
     }
 
     @Override
-    public Premises save(Premises premises) {
-        return premisesRepository.save(premises);
+    public PremisesDTO findById(Long aLong) {
+        PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
+        Premises premises = premisesRepository.findById(aLong).orElse(null);
+        return premisesConverter.convertToDTO(premises);
     }
 
     @Override
-    public void delete(Premises premises) {
-        premisesRepository.delete(premises);
+    public PremisesDTO save(PremisesDTO premisesDTO) {
+        PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
+        Premises premises = premisesConverter.convertToEntity(premisesDTO);
+        premisesRepository.save(premises);
+
+        return premisesConverter.convertToDTO(premises);
+    }
+
+    @Override
+    public void delete(PremisesDTO premisesDTO) {
+        PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
+        premisesRepository.delete(premisesConverter.convertToEntity(premisesDTO));
     }
 
     @Override
@@ -90,10 +110,13 @@ public class PremisesSDJpaService implements PremisesService {
     }
 
     @Override
-    public List<Premises> findAllPremises(FilterArea filterArea) {
+    public List<PremisesDTO> findAllPremises(FilterArea filterArea) {
 
+        PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
+        List<PremisesDTO> premises = new ArrayList<>();
 
-        return premisesRepository.findAllPremises(copyObject(filterArea));
+        premisesRepository.findAllPremises(copyObject(filterArea)).forEach(prem -> premises.add(premisesConverter.convertToDTO(prem)));
+        return premises;
     }
 
 

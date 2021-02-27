@@ -1,17 +1,16 @@
 package simonova.rent.rentofpremises.dto;
 
 import simonova.rent.rentofpremises.model.AppStatus;
-import simonova.rent.rentofpremises.model.Premises;
-import simonova.rent.rentofpremises.model.User;
+
 
 
 public class ApplicationDTO extends BaseDTO{
 
     /** Поле для хранения клиента, который подал заявку*/
-    private User user;
+    private UserDTO user;
 
     /** Поле для хранения площади, на которую подана заявка*/
-    private Premises premises;
+    private PremisesDTO premises;
 
     /** Поле для хранения срока аренды в годах*/
     private int rentalPeriodYears;
@@ -27,7 +26,7 @@ public class ApplicationDTO extends BaseDTO{
 
 
 
-    public ApplicationDTO(User user, Premises premises, int rentalPeriodYears, int rentalPeriodMonth, String additionalInfo, AppStatus status) {
+    public ApplicationDTO(UserDTO user, PremisesDTO premises, int rentalPeriodYears, int rentalPeriodMonth, String additionalInfo, AppStatus status) {
         this.user = user;
         this.premises = premises;
         this.rentalPeriodYears = rentalPeriodYears;
@@ -41,19 +40,19 @@ public class ApplicationDTO extends BaseDTO{
 
     }
 
-    public User getClient() {
+    public UserDTO getClient() {
         return user;
     }
 
-    public void setClient(User client) {
+    public void setClient(UserDTO client) {
         this.user = client;
     }
 
-    public Premises getPremises() {
+    public PremisesDTO getPremises() {
         return premises;
     }
 
-    public void setPremises(Premises premises) {
+    public void setPremises(PremisesDTO premises) {
         this.premises = premises;
     }
 

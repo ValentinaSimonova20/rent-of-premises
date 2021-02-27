@@ -19,7 +19,7 @@ public class ControllerInformationHelper {
     @ModelAttribute("userRole")
     public String setUserRole(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return Person.getAuthUserRole(authentication, userService).getRole().toString();
+        return Person.getAuthUser(authentication, userService).getRole().toString();
 
     }
 

@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import simonova.rent.rentofpremises.dto.ApplicationDTO;
+import simonova.rent.rentofpremises.dto.PremisesDTO;
+import simonova.rent.rentofpremises.dto.UserDTO;
 import simonova.rent.rentofpremises.model.*;
 import simonova.rent.rentofpremises.services.ApplicationService;
 import simonova.rent.rentofpremises.services.UserService;
@@ -77,8 +79,8 @@ public class AreasController {
         // получить информацию об авторизованном пользователе
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        User client = Person.getAuthUserRole(authentication, userService);
-        Premises premisesList = premisesService.findById(Long.parseLong(id));
+        UserDTO client = Person.getAuthUser(authentication, userService);
+        PremisesDTO premisesList = premisesService.findById(Long.parseLong(id));
 
         // Добавить заявку
         ApplicationDTO newApp = new ApplicationDTO(client, premisesList, applicationDTO.getRentalPeriodYears(), applicationDTO.getRentalPeriodMonth(), applicationDTO.getAdditionalInfo(), AppStatus.WAIT_FOR_CONSIDERATION );
@@ -111,10 +113,10 @@ public class AreasController {
 
    @PreAuthorize("hasAuthority('developers:write')")
     @PostMapping("/areas/{premisesId}/edit")
-    public String processUpdatePremises(@Valid Premises premises, BindingResult result, @PathVariable Long premisesId){
+    public String processUpdatePremises(@Valid PremisesDTO premisesDTO, BindingResult result, @PathVariable Long premisesId){
         // todo add validation
-        premises.setId(premisesId);
-        Premises savedPremises = premisesService.save(premises);
+        premisesDTO.setId(premisesId);
+        PremisesDTO savedPremises = premisesService.save(premisesDTO);
         return "redirect:/areas/"+savedPremises.getId()+"/show";
     }
 
@@ -127,8 +129,8 @@ public class AreasController {
 
     @PreAuthorize("hasAuthority('developers:write')")
     @PostMapping("/areas/add")
-    public String addPremises(@Valid Premises premises){
-        Premises savedPremises = premisesService.save(premises);
+    public String addPremises(@Valid PremisesDTO premisesDTO){
+        PremisesDTO savedPremises = premisesService.save(premisesDTO);
         return "redirect:/areas/"+savedPremises.getId()+"/show";
     }
 

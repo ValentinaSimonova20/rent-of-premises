@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import simonova.rent.rentofpremises.dto.PremisesDTO;
+import simonova.rent.rentofpremises.dto.UserDTO;
 import simonova.rent.rentofpremises.model.Person;
 import simonova.rent.rentofpremises.model.User;
 import simonova.rent.rentofpremises.services.UserService;
@@ -42,23 +44,23 @@ public class ProfileController {
 
     /**
      * Подтвердить изменения на странице профиля
-     * @param client информация об авторизованном клиенте
+     * @param userDTO информация об авторизованном клиенте
      * @return html страница с обновленной информацией пользователя
      */
     @PostMapping("/profile")
-    public String editProfile(@Valid @ModelAttribute("client") User client){
+    public String editProfile(@Valid @ModelAttribute("client") UserDTO userDTO){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        User currentClient = clientService.findByEmail(currentPrincipalName);
+        UserDTO currentClient = clientService.findByEmail(currentPrincipalName);
 
-        client = currentClient;
-        client.setId(currentClient.getId());
-        client.setPass(currentClient.getPass());
-        client.setStatus(currentClient.getStatus());
-        client.setRole(currentClient.getRole());
+        userDTO = currentClient;
+        userDTO.setId(currentClient.getId());
+        userDTO.setPass(currentClient.getPass());
+        userDTO.setStatus(currentClient.getStatus());
+        userDTO.setRole(currentClient.getRole());
 
         // сохранить изменения в базе данных
-        clientService.save(client);
+        clientService.save(userDTO);
         return "clients/profile";
 
     }

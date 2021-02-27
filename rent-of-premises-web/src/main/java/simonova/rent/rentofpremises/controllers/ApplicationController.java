@@ -9,10 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import simonova.rent.rentofpremises.dto.ApplicationDTO;
+import simonova.rent.rentofpremises.dto.UserDTO;
 import simonova.rent.rentofpremises.exception.NoAppException;
 import simonova.rent.rentofpremises.model.AppStatus;
-import simonova.rent.rentofpremises.model.Person;
-import simonova.rent.rentofpremises.model.User;
 import simonova.rent.rentofpremises.services.ApplicationService;
 import simonova.rent.rentofpremises.services.UserService;
 
@@ -45,7 +44,7 @@ public class ApplicationController {
         }
 
         String currentPrincipalName = authentication.getName();
-        User user = userService.findByEmail(currentPrincipalName);
+        UserDTO user = userService.findByEmail(currentPrincipalName);
         List<ApplicationDTO> apps;
         if(user.getRole().toString().equals("USER")){
             // если роль пользователя - user(клиент) - высвечивать его заявки

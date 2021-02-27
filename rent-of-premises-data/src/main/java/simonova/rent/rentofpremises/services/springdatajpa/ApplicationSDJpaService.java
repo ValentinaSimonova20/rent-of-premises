@@ -42,8 +42,7 @@ public class ApplicationSDJpaService implements ApplicationService {
     @Override
     public ApplicationDTO save(ApplicationDTO applicationDTO) {
 
-        ModelMapper modelMapper = new ModelMapper();
-        ApplicationConverter applicationConverter = new ApplicationConverter(modelMapper);
+        ApplicationConverter applicationConverter = new ApplicationConverter(new ModelMapper());
 
         Application application = applicationConverter.convertToEntity(applicationDTO);
 
@@ -53,8 +52,7 @@ public class ApplicationSDJpaService implements ApplicationService {
 
     @Override
     public void delete(ApplicationDTO applicationDTO) {
-        ModelMapper modelMapper = new ModelMapper();
-        ApplicationConverter applicationConverter = new ApplicationConverter(modelMapper);
+        ApplicationConverter applicationConverter = new ApplicationConverter(new ModelMapper());
         applicationRepository.delete(applicationConverter.convertToEntity(applicationDTO));
     }
 

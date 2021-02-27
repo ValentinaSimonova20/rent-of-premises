@@ -46,7 +46,7 @@ public class ControllerExceptionHandler {
 
         modelAndView.addObject("exception", exception);
         modelAndView.addObject("activePage","applications");
-        modelAndView.addObject("userRole", Person.getAuthUserRole(authentication, userService).getRole().toString());
+        modelAndView.addObject("userRole", Person.getAuthUser(authentication, userService).getRole().toString());
         return modelAndView;
 
 
@@ -64,7 +64,7 @@ public class ControllerExceptionHandler {
         modelAndView.setViewName("errors/400appError");
         modelAndView.addObject("exception", exception);
         modelAndView.addObject("activePage","applications");
-        modelAndView.addObject("userRole", Person.getAuthUserRole(authentication, userService).getRole().toString());
+        modelAndView.addObject("userRole", Person.getAuthUser(authentication, userService).getRole().toString());
 
         return modelAndView;
 

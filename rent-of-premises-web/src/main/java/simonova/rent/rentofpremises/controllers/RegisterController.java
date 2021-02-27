@@ -1,24 +1,22 @@
 package simonova.rent.rentofpremises.controllers;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import simonova.rent.rentofpremises.model.User;
+import simonova.rent.rentofpremises.dto.UserDTO;
 import simonova.rent.rentofpremises.model.Person;
 import simonova.rent.rentofpremises.model.Role;
 import simonova.rent.rentofpremises.model.Status;
 import simonova.rent.rentofpremises.services.UserService;
 
-
 import javax.validation.Valid;
 
-
+@Slf4j
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
@@ -46,28 +44,31 @@ public class RegisterController {
 
     /**
      * Добавить нового клиента в бд
-     * @param client объект нового клиента
+     * @param userDTO объект нового клиента
      * @param model контейнер информации приложения
      * @return страницу регистрации или страницу логирования
      */
     @PostMapping
-    public String addClient(@Valid @ModelAttribute("client") User client, BindingResult result, Model model){
+    public String addClient(@Valid @ModelAttribute("client") UserDTO userDTO, BindingResult result, Model model){
 
         if (result.hasErrors()) {
+            result.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+            });
             return VIEWS_REGISTER_FORM;
         }
 
         // Проверка на то, нет ли в базе данных пользователя с таким email
-        User newClient = clientService.findByEmail(client.getEmail());
+        UserDTO newClient = clientService.findByEmail(userDTO.getEmail());
         if(newClient != null){
             model.addAttribute("message","Пользователь с таким email уже зарегистрирован");
             return  VIEWS_REGISTER_FORM;
         }
 
-        client.setStatus(Status.ACTIVE);
-        client.setRole(Role.USER);
-        client.setPass(BCrypt.hashpw(client.getPass(), BCrypt.gensalt(12)));
-        clientService.save(client);
+        userDTO.setStatus(Status.ACTIVE);
+        userDTO.setRole(Role.USER);
+        userDTO.setPass(BCrypt.hashpw(userDTO.getPass(), BCrypt.gensalt(12)));
+        clientService.save(userDTO);
         return "redirect:/login";
     }
 
