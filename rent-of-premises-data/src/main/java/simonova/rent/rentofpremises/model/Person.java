@@ -39,8 +39,6 @@ public class Person extends BaseEntity{
     /** Поле для хранения номера телефона */
     private String phoneNumber;
 
-    /** Поле для хранения логина */
-    private String login;
 
     /** Поле для хранения электронной почты */
     private String email;
@@ -53,9 +51,6 @@ public class Person extends BaseEntity{
 
     @Enumerated(value = EnumType.STRING)
     private Status status;
-
-
-
 
     public String getName() {
         return name;
@@ -95,14 +90,6 @@ public class Person extends BaseEntity{
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
     }
 
     public String getEmail() {

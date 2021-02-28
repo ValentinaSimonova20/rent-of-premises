@@ -29,10 +29,8 @@ public class PersonDTO extends BaseDTO{
     /** Поле для хранения номера телефона */
     private String phoneNumber;
 
-    /** Поле для хранения логина */
-    private String login;
-
     /** Поле для хранения электронной почты */
+    @Size(min = 3, max = 255)
     @Email
     private String email;
 
@@ -82,14 +80,6 @@ public class PersonDTO extends BaseDTO{
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
     }
 
     public String getEmail() {

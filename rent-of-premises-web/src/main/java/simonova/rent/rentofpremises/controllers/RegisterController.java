@@ -55,6 +55,7 @@ public class RegisterController {
             result.getAllErrors().forEach(objectError -> {
                 log.debug(objectError.toString());
             });
+            model.addAttribute("client", userDTO);
             return VIEWS_REGISTER_FORM;
         }
 
@@ -62,6 +63,7 @@ public class RegisterController {
         UserDTO newClient = clientService.findByEmail(userDTO.getEmail());
         if(newClient != null){
             model.addAttribute("message","Пользователь с таким email уже зарегистрирован");
+            model.addAttribute("client", userDTO);
             return  VIEWS_REGISTER_FORM;
         }
 
