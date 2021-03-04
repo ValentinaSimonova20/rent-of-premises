@@ -1,4 +1,5 @@
 package simonova.rent.rentofpremises.controllers;
+import lombok.extern.slf4j.Slf4j;
 import org.dom4j.rule.Mode;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -18,14 +19,15 @@ import simonova.rent.rentofpremises.services.PremisesService;
 import javax.validation.Valid;
 import java.util.List;
 
-
+@Slf4j
 @Controller
 public class AreasController {
 
     private final PremisesService premisesService;
     private final ApplicationService applicationService;
     private final UserService userService;
-    private final static String premises = "premises";
+    private static final String VIEWS_ADD_OR_EDIT_PREMISES_FORM = "areas/addOrEditPremisesForm";
+    private final String premises = "premises";
 
 
 
@@ -92,7 +94,7 @@ public class AreasController {
     /**
      * Страница просмотра менеджером информаии об определенном клиенте
      * hasAuthority('developers:write') - проверяет существуют ли у пользователя права на просмотр данной страницы
-     * в данном случае доступ имеет только менеджер todo: add controller for error page
+     * в данном случае доступ имеет только менеджер
      * @param model контейнер данных
      * @param id идентификатор клиента
      * @return html-страницу с информацией о клиенте
@@ -108,13 +110,21 @@ public class AreasController {
     @GetMapping("/areas/{premisesId}/edit")
     public String updatePremises(@PathVariable Long premisesId, Model model){
         model.addAttribute(premises, premisesService.findById(premisesId));
-        return "areas/addOrEditPremisesForm";
+        return VIEWS_ADD_OR_EDIT_PREMISES_FORM;
     }
 
-   @PreAuthorize("hasAuthority('developers:write')")
+    @PreAuthorize("hasAuthority('developers:write')")
     @PostMapping("/areas/{premisesId}/edit")
-    public String processUpdatePremises(@Valid PremisesDTO premisesDTO, BindingResult result, @PathVariable Long premisesId){
-        // todo add validation
+    public String processUpdatePremises(@Valid @ModelAttribute("premises") PremisesDTO premisesDTO, BindingResult result, @PathVariable Long premisesId, Model model){
+
+       if (result.hasErrors()) {
+           result.getAllErrors().forEach(objectError -> {
+               log.debug(objectError.toString());
+           });
+           model.addAttribute(premises, premisesDTO);
+           return VIEWS_ADD_OR_EDIT_PREMISES_FORM;
+       }
+
         premisesDTO.setId(premisesId);
         PremisesDTO savedPremises = premisesService.save(premisesDTO);
         return "redirect:/areas/"+savedPremises.getId()+"/show";
@@ -123,13 +133,23 @@ public class AreasController {
     @PreAuthorize("hasAuthority('developers:write')")
     @GetMapping("/areas/add")
     public String initFormPremises(Model model){
-        model.addAttribute(premises, new Premises());
-        return "areas/addOrEditPremisesForm";
+        model.addAttribute("activePage", "addArea");
+        model.addAttribute(premises, new PremisesDTO());
+        return VIEWS_ADD_OR_EDIT_PREMISES_FORM;
     }
 
     @PreAuthorize("hasAuthority('developers:write')")
     @PostMapping("/areas/add")
-    public String addPremises(@Valid PremisesDTO premisesDTO){
+    public String addPremises(@Valid @ModelAttribute("premises") PremisesDTO premisesDTO, BindingResult result, Model model){
+
+        if (result.hasErrors()) {
+            result.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+            });
+            model.addAttribute(premises, premisesDTO);
+            return VIEWS_ADD_OR_EDIT_PREMISES_FORM;
+        }
+
         PremisesDTO savedPremises = premisesService.save(premisesDTO);
         return "redirect:/areas/"+savedPremises.getId()+"/show";
     }
@@ -157,6 +177,7 @@ public class AreasController {
     public List<Integer> setFloorsForFilter(){
         return premisesService.getAllFloors();
     }
+
 
 
 

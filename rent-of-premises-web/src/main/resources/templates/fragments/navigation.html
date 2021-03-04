@@ -29,11 +29,17 @@
                 <a class="nav-link" th:href="@{/register}">Регистрация</a>
             </li>
 
+            <li th:if="${userRole == 'MANAGER'}" th:class="${activePage == 'addArea'} ? 'nav-item active' : 'nav-item'">
+                <a class="nav-link" th:href="@{'/areas/add'}">Добавить площадь</a>
+            </li>
+
             <li th:if="${userRole != 'NONE'}" th:class="'nav-item'">
                 <form th:action="@{/logout}" method="post">
                     <input th:class="'btn btn-link nav-link'" type="submit"  value="Выход"/>
                 </form>
             </li>
+
+
 
         </ul>
     </div>

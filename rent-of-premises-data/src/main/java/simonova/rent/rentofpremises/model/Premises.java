@@ -22,16 +22,16 @@ public class Premises extends BaseEntity{
     private String description;
 
     /** Поле для хранения площади помещения (в м^2)*/
-    private double area;
+    private Double area;
 
     /** Поле для хранения цены аренды за помещение (в руб./мес.)*/
-    private double price;
+    private Double price;
 
     /** Поле для хранения этажа, на котором находится помещение*/
-    private int floor;
+    private Integer floor;
 
     /** Поле для хранения рабочих мест в помещении*/
-    private int  workplaces;
+    private Integer  workplaces;
 
     //todo add photo of the premises
     //private Byte[] image
@@ -39,6 +39,7 @@ public class Premises extends BaseEntity{
     /** Поле для хранения списка заявок нв данное помещение*/
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "premises")
     private Set<Application> applications;
+
 
     public String getName() {
         return name;
@@ -56,35 +57,35 @@ public class Premises extends BaseEntity{
         this.description = description;
     }
 
-    public double getArea() {
+    public Double getArea() {
         return area;
     }
 
-    public void setArea(double area) {
+    public void setArea(Double area) {
         this.area = area;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    public int getFloor() {
+    public Integer getFloor() {
         return floor;
     }
 
-    public void setFloor(int floor) {
+    public void setFloor(Integer floor) {
         this.floor = floor;
     }
 
-    public int getWorkplaces() {
+    public Integer getWorkplaces() {
         return workplaces;
     }
 
-    public void setWorkplaces(int workplaces) {
+    public void setWorkplaces(Integer workplaces) {
         this.workplaces = workplaces;
     }
 

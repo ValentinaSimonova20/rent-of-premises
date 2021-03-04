@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Добавление помещения</title>
@@ -8,7 +8,6 @@
 
     <link rel="stylesheet"
           th:href="@{main.css}"/>
-
 </head>
 <body class="d-flex flex-column h-100">
 <div th:replace="~{fragments/navigation :: navigation}"></div>
@@ -18,24 +17,90 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
-<form th:object="${premises}"  method="post" >
+<div th:class="'container my-4'">
 
-    <div><label> Название : </label><label>
-        <input type="text"  name="name" th:field="*{name}"/>
-    </label></div>
+    <form th:object="${premises}"  method="post" >
 
-    <div><label> Описание: </label><label>
-        <textarea  th:field="*{description}" name="description"></textarea>
-    </label></div>
+        <div class="col-md-6 mb-6">
 
-    <div><label> Площадь: <input type="number" step="0.01" th:field="*{area}"  name="area"/> </label></div>
+            <div th:class="${#fields.hasErrors('name')} ? 'form-group text-danger' : 'form-group is-valid'">
+                <label for="name"> Название : </label>
 
-    <div><label> Цена/месяца: <input type="number" step="0.01" th:field="*{price}" name="price"/> </label></div>
-    <div><label> Этаж: <input type="number" th:field="*{floor}" name="floor"/></label></div>
-    <div><label> Рабочих мест <input type="number" th:field="*{workplaces}" name="workplaces"/></label></div>
-    <div><input type="submit" value="Внести изменения"/></div>
-</form>
+                <input type="text" id="name" th:class="${#fields.hasErrors('name')} ? 'form-control text-danger' : 'form-control'"  th:field="*{name}"/>
+                <div>
+                    <small th:if="${#fields.hasErrors('name')}" class="text-danger" th:errors="*{name}">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
+                        </ul>
+                    </small>
+                </div>
+            </div>
 
+        <div th:class="'form-group is-valid'">
+            <label for="description"> Описание: </label>
+            <textarea th:class="'form-control'" th:field="*{description}" id="description"></textarea>
+         </div>
+
+        <div th:class="${#fields.hasErrors('area')} ? 'form-group text-danger' : 'form-group is-valid'">
+            <label for="area"> Площадь: </label>
+            <input type="number" th:class="'form-control'" step="0.01" th:field="*{area}"  id="area"/>
+
+            <div>
+                <small th:if="${#fields.hasErrors('area')}" class="text-danger" th:errors="*{area}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('area')}" th:text="${err}"></li>
+                    </ul>
+                </small>
+            </div>
+        </div>
+
+         <div th:class="${#fields.hasErrors('price')} ? 'form-group text-danger' : 'form-group is-valid'">
+             <label for="price"> Цена/месяца:  </label>
+             <input type="number" th:class="'form-control'" step="0.01" th:field="*{price}" id="price"/>
+
+             <div>
+                 <small th:if="${#fields.hasErrors('price')}" class="text-danger" th:errors="*{price}">
+                     <ul>
+                         <li th:each="err : ${#fields.errors('price')}" th:text="${err}"></li>
+                     </ul>
+                 </small>
+             </div>
+         </div>
+
+        <div th:class="${#fields.hasErrors('floor')} ? 'form-group text-danger' : 'form-group is-valid'">
+            <label for="floor"> Этаж: </label>
+            <input type="number" th:class="${#fields.hasErrors('floor')} ? 'form-control text-danger' : 'form-control'" th:field="*{floor}" id="floor"/>
+            <div>
+                <small th:if="${#fields.hasErrors('floor')}" class="text-danger" th:errors="*{floor}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('floor')}" th:text="${err}"></li>
+                    </ul>
+                </small>
+            </div>
+        </div>
+
+        <div th:class="${#fields.hasErrors('workplaces')} ? 'form-group text-danger' : 'form-group is-valid'">
+            <label for="workplaces"> Рабочих мест: </label>
+            <input type="number" th:class="'form-control'" th:field="*{workplaces}" id="workplaces"/>
+            <div>
+                <small th:if="${#fields.hasErrors('workplaces')}" class="text-danger" th:errors="*{workplaces}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('workplaces')}" th:text="${err}"></li>
+                    </ul>
+                </small>
+            </div>
+        </div>
+
+    <div th:class="'form-group'">
+        <button
+            th:with="text=${premises['new']} ? 'Добавить помещение' : 'Изменить'"
+            class="btn btn-success" type="submit" th:text="${text}">Добавить помещение</button>
+    </div>
+
+        </div>
+    </form>
+
+</div>
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

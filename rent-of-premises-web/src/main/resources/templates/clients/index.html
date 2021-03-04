@@ -22,14 +22,6 @@
 
     <h2 th:text="'Офисы бизнес-центра'">Офисы бизнес-центра</h2>
 
-<div th:switch="${userRole}">
-    <div th:case="'MANAGER'">
-        <div ><a href="#" th:href="@{'/areas/add'}">Добавить помещение</a></div>
-    </div>
-</div>
-
-
-
 <form id="filter-form" th:action="@{/areas}" name="filter-form" th:object="${filter}" method="post" >
     Название: <input type="text" th:name="areaName"  th:field="*{areaName}" name="areaName"  id="areaName" size="50" /><br>
     &nbsp;
