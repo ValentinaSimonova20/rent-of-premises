@@ -24,12 +24,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private  final UserDetailsService userDetailsService;
 
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
+    private final LoginFailureHandler failureHandler;
 
     @Autowired
-    public SecurityConfig(@Qualifier("userDetailServiceImpl") UserDetailsService userDetailsService, AuthenticationSuccessHandler authenticationSuccessHandler) {
+    public SecurityConfig(@Qualifier("userDetailServiceImpl") UserDetailsService userDetailsService, AuthenticationSuccessHandler authenticationSuccessHandler, LoginFailureHandler failureHandler) {
         this.userDetailsService = userDetailsService;
         this.authenticationSuccessHandler = authenticationSuccessHandler;
+        this.failureHandler = failureHandler;
     }
+
+
 
 
 
@@ -38,14 +42,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/","/register","/areas", "/applications", "/profile", "areas/*/show").permitAll()
+                .antMatchers("/","/register","/areas", "/applications", "/profile", "areas/*/show", "/login/error/*" ).permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login").permitAll()
+                .loginPage("/login")
+                .usernameParameter("email")
+                .permitAll()
                 .defaultSuccessUrl("/success")
                 .successHandler(authenticationSuccessHandler)
+                .failureHandler(failureHandler)
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout","POST"))

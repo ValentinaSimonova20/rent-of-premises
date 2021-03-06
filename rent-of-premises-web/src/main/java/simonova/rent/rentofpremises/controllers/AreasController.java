@@ -27,7 +27,7 @@ public class AreasController {
     private final ApplicationService applicationService;
     private final UserService userService;
     private static final String VIEWS_ADD_OR_EDIT_PREMISES_FORM = "areas/addOrEditPremisesForm";
-    private final String premises = "premises";
+    private final static String premises = "premises";
 
 
 
