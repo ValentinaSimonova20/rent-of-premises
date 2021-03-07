@@ -1,5 +1,6 @@
 package simonova.rent.rentofpremises.services.springdatajpa;
 
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import simonova.rent.rentofpremises.converters.ApplicationConverter;
@@ -14,6 +15,7 @@ import java.util.List;
 /**
  * Сервис предоставляет взаимодействие с заявками на аренду (таблицей) клиентов
  */
+@Slf4j
 @Service
 public class ApplicationSDJpaService implements ApplicationService {
 
@@ -25,8 +27,8 @@ public class ApplicationSDJpaService implements ApplicationService {
 
     @Override
     public List<ApplicationDTO> findAll() {
-        ApplicationConverter applicationConverter = new ApplicationConverter(new ModelMapper());
-
+        ModelMapper modelMapper = new ModelMapper();
+        ApplicationConverter applicationConverter = new ApplicationConverter(modelMapper);
         List<ApplicationDTO> applications = new ArrayList<>();
         applicationRepository.findAll().forEach(application -> applications.add(applicationConverter.convertToDto(application)));
         return applications;
@@ -34,15 +36,17 @@ public class ApplicationSDJpaService implements ApplicationService {
 
     @Override
     public ApplicationDTO findById(Long aLong) {
-        ApplicationConverter applicationConverter = new ApplicationConverter(new ModelMapper());
+        ModelMapper modelMapper = new ModelMapper();
+        ApplicationConverter applicationConverter = new ApplicationConverter(modelMapper);
         Application application = applicationRepository.findById(aLong).orElse(null);
         return applicationConverter.convertToDto(application);
     }
 
     @Override
     public ApplicationDTO save(ApplicationDTO applicationDTO) {
+        ModelMapper modelMapper = new ModelMapper();
 
-        ApplicationConverter applicationConverter = new ApplicationConverter(new ModelMapper());
+        ApplicationConverter applicationConverter = new ApplicationConverter(modelMapper);
 
         Application application = applicationConverter.convertToEntity(applicationDTO);
 
@@ -52,7 +56,8 @@ public class ApplicationSDJpaService implements ApplicationService {
 
     @Override
     public void delete(ApplicationDTO applicationDTO) {
-        ApplicationConverter applicationConverter = new ApplicationConverter(new ModelMapper());
+        ModelMapper modelMapper = new ModelMapper();
+        ApplicationConverter applicationConverter = new ApplicationConverter(modelMapper);
         applicationRepository.delete(applicationConverter.convertToEntity(applicationDTO));
     }
 

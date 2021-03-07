@@ -24,11 +24,18 @@ public class LoginController {
         return "index";
     }
 
+    /**
+     * Метод для сохранения введного email пользователем после неудачной попытки входа
+     * @param model
+     * @param email
+     * @return
+     */
     @GetMapping("/login/error/{email}")
     public String redirect(Model model, @PathVariable String email){
         PersonDTO personDTO = new PersonDTO();
         personDTO.setEmail(email);
         model.addAttribute("user", personDTO);
+        model.addAttribute("isLoginErr", true);
         return "index";
     }
 

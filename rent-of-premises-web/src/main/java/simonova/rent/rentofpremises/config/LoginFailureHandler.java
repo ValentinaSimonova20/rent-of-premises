@@ -12,7 +12,15 @@ import java.io.IOException;
 public class LoginFailureHandler implements AuthenticationFailureHandler {
 
 
-
+    /**
+     * Обработка ошибки входа
+     * @param request
+     * @param response
+     * @param exception
+     * @throws IOException
+     * @throws ServletException
+     * @throws ServletException
+     */
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,

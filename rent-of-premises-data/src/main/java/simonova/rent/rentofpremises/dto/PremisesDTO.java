@@ -42,7 +42,7 @@ public class PremisesDTO extends BaseDTO{
     //private Byte[] image
 
     /** Поле для хранения списка заявок нв данное помещение*/
-    private Set<Application> applications;
+    private Set<ApplicationDTO> applications;
 
 
     public String getName() {
@@ -93,11 +93,11 @@ public class PremisesDTO extends BaseDTO{
         this.workplaces = workplaces;
     }
 
-    public Set<Application> getApplications() {
+    public Set<ApplicationDTO> getApplications() {
         return applications;
     }
 
-    public void setApplications(Set<Application> applications) {
+    public void setApplications(Set<ApplicationDTO> applications) {
         this.applications = applications;
     }
 }

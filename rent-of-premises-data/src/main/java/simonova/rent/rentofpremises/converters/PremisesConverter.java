@@ -1,5 +1,6 @@
 package simonova.rent.rentofpremises.converters;
 
+import org.dom4j.rule.Mode;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import simonova.rent.rentofpremises.dto.PremisesDTO;

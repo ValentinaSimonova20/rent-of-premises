@@ -32,17 +32,6 @@ public class Application extends BaseEntity{
     private AppStatus status;
 
 
-
-    public Application(User user, Premises premises, int rentalPeriodYears, int rentalPeriodMonth, String additionalInfo, AppStatus status) {
-        this.user = user;
-        this.premises = premises;
-        this.rentalPeriodYears = rentalPeriodYears;
-        this.rentalPeriodMonth = rentalPeriodMonth;
-        this.additionalInfo = additionalInfo;
-        this.status = status;
-
-    }
-
     public Application() {
 
     }

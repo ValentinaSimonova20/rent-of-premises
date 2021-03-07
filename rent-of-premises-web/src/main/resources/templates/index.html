@@ -23,21 +23,31 @@
 <div th:class="'container my-4'">
 
     <form th:action="@{/login}" th:object="${user}" method="post">
-        <div><label> Почта : <input type="text" name="email" id="email" th:field="*{email}" required email/> </label></div>
-        <div><label> Пароль: <input type="password" name="password"/> </label></div>
-        <div th:if="${param.error}">
-            Неверные логин или пароль.
-        </div>
-        <div th:if="${param.logout}">
-            Вы разлогинились.
-        </div>
-        <div><input type="submit" value="Войти"/></div>
 
-        <th:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}">
-            <div class="error">
-                <th:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
+        <div class="col-md-6 mb-6">
+
+            <div th:class="${isLoginErr} ? 'form-group text-danger' : 'form-group is-valid'">
+                <label for="email"> Почта :  </label>
+                <input type="text" name="email" id="email" th:class="${isLoginErr} ? 'form-control text-danger' : 'form-control'" th:field="*{email}" required email/>
             </div>
-        </th:if>
+
+            <div th:class="${isLoginErr} ? 'form-group text-danger' : 'form-group is-valid'">
+
+                <label for="password"> Пароль: </label>
+                <input type="password" th:class="${isLoginErr} ? 'form-control text-danger' : 'form-control'" id="password" name="password"/>
+
+            </div>
+            <small th:if="${isLoginErr }" class="text-danger">
+                <div>
+                    Неверные логин или пароль
+                </div>
+            </small>
+
+            <div th:class="'form-group'">
+                <input type="submit" class="btn btn-success" value="Войти"/>
+            </div>
+
+        </div>
 </form>
 
 </div>
