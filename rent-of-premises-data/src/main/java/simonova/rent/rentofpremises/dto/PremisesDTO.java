@@ -2,10 +2,9 @@ package simonova.rent.rentofpremises.dto;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Range;
-import simonova.rent.rentofpremises.model.Application;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
@@ -34,12 +33,12 @@ public class PremisesDTO extends BaseDTO{
     @Range(min=1, max = 9)
     private Integer floor;
 
+    @Lob
+    private String photo;
+
     /** Поле для хранения рабочих мест в помещении*/
     @NotNull(message = "Введите количество рабочих мест в помещении")
     private Integer  workplaces;
-
-    //todo add photo of the premises
-    //private Byte[] image
 
     /** Поле для хранения списка заявок нв данное помещение*/
     private Set<ApplicationDTO> applications;
@@ -99,5 +98,13 @@ public class PremisesDTO extends BaseDTO{
 
     public void setApplications(Set<ApplicationDTO> applications) {
         this.applications = applications;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }

@@ -1,6 +1,7 @@
 package simonova.rent.rentofpremises.model;
 
 import org.hibernate.annotations.Type;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -33,8 +34,9 @@ public class Premises extends BaseEntity{
     /** Поле для хранения рабочих мест в помещении*/
     private Integer  workplaces;
 
-    //todo add photo of the premises
-    //private Byte[] image
+    @Lob
+    @Column(columnDefinition = "MEDIUMBLOB")
+    private String photo;
 
     /** Поле для хранения списка заявок нв данное помещение*/
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "premises")
@@ -95,5 +97,13 @@ public class Premises extends BaseEntity{
 
     public void setApplications(Set<Application> applications) {
         this.applications = applications;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }

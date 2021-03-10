@@ -1,5 +1,7 @@
 package simonova.rent.rentofpremises.controllers;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.FileUpload;
+import org.aspectj.util.FileUtil;
 import org.dom4j.rule.Mode;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -7,8 +9,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import simonova.rent.rentofpremises.dto.ApplicationDTO;
 import simonova.rent.rentofpremises.dto.PremisesDTO;
 import simonova.rent.rentofpremises.dto.UserDTO;
@@ -17,7 +21,10 @@ import simonova.rent.rentofpremises.services.ApplicationService;
 import simonova.rent.rentofpremises.services.UserService;
 import simonova.rent.rentofpremises.services.PremisesService;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
+
 
 @Slf4j
 @Controller
@@ -140,7 +147,7 @@ public class AreasController {
 
     @PreAuthorize("hasAuthority('developers:write')")
     @PostMapping("/areas/add")
-    public String addPremises(@Valid @ModelAttribute("premises") PremisesDTO premisesDTO, BindingResult result, Model model){
+    public String addPremises(@Valid @ModelAttribute("premises") PremisesDTO premisesDTO, @RequestParam("image") MultipartFile multipartFile, BindingResult result, Model model) throws IOException {
 
         if (result.hasErrors()) {
             result.getAllErrors().forEach(objectError -> {
@@ -150,7 +157,17 @@ public class AreasController {
             return VIEWS_ADD_OR_EDIT_PREMISES_FORM;
         }
 
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        premisesDTO.setPhoto(Base64.getEncoder().encodeToString(multipartFile.getBytes()));
+
+
+
+        // Загрузка фотографии помещения
+
+
         PremisesDTO savedPremises = premisesService.save(premisesDTO);
+
+
         return "redirect:/areas/"+savedPremises.getId()+"/show";
     }
 

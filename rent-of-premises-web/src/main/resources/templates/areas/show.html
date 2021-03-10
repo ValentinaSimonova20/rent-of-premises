@@ -36,6 +36,9 @@
 <div>Количество рабочих мест</div><br>
 <div th:text="${premises.workplaces}">Кол-во рабочих мест</div><br><br>
 
+<div>Изображение</div>
+<div><img th:src="*{'data:image/jpeg;base64,'+{premises.photo}}" style="width: 100px; height: 100px"></div>
+
 <div th:switch="${userRole}">
     <form action="#" th:action="@{/areas/__${premises.id}__/show}"  th:object="${application}"  method="post" th:case="'USER'">
 

@@ -9,7 +9,7 @@ import simonova.rent.rentofpremises.model.Application;
 public class ApplicationConverter {
 
 
-    ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     public ApplicationConverter(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;

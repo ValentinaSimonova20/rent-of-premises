@@ -9,7 +9,7 @@ import simonova.rent.rentofpremises.model.User;
 @Component
 public class UserConverter {
 
-    ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     public UserConverter(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
