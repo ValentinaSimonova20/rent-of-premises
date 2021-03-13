@@ -18,44 +18,62 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
-<div th:text="${premises.id}">Id</div><br><br>
+<div th:class="'card'">
+    <h2 th:class="'card-header'" th:text="${premises.name}">Название</h2>
+    <div th:class="'row no-gutters'">
 
-<div th:text="${premises.name}">Название</div><br><br>
+        <div th:class="'col-sm-5'">
+            <img th:src="*{'data:image/jpeg;base64,'+{premises.photo}}" width="450" height="335" th:class="'card-img-top h-100'" alt="">
+        </div>
+        <div th:class="'col-sm-7'">
+            <div th:class="'card-body'">
 
-<div th:text="${premises.description}">Описание</div><br><br>
+                <p th:class="'card-text'" th:text="${premises.description}">Описание</p>
+                <p th:class="'card-text'" th:text="'Цена: ' + ${premises.price}">Цена</p>
+                <p th:class="'card-text'" th:text="'Площадь: ' + ${premises.area} + ' м^2'">Площадь</p>
+                <p th:class="'card-text'" th:text="'Этаж: ' + ${premises.floor}">Этаж</p>
+                <p th:class="'card-text'" th:text="'Рабочих мест: ' + ${premises.workplaces}">Рабочих мест</p>
 
-<div>Площадь</div><br>
-<div th:text="${premises.area} + ' м^2'">Площадь</div><br><br>
 
-<div>Цена</div><br>
-<div th:text="${premises.price} + ' руб.'">Цена</div><br><br>
+        <div th:switch="${userRole}">
+            <form action="#" th:action="@{/areas/__${premises.id}__/show}"  th:object="${application}"  method="post" th:case="'USER'">
+                <div class="col-md-6 mb-6 card-text">
 
-<div>Этаж</div><br>
-<div th:text="${premises.floor}">Этаж</div><br><br>
+                <div th:class="'form-group is-valid card-text'">
+                    <label for="months"> Период аренды(месяцев) : </label>
+                    <input type="text" id="months" th:class="'form-control mt-auto'"  name="rentalPeriodMonths" th:field="*{rentalPeriodMonth}"/></div>
 
-<div>Количество рабочих мест</div><br>
-<div th:text="${premises.workplaces}">Кол-во рабочих мест</div><br><br>
+                <div th:class="'form-group is-valid card-text'">
+                    <label for="years"> Период аренды(лет): </label>
+                    <input type="text" id="years" th:class="'form-control'" th:field="*{rentalPeriodYears}" name="rentalPeriodYears"/>
+                </div>
 
-<div>Изображение</div>
-<div><img th:src="*{'data:image/jpeg;base64,'+{premises.photo}}" style="width: 100px; height: 100px"></div>
+                <div th:class="'form-group is-valid card-text'">
+                    <label for="addInf"> Дополнительна информация:  </label>
+                    <input type="text" th:class="'form-control'" id="addInf" th:field="*{additionalInfo}" name="additionalInfo"/>
+                </div>
 
-<div th:switch="${userRole}">
-    <form action="#" th:action="@{/areas/__${premises.id}__/show}"  th:object="${application}"  method="post" th:case="'USER'">
+                <div th:class="'form-group card-text'">
+                    <input  class="btn btn-success" type="submit" value="Подать заявку на аренду"/>
+                </div>
 
-    <div><label> Период аренды(месяцев) : </label><input type="text"  name="rentalPeriodMonths" th:field="*{rentalPeriodMonth}"/></div>
+                </div>
+            </form>
 
-    <div ><label> Период аренды(лет): </label>
-        <input type="text" th:field="*{rentalPeriodYears}" name="rentalPeriodYears"/>
+            <div th:case="'MANAGER'">
+                <div th:class="'form-group'">
+                    <a href="#" th:class="'btn btn-info'" role="button" th:href="@{'/areas/'+${premises.id}+'/edit'}">Изменить информацию о помещении</a>
+                </div>
+            </div>
+
+        </div>
+
     </div>
-    <div><label> Дополнительна информация: <input type="text" th:field="*{additionalInfo}" name="additionalInfo"/> </label></div>
-    <div><input type="submit" value="Подать заявку на аренду"/></div>
-</form>
-
-    <div th:case="'MANAGER'">
-        <div ><a href="#" th:href="@{'/areas/'+${premises.id}+'/edit'}">Изменить информацию о помещении</a></div>
     </div>
-
+    </div>
 </div>
+
+
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>

@@ -122,7 +122,7 @@ public class AreasController {
 
     @PreAuthorize("hasAuthority('developers:write')")
     @PostMapping("/areas/{premisesId}/edit")
-    public String processUpdatePremises(@Valid @ModelAttribute("premises") PremisesDTO premisesDTO, BindingResult result, @PathVariable Long premisesId, Model model){
+    public String processUpdatePremises(@Valid @ModelAttribute("premises") PremisesDTO premisesDTO,@RequestParam("image") MultipartFile multipartFile, BindingResult result, @PathVariable Long premisesId, Model model) throws IOException {
 
        if (result.hasErrors()) {
            result.getAllErrors().forEach(objectError -> {
@@ -133,6 +133,7 @@ public class AreasController {
        }
 
         premisesDTO.setId(premisesId);
+        premisesDTO.setPhoto(Base64.getEncoder().encodeToString(multipartFile.getBytes()));
         PremisesDTO savedPremises = premisesService.save(premisesDTO);
         return "redirect:/areas/"+savedPremises.getId()+"/show";
     }
