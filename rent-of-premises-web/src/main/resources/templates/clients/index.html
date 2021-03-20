@@ -39,29 +39,22 @@
         &nbsp;
         <div th:class="'row'">
 
-            <div th:class="'form-group col'">
+            <div th:class="'form-group col-4'">
                     <label for="areaMin" th:class="'form-label col-form-label-sm'">Площадь от:</label>
                     <input type="number" step="0.01" th:class="'form-control form-control-sm'" th:default="0.0" name="areaMin" th:field="*{areaMin}" th:name="areaMin" id="areaMin" size="50"/>
             </div>
 
-            <div th:class="'form-group col'">
+            <div th:class="'form-group col-4'">
                     <label for="areaMax" th:class="'form-label col-form-label-sm'">Площадь до:</label>
                     <input type="number" step="0.01" th:class="'form-control form-control-sm'" name="areaMax" th:field="*{areaMax}" th:name="areaMax" id="areaMax" size="50"/>
             </div>
 
-            <div th:class="'form-group col'">
+            <div th:class="'form-group col-4'">
                 <label for="workPlace" th:class="'form-label col-form-label-sm'">Рабочих мест до:</label>
                 <input type="number" th:name="workplace" th:class="'form-control form-control-sm'" th:field="*{workplaces}" id="workPlace" size="50"  />
             </div>
 
-            <div th:class="'form-group col'">
-                <label for="dropOperator" th:class="'form-label col-form-label-sm'">Этаж:</label>
-                <select th:name="floor" class="browser-default custom-select"  id="dropOperator">
-                    <option th:value="-1">Не выбран</option>
-                    <option th:each="floor : ${floors}" th:value="${floor}" th:field="*{floor}" th:text="${floor}"></option>
-                </select>
 
-            </div>
 
         </div>
 
@@ -74,6 +67,15 @@
             <div th:class="'form-group col-4'">
                 <label for="priceMax" th:class="'form-label col-form-label-sm'">Цена до: </label>
                 <input type="number" th:class="'form-control form-control-sm'" step="0.01" th:field="*{priceMax}" th:name="priceMax" id="priceMax" size="50" />
+            </div>
+
+            <div th:class="'form-group col-4'">
+                <label for="dropOperator" th:class="'form-label col-form-label-sm'">Этаж:</label>
+                <select th:name="floor" class="browser-default custom-select"  id="dropOperator">
+                    <option th:value="-1">Не выбран</option>
+                    <option th:each="floor : ${floors}" th:value="${floor}" th:field="*{floor}" th:text="${floor}"></option>
+                </select>
+
             </div>
 
 
@@ -105,7 +107,7 @@
                     </div>
 
                     <div class="col-lg-5">
-                        <h5 class="card-title" th:text="${prem.description}">Описание</h5>
+                        <p class="card-text" th:text="${prem.description}">Описание</p>
                         <p class="card-text" th:text="'Площадь: ' + ${prem.area} + ' м^2'">Площадь</p>
                         <p class="card-text" th:text="'Цена: ' + ${prem.price}">Цена</p>
                         <p class="card-text" th:text="'Этаж: ' + ${prem.floor}">Этаж</p>
