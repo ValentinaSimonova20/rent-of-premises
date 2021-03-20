@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -174,6 +175,7 @@ public class AreasController {
 
 
     // Фильтрация помещений
+    @Transactional
     @PostMapping("/areas")
     public String filterAreas(@Valid FilterArea filterArea,Model model){
 

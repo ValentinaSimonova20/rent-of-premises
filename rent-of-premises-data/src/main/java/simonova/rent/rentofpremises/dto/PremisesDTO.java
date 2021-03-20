@@ -33,7 +33,6 @@ public class PremisesDTO extends BaseDTO{
     @Range(min=1, max = 9)
     private Integer floor;
 
-    @Lob
     private String photo;
 
     /** Поле для хранения рабочих мест в помещении*/

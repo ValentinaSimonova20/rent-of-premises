@@ -1,7 +1,6 @@
 package simonova.rent.rentofpremises.model;
 
 public class FilterArea implements Cloneable{
-    private String areaName;
     private Double priceMin;
     private Double priceMax;
     private Integer floor;
@@ -12,14 +11,6 @@ public class FilterArea implements Cloneable{
     private Integer workplaces;
 
     public FilterArea(){}
-
-    public String getAreaName() {
-        return areaName;
-    }
-
-    public void setAreaName(String areaName) {
-        this.areaName = areaName;
-    }
 
     public Double getPriceMin() {
         return priceMin;

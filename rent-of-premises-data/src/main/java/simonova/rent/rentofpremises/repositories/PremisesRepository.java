@@ -16,12 +16,10 @@ public interface PremisesRepository extends CrudRepository<Premises, Long> {
     Optional<Premises> findByArea(double area);
 
 
-
-
-    @Query(value = "SELECT * FROM premises WHERE name LIKE %:#{#filter.areaName}% AND floor= :filteredFloor AND price BETWEEN :#{#filter.priceMin} AND :#{#filter.priceMax}", nativeQuery = true)
+    @Query(value = "SELECT * FROM premises WHERE floor= :filteredFloor AND price BETWEEN :#{#filter.priceMin} AND :#{#filter.priceMax}", nativeQuery = true)
     List<Premises> findAllPremises(@Param("filter") FilterArea filterArea,@Param("filteredFloor") int filteredFloor);
 
-    @Query(value = "SELECT * FROM premises WHERE name LIKE %:#{#filter.areaName}% AND price BETWEEN :#{#filter.priceMin} AND :#{#filter.priceMax}" +
+    @Query(value = "SELECT * FROM premises WHERE price BETWEEN :#{#filter.priceMin} AND :#{#filter.priceMax}" +
             " AND area BETWEEN :#{#filter.areaMin} AND :#{#filter.areaMax} AND workplaces <= :#{#filter.workplaces}", nativeQuery = true)
     List<Premises> findAllPremises(@Param("filter") FilterArea filterArea);
 

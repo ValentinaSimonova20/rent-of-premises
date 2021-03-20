@@ -133,7 +133,6 @@ public class PremisesSDJpaService implements PremisesService {
 
         filterArea2.setWorkplaces(filterArea.getWorkplaces() == null ? getMaxWorkplaces(): filterArea.getWorkplaces());
 
-        filterArea2.setAreaName(filterArea.getAreaName());
         filterArea2.setFloor(filterArea2.getFloor());
 
         return filterArea2;
