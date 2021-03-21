@@ -3,24 +3,27 @@ package simonova.rent.rentofpremises.repositories;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 import simonova.rent.rentofpremises.model.FilterArea;
 import simonova.rent.rentofpremises.model.Premises;
 
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 public interface PremisesRepository extends CrudRepository<Premises, Long> {
 
     Optional<Premises> findByName(String name);
 
     Optional<Premises> findByArea(double area);
 
+    List<Premises> findByIsRented(boolean isRented);
 
-    @Query(value = "SELECT * FROM premises WHERE floor= :filteredFloor AND price BETWEEN :#{#filter.priceMin} AND :#{#filter.priceMax}", nativeQuery = true)
+    @Query(value = "SELECT * FROM premises WHERE floor= :filteredFloor AND price BETWEEN :#{#filter.priceMin} AND :#{#filter.priceMax} AND is_rented= FALSE", nativeQuery = true)
     List<Premises> findAllPremises(@Param("filter") FilterArea filterArea,@Param("filteredFloor") int filteredFloor);
 
     @Query(value = "SELECT * FROM premises WHERE price BETWEEN :#{#filter.priceMin} AND :#{#filter.priceMax}" +
-            " AND area BETWEEN :#{#filter.areaMin} AND :#{#filter.areaMax} AND workplaces <= :#{#filter.workplaces}", nativeQuery = true)
+            " AND area BETWEEN :#{#filter.areaMin} AND :#{#filter.areaMax} AND workplaces <= :#{#filter.workplaces} AND is_rented= FALSE", nativeQuery = true)
     List<Premises> findAllPremises(@Param("filter") FilterArea filterArea);
 
 

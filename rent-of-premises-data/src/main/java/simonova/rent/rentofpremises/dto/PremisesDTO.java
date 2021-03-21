@@ -2,9 +2,7 @@ package simonova.rent.rentofpremises.dto;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Range;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
@@ -38,6 +36,8 @@ public class PremisesDTO extends BaseDTO{
     /** Поле для хранения рабочих мест в помещении*/
     @NotNull(message = "Введите количество рабочих мест в помещении")
     private Integer  workplaces;
+
+    private Boolean isRented;
 
     /** Поле для хранения списка заявок нв данное помещение*/
     private Set<ApplicationDTO> applications;
@@ -105,5 +105,13 @@ public class PremisesDTO extends BaseDTO{
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public Boolean getRented() {
+        return isRented;
+    }
+
+    public void setRented(Boolean rented) {
+        isRented = rented;
     }
 }

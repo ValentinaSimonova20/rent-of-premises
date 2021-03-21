@@ -27,4 +27,6 @@ public interface PremisesService extends CrudService<PremisesDTO, Long>{
     Integer getMaxFloor();
 
     List<Integer> getAllFloors();
+
+    List<PremisesDTO> findByIsRented(boolean isRented);
 }

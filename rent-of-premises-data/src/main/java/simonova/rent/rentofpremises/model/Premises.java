@@ -38,6 +38,8 @@ public class Premises extends BaseEntity{
     @Column(columnDefinition = "MEDIUMBLOB")
     private String photo;
 
+    private Boolean isRented;
+
     /** Поле для хранения списка заявок нв данное помещение*/
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "premises")
     private Set<Application> applications;
@@ -105,5 +107,13 @@ public class Premises extends BaseEntity{
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public Boolean getRented() {
+        return isRented;
+    }
+
+    public void setRented(Boolean rented) {
+        isRented = rented;
     }
 }

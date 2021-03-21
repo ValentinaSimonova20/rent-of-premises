@@ -2,6 +2,7 @@ package simonova.rent.rentofpremises.services.springdatajpa;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import simonova.rent.rentofpremises.converters.PremisesConverter;
 import simonova.rent.rentofpremises.dto.PremisesDTO;
 import simonova.rent.rentofpremises.model.FilterArea;
@@ -54,6 +55,20 @@ public class PremisesSDJpaService implements PremisesService {
         PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
         List<PremisesDTO> premises = new ArrayList<>();
         premisesRepository.findAll().forEach(prem -> premises.add(premisesConverter.convertToDTO(prem)));
+        return premises;
+    }
+
+    /**
+     * Получить все площадь по признаку сдана площадь или нет
+     * @param isRented отражает сдан офис или нет
+     * @return список сданных или не сданных площадей
+     */
+    @Override
+    public List<PremisesDTO> findByIsRented(boolean isRented) {
+        PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
+        List<PremisesDTO> premises = new ArrayList<>();
+        premisesRepository.findByIsRented(isRented).forEach(prem -> premises.add(premisesConverter.convertToDTO(prem)));
+
         return premises;
     }
 
@@ -137,4 +152,6 @@ public class PremisesSDJpaService implements PremisesService {
 
         return filterArea2;
     }
+
+
 }

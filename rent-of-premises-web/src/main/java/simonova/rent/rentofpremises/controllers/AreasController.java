@@ -54,7 +54,7 @@ public class AreasController {
     public String getAreas(Model model){
 
         // передача на страницу списка всех площадей
-        model.addAttribute(premises, premisesService.findAll());
+        model.addAttribute(premises, premisesService.findByIsRented(false));
         model.addAttribute("filter", new FilterArea());
         model.addAttribute("floors", premisesService.getAllFloors());
 
