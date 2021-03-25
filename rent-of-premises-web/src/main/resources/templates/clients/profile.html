@@ -43,8 +43,6 @@
                 <input th:class="'form-control'" type="text" id="patronymic" th:field="*{patronymic}"/>
             </div>
 
-
-
             <div th:class="${#fields.hasErrors('surname')} ? 'form-group text-danger' : 'form-group is-valid'">
                 <label for="surname"> Фамилия: </label>
                 <input type="text" th:class="${#fields.hasErrors('surname')} ? 'form-control text-danger' : 'form-control'"  th:field="*{surname}" id="surname"/>
@@ -63,7 +61,10 @@
             <div th:class="'form-group col px-md-5'">
                 <div th:class="'p-3 border bg-light'">
                 <label for="passportNumber"> Номер паспорта: </label>
-                <input type="number" id="passportNumber" th:class="'form-control'" th:field="*{passportNumber}"/>
+                <input type="number"
+                       oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                       maxlength = "4"
+                       id="passportNumber" th:class="'form-control'" th:field="*{passportNumber}"/>
                 </div>
             </div>
 
@@ -71,7 +72,10 @@
             <div th:class="'form-group col px-md-5'">
                 <div th:class="'p-3 border bg-light'">
                 <label> Серия паспорта: </label>
-                <input type="number" th:class="'form-control'" id="seriesNumberOfPassport" th:field="*{seriesNumberOfPassport}"/>
+                <input type="number"
+                       oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                       maxlength = "6"
+                       th:class="'form-control'" id="seriesNumberOfPassport" th:field="*{seriesNumberOfPassport}"/>
                 </div>
             </div>
 

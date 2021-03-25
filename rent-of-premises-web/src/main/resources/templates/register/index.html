@@ -56,14 +56,31 @@
             </small>
         </div>
 
+            <div th:class="'form-group row mx-md-n5'">
 
-    <div th:class="'form-group'">
-        <label for="passportNumber"> Номер паспорта: </label> <input type="text" th:class="'form-control'" id="passportNumber" th:field="*{passportNumber}"/>
-    </div>
+                <div th:class="'form-group col px-md-5'">
+                    <div th:class="'p-3 border bg-light'">
+                        <label for="passportNumber"> Номер паспорта: </label>
 
-    <div th:class="'form-group'">
-        <label for="seriesNumberOfPassport"> Серия паспорта: </label> <input type="text" th:class="'form-control'" id="seriesNumberOfPassport" th:field="*{seriesNumberOfPassport}"/>
-    </div>
+                        <input type="number"
+                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                               maxlength = "4"
+                               id="passportNumber" th:class="'form-control'" th:field="*{passportNumber}"/>
+                    </div>
+                </div>
+
+
+                <div th:class="'form-group col px-md-5'">
+                    <div th:class="'p-3 border bg-light'">
+                        <label> Серия паспорта: </label>
+                        <input type="number"
+                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                               maxlength = "6"
+                               th:class="'form-control'" id="seriesNumberOfPassport" th:field="*{seriesNumberOfPassport}"/>
+                    </div>
+                </div>
+
+            </div>
 
     <div th:class="'form-group'">
         <label for="phoneNumber"> Номер телефона:</label> <input type="text" th:class="'form-control'" id="phoneNumber" th:field="*{phoneNumber}"/>

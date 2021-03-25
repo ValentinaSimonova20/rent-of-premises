@@ -1,10 +1,6 @@
 package simonova.rent.rentofpremises.controllers;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.http.fileupload.FileUpload;
-import org.aspectj.util.FileUtil;
-import org.dom4j.rule.Mode;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -23,6 +19,7 @@ import simonova.rent.rentofpremises.services.UserService;
 import simonova.rent.rentofpremises.services.PremisesService;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
@@ -133,9 +130,20 @@ public class AreasController {
            return VIEWS_ADD_OR_EDIT_PREMISES_FORM;
        }
 
-        premisesDTO.setId(premisesId);
-        premisesDTO.setPhoto(Base64.getEncoder().encodeToString(multipartFile.getBytes()));
+
+       premisesDTO.setId(premisesId);
+
+       // Проверка на то, изменил ли пользователь изображение площади
+        // Если пользователь не менял изображение, файл передастся пустой
+       if(multipartFile.getSize() != 0){
+           premisesDTO.setPhoto(Base64.getEncoder().encodeToString(multipartFile.getBytes()));
+       }
+       else {
+           premisesDTO.setPhoto(premisesService.findById(premisesId).getPhoto());
+       }
+
         PremisesDTO savedPremises = premisesService.save(premisesDTO);
+
         return "redirect:/areas/"+savedPremises.getId()+"/show";
     }
 
@@ -151,17 +159,24 @@ public class AreasController {
     @PostMapping("/areas/add")
     public String addPremises(@Valid @ModelAttribute("premises") PremisesDTO premisesDTO, @RequestParam("image") MultipartFile multipartFile, BindingResult result, Model model) throws IOException {
 
-        if (result.hasErrors()) {
+        if (result.hasErrors() | multipartFile.getSize() > 1_000_000) {
             result.getAllErrors().forEach(objectError -> {
                 log.debug(objectError.toString());
             });
             model.addAttribute(premises, premisesDTO);
+
+            if(multipartFile.getSize() > 1_000_000)
+                model.addAttribute("fileError", "размер файла не должен превышать 10 МБ");
+
             return VIEWS_ADD_OR_EDIT_PREMISES_FORM;
         }
 
+
+
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         premisesDTO.setPhoto(Base64.getEncoder().encodeToString(multipartFile.getBytes()));
-
+        // при добавлении площадь еще не сдана
+        premisesDTO.setRented(false);
 
 
         // Загрузка фотографии помещения

@@ -109,13 +109,25 @@
             <div th:class="'form-group row'">
                 <div class="col-sm-6">
                     <label th:class="'form-label'" for="file">Изображение: </label>
-                    <input type="file" id="file" th:class="'form-control form-control-sm'" name="image" onchange="preview()" accept="image/png, image/jpeg" />
+                    <input type="file" id="file"  th:class="'form-control form-control-sm'" name="image" onchange="preview()" accept="image/png, image/jpeg" />
                 </div>
 
                 <div class="col-sm-6">
                     <img th:src="${premises.photo} != null ? 'data:image/jpeg;base64,'+${premises.photo} : 'https://www.raplametall.ee/wp-content/uploads/2018/10/empty.jpg'"
                          id="frame" src="#" width="200px" height="200px"  alt="Изображение площади"/>
+                    <div>
+                        <small th:if="${fileError}" class="text-danger" th:errors="*{workplaces}">
+                            <div th:text="${fileError}">
+                            </div>
+                        </small>
+                    </div>
                 </div>
+
+            </div>
+
+            <div th:class="'form-group'">
+                <label for="form-check-input">Сдана</label>
+                <input type="checkbox" id="form-check-input" th:field="*{rented}" name="optradio" >
 
             </div>
 
@@ -124,6 +136,8 @@
             th:with="text=${premises['new']} ? 'Добавить помещение' : 'Изменить'"
             class="btn btn-success" type="submit" th:text="${text}">Добавить помещение</button>
     </div>
+
+
 
         </div>
     </form>
