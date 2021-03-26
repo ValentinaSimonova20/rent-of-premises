@@ -50,6 +50,7 @@ public class PremisesSDJpaService implements PremisesService {
         return premises;
     }
 
+
     @Override
     public List<PremisesDTO> findAll() {
         PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
