@@ -39,10 +39,6 @@ public class LoginController {
         return "index";
     }
 
-
-
-
-
     /**
      * Главная страница клиента
      * @return html страница клиента
@@ -57,7 +53,6 @@ public class LoginController {
     public String setActivePage(){
         return "login";
     }
-
 
 
 }

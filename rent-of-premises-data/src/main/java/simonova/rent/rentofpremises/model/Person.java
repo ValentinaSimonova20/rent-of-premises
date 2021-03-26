@@ -1,11 +1,13 @@
 package simonova.rent.rentofpremises.model;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.transaction.annotation.Transactional;
 import simonova.rent.rentofpremises.dto.UserDTO;
 import simonova.rent.rentofpremises.services.UserService;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 /**
  * Базовый класс для объектов сотрудников и клиентов
@@ -120,10 +122,8 @@ public class Person extends BaseEntity{
         }
         else {
             UserDTO anon = new UserDTO();
-
             anon.setRole(Role.NONE);
             return  anon;
-
         }
     }
 

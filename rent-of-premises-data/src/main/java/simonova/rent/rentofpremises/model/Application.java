@@ -1,6 +1,7 @@
 package simonova.rent.rentofpremises.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Класс заявки на аренду помещения бизнес-центров
@@ -18,14 +19,12 @@ public class Application extends BaseEntity{
     @ManyToOne
     private Premises premises;
 
-    /** Поле для хранения срока аренды в годах*/
-    private int rentalPeriodYears;
-
-    /** Поле для хранения срока аренды в месяцах (кол-во месяцев добавляется к кол-ву лет)*/
-    private int rentalPeriodMonth;
-
     /** Поле для хранения дополнительной информации (вводится клиентом при подаче заявки)*/
     private String additionalInfo;
+
+    private Date startRent;
+
+    private Date endRent;
 
     /** Поле для хранения статуса заявки*/
     @Enumerated(value = EnumType.STRING)
@@ -52,22 +51,6 @@ public class Application extends BaseEntity{
         this.premises = premises;
     }
 
-    public int getRentalPeriodYears() {
-        return rentalPeriodYears;
-    }
-
-    public void setRentalPeriodYears(int rentalPeriodYears) {
-        this.rentalPeriodYears = rentalPeriodYears;
-    }
-
-    public int getRentalPeriodMonth() {
-        return rentalPeriodMonth;
-    }
-
-    public void setRentalPeriodMonth(int rentalPeriodMonth) {
-        this.rentalPeriodMonth = rentalPeriodMonth;
-    }
-
     public String getAdditionalInfo() {
         return additionalInfo;
     }
@@ -84,4 +67,27 @@ public class Application extends BaseEntity{
         this.status = status;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Date getStartRent() {
+        return startRent;
+    }
+
+    public void setStartRent(Date startRent) {
+        this.startRent = startRent;
+    }
+
+    public Date getEndRent() {
+        return endRent;
+    }
+
+    public void setEndRent(Date endRent) {
+        this.endRent = endRent;
+    }
 }

@@ -40,12 +40,12 @@
                 <div class="col-md-6 mb-6 card-text">
 
                 <div th:class="'form-group is-valid card-text'">
-                    <label for="months"> Период аренды(месяцев) : </label>
-                    <input type="text" id="months" th:class="'form-control mt-auto'"  name="rentalPeriodMonths" th:field="*{rentalPeriodMonth}"/></div>
+                    <label for="startDate"> От: </label>
+                    <input type="date" id="startDate" name="startDate"  th:class="'form-control mt-auto'" /></div>
 
                 <div th:class="'form-group is-valid card-text'">
-                    <label for="years"> Период аренды(лет): </label>
-                    <input type="text" id="years" th:class="'form-control'" th:field="*{rentalPeriodYears}" name="rentalPeriodYears"/>
+                    <label for="endDate"> До: </label>
+                    <input type="date" id="endDate" name="endDate"  th:class="'form-control'"/>
                 </div>
 
                 <div th:class="'form-group is-valid card-text'">

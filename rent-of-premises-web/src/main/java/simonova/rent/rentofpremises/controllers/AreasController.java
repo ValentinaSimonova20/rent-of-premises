@@ -1,5 +1,6 @@
 package simonova.rent.rentofpremises.controllers;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,13 +20,14 @@ import simonova.rent.rentofpremises.services.UserService;
 import simonova.rent.rentofpremises.services.PremisesService;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 
 
 @Slf4j
 @Controller
+@Transactional
 public class AreasController {
 
     private final PremisesService premisesService;
@@ -47,6 +49,7 @@ public class AreasController {
      * @param model - контейнер, содержащий информацию приложения
      * @return html страница со списком площадей бизнес-центра
      */
+    @Transactional
     @GetMapping({"/areas", "/"})
     public String getAreas(Model model){
 
@@ -65,6 +68,7 @@ public class AreasController {
      * @param model - контейнер информации
      * @return html-страницу с расширенной информацией о выбранном офисе
      */
+    @Transactional
     @GetMapping("/areas/{id}/show")
     public String getAreaById(@PathVariable String id, Model model){
 
@@ -81,8 +85,11 @@ public class AreasController {
      * @param applicationDTO информация о заявке на аренду
      * @return html-страницу с информацией об офисе
      */
+    @Transactional
     @PostMapping("/areas/{id}/show")
-    public String sendApplication(@PathVariable String id, @Valid @ModelAttribute("application") ApplicationDTO applicationDTO){
+    public String sendApplication(@PathVariable String id, @Valid @ModelAttribute("application") ApplicationDTO applicationDTO,
+                                  @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+                                  @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate){
         // получить информацию об авторизованном пользователе
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -90,7 +97,9 @@ public class AreasController {
         PremisesDTO premisesList = premisesService.findById(Long.parseLong(id));
 
         // Добавить заявку
-        ApplicationDTO newApp = new ApplicationDTO(client, premisesList, applicationDTO.getRentalPeriodYears(), applicationDTO.getRentalPeriodMonth(), applicationDTO.getAdditionalInfo(), AppStatus.WAIT_FOR_CONSIDERATION );
+        ApplicationDTO newApp = new ApplicationDTO(client, premisesList,  applicationDTO.getAdditionalInfo(), AppStatus.WAIT_FOR_CONSIDERATION );
+        newApp.setStartRent(startDate);
+        newApp.setEndRent(endDate);
         applicationService.save(newApp);
 
         return "redirect:/areas/"+id+"/show";
