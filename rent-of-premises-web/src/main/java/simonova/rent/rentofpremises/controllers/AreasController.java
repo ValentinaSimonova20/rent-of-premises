@@ -157,7 +157,7 @@ public class AreasController {
 
     @PreAuthorize("hasAuthority('developers:write')")
     @PostMapping("/areas/add")
-    public String addPremises(@Valid @ModelAttribute("premises") PremisesDTO premisesDTO, @RequestParam("image") MultipartFile multipartFile, BindingResult result, Model model) throws IOException {
+    public String addPremises(@Valid @ModelAttribute("premises") PremisesDTO premisesDTO,BindingResult result, @RequestParam("image") MultipartFile multipartFile,  Model model) throws IOException {
 
         if (result.hasErrors() | multipartFile.getSize() > 1_000_000) {
             result.getAllErrors().forEach(objectError -> {

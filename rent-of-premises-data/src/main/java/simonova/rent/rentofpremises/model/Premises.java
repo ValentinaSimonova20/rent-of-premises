@@ -35,7 +35,6 @@ public class Premises extends BaseEntity{
     private Integer  workplaces;
 
     @Lob
-    @Column(columnDefinition = "MEDIUMBLOB")
     private String photo;
 
     private Boolean isRented;
@@ -101,13 +100,6 @@ public class Premises extends BaseEntity{
         this.applications = applications;
     }
 
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
 
     public Boolean getRented() {
         return isRented;
@@ -115,5 +107,14 @@ public class Premises extends BaseEntity{
 
     public void setRented(Boolean rented) {
         isRented = rented;
+    }
+
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }

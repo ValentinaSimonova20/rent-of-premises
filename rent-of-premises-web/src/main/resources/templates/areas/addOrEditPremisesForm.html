@@ -65,7 +65,7 @@
                 </div>
 
                  <div th:class="${#fields.hasErrors('price')} ? 'form-group text-danger col-sm-6' : 'form-group is-valid col-sm-6'">
-                     <label th:class="'form-label'" for="price"> Цена/месяца:  </label>
+                     <label th:class="'form-label'" for="price"> Цена/месяц:  </label>
                      <input type="number" th:class="'form-control'" step="0.01" th:field="*{price}" id="price"/>
 
                      <div>
@@ -113,7 +113,7 @@
                 </div>
 
                 <div class="col-sm-6">
-                    <img th:src="${premises.photo} != null ? 'data:image/jpeg;base64,'+${premises.photo} : 'https://www.raplametall.ee/wp-content/uploads/2018/10/empty.jpg'"
+                    <img th:src="${premises.photo2} != null ? 'data:image/jpeg;base64,'+${premises.photo} : 'https://www.raplametall.ee/wp-content/uploads/2018/10/empty.jpg'"
                          id="frame" src="#" width="200px" height="200px"  alt="Изображение площади"/>
                     <div>
                         <small th:if="${fileError}" class="text-danger" th:errors="*{workplaces}">

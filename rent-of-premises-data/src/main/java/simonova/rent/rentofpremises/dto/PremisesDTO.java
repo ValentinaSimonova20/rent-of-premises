@@ -27,17 +27,18 @@ public class PremisesDTO extends BaseDTO{
     private Double price;
 
     /** Поле для хранения этажа, на котором находится помещение*/
-    @NotNull(message = "Введите этаж помещения")
+    @NotNull(message = "Введите этаж помещения от 1 до 9")
     @Range(min=1, max = 9)
     private Integer floor;
 
-    private String photo;
 
     /** Поле для хранения рабочих мест в помещении*/
     @NotNull(message = "Введите количество рабочих мест в помещении")
     private Integer  workplaces;
 
     private Boolean isRented;
+
+    private String photo;
 
     /** Поле для хранения списка заявок нв данное помещение*/
     private Set<ApplicationDTO> applications;
@@ -99,13 +100,6 @@ public class PremisesDTO extends BaseDTO{
         this.applications = applications;
     }
 
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
 
     public Boolean getRented() {
         return isRented;
@@ -113,5 +107,13 @@ public class PremisesDTO extends BaseDTO{
 
     public void setRented(Boolean rented) {
         isRented = rented;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }
