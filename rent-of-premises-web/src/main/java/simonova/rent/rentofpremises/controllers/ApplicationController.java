@@ -12,6 +12,7 @@ import simonova.rent.rentofpremises.dto.ApplicationDTO;
 import simonova.rent.rentofpremises.dto.UserDTO;
 import simonova.rent.rentofpremises.exception.NoAppException;
 import simonova.rent.rentofpremises.model.AppStatus;
+import simonova.rent.rentofpremises.model.Person;
 import simonova.rent.rentofpremises.services.ApplicationService;
 import simonova.rent.rentofpremises.services.UserService;
 
@@ -32,7 +33,6 @@ public class ApplicationController {
      * Страница со списком заявок на аренду клиента
      * @return html-страницу со списком заявок клиента или со всеми заявками на аренду для менеджера
      */
-    @Transactional
     @GetMapping("/applications")
     public String getApplications(Model model){
         // получить информацию об авторизованном пользователе
@@ -66,7 +66,6 @@ public class ApplicationController {
      * @param appStatus - измененный статус заявки (выбранный менеджером)
      * @return html-страницу со списком заявок
      */
-    @Transactional
     @PostMapping("/app/{appId}/changeStat")
     public String changeStatus(@PathVariable Long appId, @RequestParam("stat") AppStatus appStatus){
 
@@ -84,6 +83,13 @@ public class ApplicationController {
     @ModelAttribute("activePage")
     public String setActivePage(){
         return "applications";
+    }
+
+    @ModelAttribute("userRole")
+    public String setUserRole(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return Person.getAuthUser(authentication, userService).getRole().toString();
+
     }
 
 }

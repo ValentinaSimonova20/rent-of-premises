@@ -17,7 +17,6 @@ import java.util.List;
  * Сервис для взаимодействия с таблицей, хранящей информацию о площадях бизнес-центра
  */
 @Service
-@Transactional
 public class PremisesSDJpaService implements PremisesService {
 
     PremisesRepository premisesRepository;

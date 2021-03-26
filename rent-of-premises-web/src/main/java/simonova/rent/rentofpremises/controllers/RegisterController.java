@@ -3,6 +3,8 @@ package simonova.rent.rentofpremises.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -77,6 +79,13 @@ public class RegisterController {
     @ModelAttribute("activePage")
     public String setActivePage(){
         return "reg";
+    }
+
+    @ModelAttribute("userRole")
+    public String setUserRole(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return Person.getAuthUser(authentication, clientService).getRole().toString();
+
     }
 
 }

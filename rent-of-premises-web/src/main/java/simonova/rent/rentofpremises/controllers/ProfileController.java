@@ -96,4 +96,11 @@ public class ProfileController {
     public String setActivePage(){
         return "profile";
     }
+
+    @ModelAttribute("userRole")
+    public String setUserRole(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return Person.getAuthUser(authentication, clientService).getRole().toString();
+
+    }
 }

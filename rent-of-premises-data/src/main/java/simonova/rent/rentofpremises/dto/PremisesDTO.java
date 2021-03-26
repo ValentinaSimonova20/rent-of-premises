@@ -40,6 +40,8 @@ public class PremisesDTO extends BaseDTO{
 
     private String photo;
 
+    private byte[] photo2;
+
     /** Поле для хранения списка заявок нв данное помещение*/
     private Set<ApplicationDTO> applications;
 
@@ -115,5 +117,13 @@ public class PremisesDTO extends BaseDTO{
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public byte[] getPhoto2() {
+        return photo2;
+    }
+
+    public void setPhoto2(byte[] photo2) {
+        this.photo2 = photo2;
     }
 }

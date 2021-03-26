@@ -1,11 +1,15 @@
 package simonova.rent.rentofpremises.controllers;
 import org.dom4j.rule.Mode;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import simonova.rent.rentofpremises.dto.PersonDTO;
 import simonova.rent.rentofpremises.dto.UserDTO;
+import simonova.rent.rentofpremises.model.Person;
+import simonova.rent.rentofpremises.services.UserService;
 
 import javax.validation.Valid;
 
@@ -16,6 +20,11 @@ import javax.validation.Valid;
 @Controller
 public class LoginController {
 
+    UserService userService;
+
+    public LoginController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/login")
     public String login(Model model){
@@ -52,6 +61,13 @@ public class LoginController {
     @ModelAttribute("activePage")
     public String setActivePage(){
         return "login";
+    }
+
+    @ModelAttribute("userRole")
+    public String setUserRole(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return Person.getAuthUser(authentication, userService).getRole().toString();
+
     }
 
 

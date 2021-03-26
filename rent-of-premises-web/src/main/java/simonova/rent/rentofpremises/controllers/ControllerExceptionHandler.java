@@ -14,8 +14,6 @@ import simonova.rent.rentofpremises.model.Person;
 import simonova.rent.rentofpremises.services.UserService;
 
 
-
-
 @Slf4j
 @ControllerAdvice
 public class ControllerExceptionHandler {

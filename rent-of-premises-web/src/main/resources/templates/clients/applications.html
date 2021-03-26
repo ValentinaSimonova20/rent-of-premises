@@ -26,8 +26,8 @@
     <tr>
         <th>Помещение</th>
         <th>Дополнительная информация</th>
-        <th>Месяцев</th>
-        <th>Лет</th>
+        <th>От</th>
+        <th>До</th>
         <th>цена/месяц</th>
         <div th:switch="${userRole}">
             <th th:case="'MANAGER'">Арендатор</th>
@@ -43,8 +43,8 @@
     <tr th:each="app : ${apps}">
         <td><a href="#" th:href="@{'/areas/'+${app.getPremises().getId()}+'/show'}" th:text="${app.getPremises().getName()}">Название</a></td>
         <td th:text="${app.getAdditionalInfo()}">Доп инф</td>
-        <td th:text="${app.getRentalPeriodMonth()}">Месяцев</td>
-        <td th:text="${app.getRentalPeriodYears()}">Лет</td>
+        <td th:text="${app.getStartRent()}">От</td>
+        <td th:text="${app.getEndRent()}">до</td>
 
 
         <td th:text="${app.getPremises().getPrice()}">Цена</td>

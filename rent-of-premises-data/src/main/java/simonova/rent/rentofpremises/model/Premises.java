@@ -37,6 +37,10 @@ public class Premises extends BaseEntity{
     @Lob
     private String photo;
 
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] photo2;
+
     private Boolean isRented;
 
     /** Поле для хранения списка заявок нв данное помещение*/
@@ -116,5 +120,13 @@ public class Premises extends BaseEntity{
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public byte[] getPhoto2() {
+        return photo2;
+    }
+
+    public void setPhoto2(byte[] photo2) {
+        this.photo2 = photo2;
     }
 }

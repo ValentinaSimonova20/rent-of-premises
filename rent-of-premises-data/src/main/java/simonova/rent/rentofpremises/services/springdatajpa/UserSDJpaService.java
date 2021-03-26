@@ -3,6 +3,7 @@ package simonova.rent.rentofpremises.services.springdatajpa;
 import org.dom4j.rule.Mode;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import simonova.rent.rentofpremises.converters.UserConverter;
 import simonova.rent.rentofpremises.dto.UserDTO;
 import simonova.rent.rentofpremises.model.User;
@@ -27,7 +28,9 @@ public class UserSDJpaService implements UserService {
     @Override
     public List<UserDTO> findAll() {
 
-        UserConverter userConverter = new UserConverter(new ModelMapper());
+        ModelMapper modelMapper = new ModelMapper();
+
+        UserConverter userConverter = new UserConverter(modelMapper);
 
         List<UserDTO> clients = new ArrayList<>();
 
@@ -36,6 +39,7 @@ public class UserSDJpaService implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDTO findByEmail(String email)
     {
         ModelMapper modelMapper = new ModelMapper();
@@ -51,16 +55,18 @@ public class UserSDJpaService implements UserService {
 
     @Override
     public UserDTO findById(Long aLong) {
+        ModelMapper modelMapper = new ModelMapper();
 
-        UserConverter userConverter = new UserConverter(new ModelMapper());
+        UserConverter userConverter = new UserConverter(modelMapper);
         User user = clientRepository.findById(aLong).orElse(null);
         return userConverter.convertToDto(user);
     }
 
     @Override
     public UserDTO save(UserDTO userDTO) {
+        ModelMapper modelMapper = new ModelMapper();
 
-        UserConverter userConverter = new UserConverter(new ModelMapper());
+        UserConverter userConverter = new UserConverter(modelMapper);
 
         User user = userConverter.convertToEntity(userDTO);
         clientRepository.save(user);

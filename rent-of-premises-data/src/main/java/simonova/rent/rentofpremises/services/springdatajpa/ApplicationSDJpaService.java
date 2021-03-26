@@ -44,7 +44,6 @@ public class ApplicationSDJpaService implements ApplicationService {
     }
 
     @Override
-    @Transactional
     public ApplicationDTO save(ApplicationDTO applicationDTO) {
         ModelMapper modelMapper = new ModelMapper();
 

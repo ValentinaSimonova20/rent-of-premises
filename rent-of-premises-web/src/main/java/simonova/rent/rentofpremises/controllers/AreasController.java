@@ -27,7 +27,6 @@ import java.util.List;
 
 @Slf4j
 @Controller
-@Transactional
 public class AreasController {
 
     private final PremisesService premisesService;
@@ -49,7 +48,6 @@ public class AreasController {
      * @param model - контейнер, содержащий информацию приложения
      * @return html страница со списком площадей бизнес-центра
      */
-    @Transactional
     @GetMapping({"/areas", "/"})
     public String getAreas(Model model){
 
@@ -68,7 +66,6 @@ public class AreasController {
      * @param model - контейнер информации
      * @return html-страницу с расширенной информацией о выбранном офисе
      */
-    @Transactional
     @GetMapping("/areas/{id}/show")
     public String getAreaById(@PathVariable String id, Model model){
 
@@ -85,7 +82,6 @@ public class AreasController {
      * @param applicationDTO информация о заявке на аренду
      * @return html-страницу с информацией об офисе
      */
-    @Transactional
     @PostMapping("/areas/{id}/show")
     public String sendApplication(@PathVariable String id, @Valid @ModelAttribute("application") ApplicationDTO applicationDTO,
                                   @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
@@ -102,7 +98,7 @@ public class AreasController {
         newApp.setEndRent(endDate);
         applicationService.save(newApp);
 
-        return "redirect:/areas/"+id+"/show";
+        return "redirect:/applications";
     }
 
     /**
@@ -199,7 +195,6 @@ public class AreasController {
 
 
     // Фильтрация помещений
-    @Transactional
     @PostMapping("/areas")
     public String filterAreas(@Valid FilterArea filterArea,Model model){
 
@@ -220,6 +215,14 @@ public class AreasController {
     @ModelAttribute("floors")
     public List<Integer> setFloorsForFilter(){
         return premisesService.getAllFloors();
+    }
+
+
+    @ModelAttribute("userRole")
+    public String setUserRole(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return Person.getAuthUser(authentication, userService).getRole().toString();
+
     }
 
 
