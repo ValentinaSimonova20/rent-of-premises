@@ -84,22 +84,31 @@ public class AreasController {
      * @return html-страницу с информацией об офисе
      */
     @PostMapping("/areas/{id}/show")
-    public String sendApplication(@PathVariable String id, @Valid @ModelAttribute("application") ApplicationDTO applicationDTO,
+    public String sendApplication(@PathVariable Long id, @Valid @ModelAttribute("application") ApplicationDTO applicationDTO,
                                   @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-                                  @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate){
+                                  @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate, Model model){
         // получить информацию об авторизованном пользователе
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         UserDTO client = Person.getAuthUser(authentication, userService);
-        PremisesDTO premisesList = premisesService.findById(Long.parseLong(id));
+        PremisesDTO premisesList = premisesService.findById(id);
 
-        // Добавить заявку
-        ApplicationDTO newApp = new ApplicationDTO(client, premisesList,  applicationDTO.getAdditionalInfo(), AppStatus.WAIT_FOR_CONSIDERATION );
-        newApp.setStartRent(startDate);
-        newApp.setEndRent(endDate);
-        applicationService.save(newApp);
+        // Проверка подавал ли уже пользователь заявку на аренду данной площади
+        if(applicationService.findByUserIdAndPremisesId(client.getId(), id) == null){
+            // Добавить заявку
+            ApplicationDTO newApp = new ApplicationDTO(client, premisesList,  applicationDTO.getAdditionalInfo(), AppStatus.WAIT_FOR_CONSIDERATION );
+            newApp.setStartRent(startDate);
+            newApp.setEndRent(endDate);
+            applicationService.save(newApp);
+            return "redirect:/applications";
+        }
+        else {
+            model.addAttribute("message", "Вы уже подали заявку на данную площадь");
+            model.addAttribute(premises, premisesService.findById(id));
+            model.addAttribute("application", applicationDTO);
+            return "areas/show";
+        }
 
-        return "redirect:/applications";
     }
 
     /**

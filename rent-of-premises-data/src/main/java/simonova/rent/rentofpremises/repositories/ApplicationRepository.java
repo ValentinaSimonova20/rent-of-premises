@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ApplicationRepository extends CrudRepository<Application, Long> {
     List<Application> findByUserId(Long id);
+    Application findByUserIdAndPremisesId(Long userId, Long premId);
 }

@@ -77,4 +77,14 @@ public class ApplicationSDJpaService implements ApplicationService {
 
         return applications;
     }
+
+    @Override
+    public ApplicationDTO findByUserIdAndPremisesId(Long userId, Long premId) {
+        ModelMapper modelMapper = new ModelMapper();
+        ApplicationConverter applicationConverter = new ApplicationConverter(modelMapper);
+
+        Application application = applicationRepository.findByUserIdAndPremisesId(userId, premId);
+        return applicationConverter.convertToDto(application);
+
+    }
 }

@@ -35,6 +35,7 @@
                 <p th:class="'card-text'" th:text="'Рабочих мест: ' + ${premises.workplaces}">Рабочих мест</p>
 
 
+
         <div th:switch="${userRole}">
             <form action="#" th:action="@{/areas/__${premises.id}__/show}"  th:object="${application}"  method="post" th:case="'USER'">
                 <div class="col-md-6 mb-6 card-text">
@@ -54,11 +55,16 @@
                 </div>
 
                 <div th:class="'form-group card-text'">
-                    <input  class="btn btn-success" type="submit" value="Подать заявку на аренду"/>
+                    <p th:class="'card-text text-danger'" th:text="${message}"></p>
                 </div>
 
+                <div th:class="'form-group card-text'">
+                    <input  class="btn btn-success" type="submit" value="Подать заявку на аренду"/>
+                </div>
                 </div>
             </form>
+
+
 
             <div th:case="'MANAGER'">
                 <div th:class="'form-group'">
@@ -66,7 +72,10 @@
                 </div>
             </div>
 
+
+
         </div>
+
 
     </div>
     </div>
