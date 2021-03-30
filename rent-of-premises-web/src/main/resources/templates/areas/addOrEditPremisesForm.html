@@ -113,7 +113,7 @@
                 </div>
 
                 <div class="col-sm-6">
-                    <img th:src="${premises.photo2} != null ? 'data:image/jpeg;base64,'+${premises.photo} : 'https://www.raplametall.ee/wp-content/uploads/2018/10/empty.jpg'"
+                    <img th:src="${premises.photo} != null ? 'data:image/jpeg;base64,'+${premises.photo} : 'https://www.raplametall.ee/wp-content/uploads/2018/10/empty.jpg'"
                          id="frame" src="#" width="200px" height="200px"  alt="Изображение площади"/>
                     <div>
                         <small th:if="${fileError}" class="text-danger" th:errors="*{workplaces}">
