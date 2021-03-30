@@ -83,7 +83,8 @@ public class ApplicationSDJpaService implements ApplicationService {
         ModelMapper modelMapper = new ModelMapper();
         ApplicationConverter applicationConverter = new ApplicationConverter(modelMapper);
 
-        Application application = applicationRepository.findByUserIdAndPremisesId(userId, premId);
+        Application application = applicationRepository.findByUserIdAndPremisesId(userId, premId).orElse(null);
+        if (application == null) return null;
         return applicationConverter.convertToDto(application);
 
     }

@@ -4,8 +4,9 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 import simonova.rent.rentofpremises.model.Application;
 import java.util.List;
+import java.util.Optional;
 
 public interface ApplicationRepository extends CrudRepository<Application, Long> {
     List<Application> findByUserId(Long id);
-    Application findByUserIdAndPremisesId(Long userId, Long premId);
+    Optional<Application> findByUserIdAndPremisesId(Long userId, Long premId);
 }
