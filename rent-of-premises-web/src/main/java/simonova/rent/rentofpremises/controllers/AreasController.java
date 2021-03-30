@@ -20,6 +20,7 @@ import simonova.rent.rentofpremises.services.UserService;
 import simonova.rent.rentofpremises.services.PremisesService;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -84,8 +85,8 @@ public class AreasController {
      */
     @PostMapping("/areas/{id}/show")
     public String sendApplication(@PathVariable String id, @Valid @ModelAttribute("application") ApplicationDTO applicationDTO,
-                                  @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-                                  @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate){
+                                  @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+                                  @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate){
         // получить информацию об авторизованном пользователе
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

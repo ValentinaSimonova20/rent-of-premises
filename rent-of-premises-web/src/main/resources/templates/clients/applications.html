@@ -21,62 +21,51 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
-<table>
-    <thead>
-    <tr>
-        <th>Помещение</th>
-        <th>Дополнительная информация</th>
-        <th>От</th>
-        <th>До</th>
-        <th>цена/месяц</th>
-        <div th:switch="${userRole}">
-            <th th:case="'MANAGER'">Арендатор</th>
-        </div>
-        <th>Статус</th>
-        <div th:switch="${userRole}">
-            <th th:case="'MANAGER'">Подтверждение</th>
-        </div>
-
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="app : ${apps}">
-        <td><a href="#" th:href="@{'/areas/'+${app.getPremises().getId()}+'/show'}" th:text="${app.getPremises().getName()}">Название</a></td>
-        <td th:text="${app.getAdditionalInfo()}">Доп инф</td>
-        <td th:text="${app.getStartRent()}">От</td>
-        <td th:text="${app.getEndRent()}">до</td>
-
-
-        <td th:text="${app.getPremises().getPrice()}">Цена</td>
-        <div th:switch="${userRole}">
-            <td><a th:case="'MANAGER'" th:href="@{'/clientInfo/'+${app.getClient().getId()}+'/show'}" th:text="${app.getClient().getName()}+' '+${app.getClient().getSurname()}">фио</a></td>
-        </div>
-
-        <div th:switch="${userRole}">
-            <div class="form-group blu-margin" th:case="'MANAGER'">
-                <form th:action="@{'/app/' + ${app.id} + '/changeStat'} " method="post">
-                <td>
-
-                    <select class="form-control" th:name="stat"  id="dropOperator">
-                        <option th:each="status : ${statuses}" th:value="${status}" th:text="${status.getName()}" th:selected="${status==app.getStatus()}"></option>
-                    </select>
-
-                </td>
-
-                <td>
-
-                    <button type="submit" class="btn btn-primary">Подтвердить изменение</button>
-
-                </td>
-                </form>
+<div class="container mt-3">
+<div class="col-md-9">
+    <div th:each="app : ${apps}" class="card mb-3 "  style="max-width: 800px;">
+        <h4 class="card-header"><a href="#"  th:text="${app.premises.name}" th:href="@{'/areas/'+${app.getPremises().getId()}+'/show'}">Название</a></h4>
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <a href="#" th:href="@{'/areas/'+${app.getPremises().getId()}+'/show'}">
+                    <img th:src="*{'data:image/jpeg;base64,'+{app.premises.photo}}" class="card-img" width="300" height="250" alt="">
+                </a>
             </div>
-            <div class="form-group blu-margin" th:case="'USER'">
-                <td th:text="${app.getStatus().getName()}">Статус</td>
+
+            <div class="col-md-8">
+                <div class="card-body">
+                    <p class="card-text" th:text="${app.additionalInfo}">Описание</p>
+                    <p class="card-text" th:if="${app.startRent != null}" th:text="'от: ' + ${app.startRent}">Примерный срок аренды от</p>
+                    <p class="card-text" th:if="${app.endRent != null}" th:text="'до: '+${app.endRent}">Примерный срок аренды до</p>
+                    <p class="card-text" th:text="'Цена/месяц: ' + ${app.premises.price}">Цена</p>
+                    <p class="card-text" th:if="${userRole == 'MANAGER'}"><a th:href="@{'/clientInfo/'+${app.getClient().getId()}+'/show'}" th:text="${app.getClient().getName()}+' '+${app.getClient().getSurname()}">фио клиента подавшего заявку</a></p>
+
+                    <div class="card-text form-group blu-margin" th:if="${userRole == 'MANAGER'}">
+                        <form th:action="@{'/app/' + ${app.id} + '/changeStat'} " method="post">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <select class="form-control" th:name="stat"  id="dropOperator">
+                                            <option th:each="status : ${statuses}" th:value="${status}" th:text="${status.getName()}" th:selected="${status==app.getStatus()}"></option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                    <button type="submit" class="btn btn-primary">Подтвердить изменение</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+
+                    <p class="card-text" th:if="${userRole == 'USER'}" th:text="${app.getStatus().getName()}">статус</p>
+
+                </div>
             </div>
         </div>
-    </tr>
-    </tbody>
-</table>
+
+    </div>
+</div>
+</div>
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

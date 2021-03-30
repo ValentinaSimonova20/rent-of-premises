@@ -1,6 +1,7 @@
 package simonova.rent.rentofpremises.model;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -22,9 +23,9 @@ public class Application extends BaseEntity{
     /** Поле для хранения дополнительной информации (вводится клиентом при подаче заявки)*/
     private String additionalInfo;
 
-    private Date startRent;
+    private LocalDate startRent;
 
-    private Date endRent;
+    private LocalDate endRent;
 
     /** Поле для хранения статуса заявки*/
     @Enumerated(value = EnumType.STRING)
@@ -75,19 +76,19 @@ public class Application extends BaseEntity{
         this.user = user;
     }
 
-    public Date getStartRent() {
+    public LocalDate getStartRent() {
         return startRent;
     }
 
-    public void setStartRent(Date startRent) {
+    public void setStartRent(LocalDate startRent) {
         this.startRent = startRent;
     }
 
-    public Date getEndRent() {
+    public LocalDate getEndRent() {
         return endRent;
     }
 
-    public void setEndRent(Date endRent) {
+    public void setEndRent(LocalDate endRent) {
         this.endRent = endRent;
     }
 }
