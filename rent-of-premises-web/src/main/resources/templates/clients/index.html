@@ -97,21 +97,23 @@
 
 
     <div class="col-md-9">
-        <div th:each="prem : ${premises}" class="card mb-3">
+        <div th:each="prem : ${premises}" class="card mb-3 "  style="max-width: 800px;">
                 <h4 class="card-header"><a href="#"  th:text="${prem.name}" th:href="@{'/areas/'+${prem.id}+'/show'}">Название</a></h4>
-                <div class="row">
-                    <div class="col-lg-5">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
                         <a href="#" th:href="@{'/areas/'+${prem.id}+'/show'}">
-                            <img th:src="*{'data:image/jpeg;base64,'+{prem.photo}}" width="300" height="250" alt="">
+                            <img th:src="*{'data:image/jpeg;base64,'+{prem.photo}}" class="card-img" width="300" height="250" alt="">
                         </a>
                     </div>
 
-                    <div class="col-lg-5">
+                    <div class="col-md-8">
+                        <div class="card-body">
                         <p class="card-text" th:text="${prem.description}">Описание</p>
                         <p class="card-text" th:text="'Площадь: ' + ${prem.area} + ' м^2'">Площадь</p>
                         <p class="card-text" th:text="'Цена: ' + ${prem.price}">Цена</p>
                         <p class="card-text" th:text="'Этаж: ' + ${prem.floor}">Этаж</p>
                         <p class="card-text" th:text="'Рабочих мест: ' + ${prem.workplaces}">Рабочих мест</p>
+                        </div>
                     </div>
                 </div>
 

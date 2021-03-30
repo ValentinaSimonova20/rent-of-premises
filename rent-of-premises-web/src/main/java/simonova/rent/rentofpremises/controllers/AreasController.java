@@ -218,17 +218,5 @@ public class AreasController {
     }
 
 
-    @ModelAttribute("userRole")
-    public String setUserRole(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return Person.getAuthUser(authentication, userService).getRole().toString();
-
-    }
-
-
-
-
-
-
 
 }
