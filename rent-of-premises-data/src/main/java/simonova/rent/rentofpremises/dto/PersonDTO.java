@@ -42,6 +42,9 @@ public class PersonDTO extends BaseDTO{
 
     private Status status;
 
+    private String organization;
+    private String activity;
+
     public String getName() {
         return name;
     }
@@ -120,5 +123,21 @@ public class PersonDTO extends BaseDTO{
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+
+    public String getActivity() {
+        return activity;
+    }
+
+    public void setActivity(String activity) {
+        this.activity = activity;
     }
 }

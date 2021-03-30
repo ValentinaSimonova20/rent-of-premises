@@ -14,4 +14,6 @@ public class UserDTO extends PersonDTO{
     public void setApplications(Set<ApplicationDTO> applications) {
         this.applications = applications;
     }
+
+
 }

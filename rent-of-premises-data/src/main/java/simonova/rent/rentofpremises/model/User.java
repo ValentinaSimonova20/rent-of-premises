@@ -17,6 +17,8 @@ public class User extends Person{
     private Set<Application> applications;
 
 
+
+
     public Set<Application> getApplications() {
         return applications;
     }
@@ -24,6 +26,5 @@ public class User extends Person{
     public void setApplications(Set<Application> applications) {
         this.applications = applications;
     }
-
 
 }
