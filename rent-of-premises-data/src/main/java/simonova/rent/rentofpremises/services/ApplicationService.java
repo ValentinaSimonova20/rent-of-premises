@@ -1,5 +1,6 @@
 package simonova.rent.rentofpremises.services;
 
+import org.springframework.data.domain.Pageable;
 import simonova.rent.rentofpremises.dto.ApplicationDTO;
 
 import java.util.List;
