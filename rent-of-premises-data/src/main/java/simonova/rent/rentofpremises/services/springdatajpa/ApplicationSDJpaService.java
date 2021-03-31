@@ -2,6 +2,9 @@ package simonova.rent.rentofpremises.services.springdatajpa;
 
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import simonova.rent.rentofpremises.converters.ApplicationConverter;
 import simonova.rent.rentofpremises.dto.ApplicationDTO;
@@ -86,5 +89,30 @@ public class ApplicationSDJpaService implements ApplicationService {
         if (application == null) return null;
         return applicationConverter.convertToDto(application);
 
+    }
+
+    /**
+     * Все заявки
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public Page<Application> findPaginated(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+        return this.applicationRepository.findAll(pageable);
+    }
+
+    /**
+     * Заявки определенного пользователя
+     * @param id
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public Page<Application> findByUserId(Long id, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+        return applicationRepository.findByUserId(id, pageable);
     }
 }

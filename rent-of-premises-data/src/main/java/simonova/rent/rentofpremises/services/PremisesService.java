@@ -1,7 +1,9 @@
 package simonova.rent.rentofpremises.services;
 
+import org.springframework.data.domain.Page;
 import simonova.rent.rentofpremises.dto.PremisesDTO;
 import simonova.rent.rentofpremises.model.FilterArea;
+import simonova.rent.rentofpremises.model.Premises;
 
 import java.util.List;
 
@@ -13,9 +15,11 @@ public interface PremisesService extends CrudService<PremisesDTO, Long>{
     // поиск помещения по площади
     PremisesDTO findByArea(double area);
 
-    List<PremisesDTO> findAllPremises(FilterArea filterArea, int floor);
 
-    List<PremisesDTO> findAllPremises(FilterArea filterArea);
+    Page<Premises> findAllPremisesPaginated(FilterArea filterArea, int floor,int pageNo, int pageSize);
+
+
+    Page<Premises> findAllPremisesPaginated(FilterArea filterArea, int pageNo, int pageSize);
 
     Double getMaxArea();
 
@@ -27,5 +31,5 @@ public interface PremisesService extends CrudService<PremisesDTO, Long>{
 
     List<Integer> getAllFloors();
 
-    List<PremisesDTO> findByIsRented(boolean isRented);
+    Page<Premises> findByIsRented(boolean isRented,int pageNo, int pageSize);
 }

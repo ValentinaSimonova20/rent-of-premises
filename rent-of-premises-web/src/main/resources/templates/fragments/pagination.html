@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<footer class="footer mt-auto py-3" th:fragment="pagination">
+    <div class="container">
+        <div th:if="${totalPages > 1}">
+            <div class ="row col-sm-10">
+                <div class="col-sm-2">
+                    Всего строк: [[${totalItems}]]
+                </div>
+                <div class="col-sm-1">
+                    <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                        <a th:if="${currentPage != i}" th:href="@{'/page/'+${i}}">[[${i}]]</a>
+                        <span th:unless="${currentPage != i}">[[${i}]]</span>
+                    </span>
+                </div>
+                <div class="col-sm-1">
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/page/'+${currentPage+1}}">Следующая</a>
+                    <span th:unless="${currentPage < totalPages}">Следующая</span>
+                </div>
+
+                <div class="col-sm-1">
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/page/'+ ${totalPages}}">Последняя</a>
+                    <span th:unless="${currentPage < totalPages}">Последняя</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

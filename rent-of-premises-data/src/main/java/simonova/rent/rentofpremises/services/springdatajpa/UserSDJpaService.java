@@ -16,6 +16,7 @@ import java.util.List;
  * Сервис для взаимодействия с таблицей клиентов бизнес-центра
  */
 @Service
+@Transactional
 public class UserSDJpaService implements UserService {
 
     UserRepository clientRepository;

@@ -1,7 +1,12 @@
 package simonova.rent.rentofpremises.services.springdatajpa;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Transient;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import simonova.rent.rentofpremises.converters.PremisesConverter;
 import simonova.rent.rentofpremises.dto.PremisesDTO;
 import simonova.rent.rentofpremises.model.FilterArea;
@@ -16,6 +21,7 @@ import java.util.List;
  * Сервис для взаимодействия с таблицей, хранящей информацию о площадях бизнес-центра
  */
 @Service
+@Transactional
 public class PremisesSDJpaService implements PremisesService {
 
     PremisesRepository premisesRepository;
@@ -39,15 +45,6 @@ public class PremisesSDJpaService implements PremisesService {
         return premisesConverter.convertToDTO(premises);
     }
 
-    @Override
-    public List<PremisesDTO> findAllPremises(FilterArea filterArea, int floor) {
-
-        PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
-        List<PremisesDTO> premises = new ArrayList<>();
-
-        premisesRepository.findAllPremises(copyObject(filterArea), floor).forEach(prem -> premises.add(premisesConverter.convertToDTO(prem)));
-        return premises;
-    }
 
 
     @Override
@@ -64,12 +61,9 @@ public class PremisesSDJpaService implements PremisesService {
      * @return список сданных или не сданных площадей
      */
     @Override
-    public List<PremisesDTO> findByIsRented(boolean isRented) {
-        PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
-        List<PremisesDTO> premises = new ArrayList<>();
-        premisesRepository.findByIsRented(isRented).forEach(prem -> premises.add(premisesConverter.convertToDTO(prem)));
-
-        return premises;
+    public Page<Premises> findByIsRented(boolean isRented, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+        return premisesRepository.findByIsRented(isRented,pageable);
     }
 
     @Override
@@ -124,15 +118,6 @@ public class PremisesSDJpaService implements PremisesService {
         return premisesRepository.getAllFloors();
     }
 
-    @Override
-    public List<PremisesDTO> findAllPremises(FilterArea filterArea) {
-
-        PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
-        List<PremisesDTO> premises = new ArrayList<>();
-
-        premisesRepository.findAllPremises(copyObject(filterArea)).forEach(prem -> premises.add(premisesConverter.convertToDTO(prem)));
-        return premises;
-    }
 
 
     private FilterArea copyObject(FilterArea filterArea){
@@ -151,6 +136,18 @@ public class PremisesSDJpaService implements PremisesService {
         filterArea2.setFloor(filterArea2.getFloor());
 
         return filterArea2;
+    }
+
+    @Override
+    public Page<Premises> findAllPremisesPaginated(FilterArea filterArea, int floor, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+        return premisesRepository.findAllPremises(copyObject(filterArea), floor, pageable);
+    }
+
+    @Override
+    public Page<Premises> findAllPremisesPaginated(FilterArea filterArea, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+        return premisesRepository.findAllPremises(copyObject(filterArea), pageable);
     }
 
 

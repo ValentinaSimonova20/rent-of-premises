@@ -1,6 +1,8 @@
 package simonova.rent.rentofpremises.controllers;
 
 
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -10,14 +12,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import simonova.rent.rentofpremises.converters.ApplicationConverter;
 import simonova.rent.rentofpremises.dto.ApplicationDTO;
 import simonova.rent.rentofpremises.dto.UserDTO;
 import simonova.rent.rentofpremises.exception.NoAppException;
 import simonova.rent.rentofpremises.model.AppStatus;
+import simonova.rent.rentofpremises.model.Application;
 import simonova.rent.rentofpremises.model.Person;
 import simonova.rent.rentofpremises.services.ApplicationService;
 import simonova.rent.rentofpremises.services.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -45,21 +50,8 @@ public class ApplicationController {
             throw new NoAppException("Зарегистрирутесь, для того чтобы подавать заявки и просматривать их.");
         }
 
-        String currentPrincipalName = authentication.getName();
-        UserDTO user = userService.findByEmail(currentPrincipalName);
-        List<ApplicationDTO> apps;
-        if(user.getRole().toString().equals("USER")){
-            // если роль пользователя - user(клиент) - высвечивать его заявки
-            apps = applicationService.findByUserId(user.getId());
-        }
-        else {
-            // если роль пользователя manager - высвечивать все заявки
-            apps = applicationService.findAll();
-        }
+        return findPaginated(1, model);
 
-        model.addAttribute("apps", apps);
-        model.addAttribute("statuses", AppStatus.values());
-        return "clients/applications";
     }
 
     /**
@@ -75,6 +67,33 @@ public class ApplicationController {
         app.setStatus(appStatus);
         applicationService.save(app);
         return "redirect:/applications";
+
+    }
+
+    @GetMapping("page/{pageNo}")
+    public String findPaginated(@PathVariable int pageNo, Model model){
+        int pageSize = 3;
+
+        Page<Application> page;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if(Person.getAuthUser(authentication,userService).getRole().toString().equals("MANAGER")){
+            page = applicationService.findPaginated(pageNo, pageSize);
+        }
+        else {
+            page = applicationService.findByUserId(Person.getAuthUser(authentication, userService).getId(),pageNo, pageSize);
+        }
+
+        ModelMapper modelMapper = new ModelMapper();
+        ApplicationConverter applicationConverter = new ApplicationConverter(modelMapper);
+        List<ApplicationDTO> applications = new ArrayList<>();
+        page.forEach(application -> applications.add(applicationConverter.convertToDto(application)));
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("statuses", AppStatus.values());
+        model.addAttribute("apps", applications);
+        return "clients/applications";
 
     }
 

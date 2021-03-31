@@ -1,5 +1,7 @@
 package simonova.rent.rentofpremises.controllers;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -11,6 +13,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import simonova.rent.rentofpremises.converters.ApplicationConverter;
+import simonova.rent.rentofpremises.converters.PremisesConverter;
 import simonova.rent.rentofpremises.dto.ApplicationDTO;
 import simonova.rent.rentofpremises.dto.PremisesDTO;
 import simonova.rent.rentofpremises.dto.UserDTO;
@@ -21,6 +25,7 @@ import simonova.rent.rentofpremises.services.PremisesService;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +38,7 @@ public class AreasController {
     private final PremisesService premisesService;
     private final ApplicationService applicationService;
     private final UserService userService;
+    private List<PremisesDTO> premisesDTOS;
     private static final String VIEWS_ADD_OR_EDIT_PREMISES_FORM = "areas/addOrEditPremisesForm";
     private final static String premises = "premises";
 
@@ -53,12 +59,16 @@ public class AreasController {
     public String getAreas(Model model){
 
         // передача на страницу списка всех площадей
-        model.addAttribute(premises, premisesService.findByIsRented(false));
+        premisesDTOS = new ArrayList<>();
         model.addAttribute("filter", new FilterArea());
-        model.addAttribute("floors", premisesService.getAllFloors());
+        Page<Premises> page = premisesService.findByIsRented(false,1,3);
+        ModelMapper modelMapper = new ModelMapper();
+        PremisesConverter premisesConverter = new PremisesConverter(modelMapper);
+        page.forEach(prem -> premisesDTOS.add(premisesConverter.convertToDTO(prem)));
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
 
-
-        return "clients/index";
+        return findPaginated(1,  model);
     }
 
     /**
@@ -108,6 +118,19 @@ public class AreasController {
             model.addAttribute("application", applicationDTO);
             return "areas/show";
         }
+
+    }
+
+    @GetMapping("/areas/page/{pageNo}")
+    public String findPaginated(@PathVariable int pageNo, Model model){
+
+
+        model.addAttribute(premises, premisesDTOS);
+
+        model.addAttribute("currentPage", pageNo);
+
+
+        return "clients/index";
 
     }
 
@@ -186,9 +209,6 @@ public class AreasController {
             return VIEWS_ADD_OR_EDIT_PREMISES_FORM;
         }
 
-
-
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         premisesDTO.setPhoto(Base64.getEncoder().encodeToString(multipartFile.getBytes()));
         // при добавлении площадь еще не сдана
         premisesDTO.setRented(false);
@@ -206,19 +226,31 @@ public class AreasController {
 
     // Фильтрация помещений
     @PostMapping("/areas")
-    public String filterAreas(@Valid FilterArea filterArea,Model model){
+    @Transactional
+    public String filterAreas(@Valid FilterArea filterArea, Model model){
+
+        int pageSize = 3;
+        Page<Premises> page;
 
         if(filterArea.getFloor() == -1){
-            model.addAttribute(premises, premisesService.findAllPremises(filterArea));
+            page = premisesService.findAllPremisesPaginated(filterArea, 1, pageSize);
+
         }
         else {
-            model.addAttribute(premises, premisesService.findAllPremises(filterArea, filterArea.getFloor()));
+            page = premisesService.findAllPremisesPaginated(filterArea, filterArea.getFloor(), 1, pageSize);
         }
 
+        premisesDTOS = new ArrayList<>();
+
+        ModelMapper modelMapper = new ModelMapper();
+        PremisesConverter premisesConverter = new PremisesConverter(modelMapper);
+        page.forEach(prem -> premisesDTOS.add(premisesConverter.convertToDTO(prem)));
         model.addAttribute("filter", filterArea);
 
-
-        return "clients/index";
+        model.addAttribute(premises, premisesDTOS);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        return findPaginated(1, model);
 
     }
 
