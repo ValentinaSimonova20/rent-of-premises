@@ -1,6 +1,5 @@
 package simonova.rent.rentofpremises.services.springdatajpa;
 
-import org.dom4j.rule.Mode;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3" class="h-100">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" class="h-100">
 <head>
     <meta charset="UTF-8">
     <title>Client page</title>
@@ -43,11 +42,11 @@
 
                     <div class="card-text form-group blu-margin" th:if="${userRole == 'MANAGER'}">
                         <form th:action="@{'/app/' + ${app.id} + '/changeStat'} " method="post">
-                            <p class="card-text">Статус заявки:</p>
                             <table>
                                 <tr>
                                     <td>
-                                        <select class="form-control" th:name="stat"  id="dropOperator">
+                                        <label for="dropOperator">Статус заявки:</label>
+                                        <select class="form-control" th:name="stat" id="dropOperator">
                                             <option th:each="status : ${statuses}" th:value="${status}" th:text="${status.getName()}" th:selected="${status==app.getStatus()}"></option>
                                         </select>
                                     </td>

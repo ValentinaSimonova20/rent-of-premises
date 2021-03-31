@@ -2,7 +2,6 @@ package simonova.rent.rentofpremises.services.springdatajpa;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import simonova.rent.rentofpremises.converters.PremisesConverter;
 import simonova.rent.rentofpremises.dto.PremisesDTO;
 import simonova.rent.rentofpremises.model.FilterArea;

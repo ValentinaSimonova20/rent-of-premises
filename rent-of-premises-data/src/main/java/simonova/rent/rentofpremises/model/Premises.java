@@ -1,7 +1,6 @@
 package simonova.rent.rentofpremises.model;
 
 import org.hibernate.annotations.Type;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.Set;

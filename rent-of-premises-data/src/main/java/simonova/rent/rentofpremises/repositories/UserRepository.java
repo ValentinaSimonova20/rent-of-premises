@@ -1,7 +1,6 @@
 package simonova.rent.rentofpremises.repositories;
 
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.transaction.annotation.Transactional;
 import simonova.rent.rentofpremises.model.User;
 
 import java.util.Optional;

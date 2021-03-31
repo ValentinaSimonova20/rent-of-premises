@@ -3,7 +3,6 @@ package simonova.rent.rentofpremises.services.springdatajpa;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import simonova.rent.rentofpremises.converters.ApplicationConverter;
 import simonova.rent.rentofpremises.dto.ApplicationDTO;
 import simonova.rent.rentofpremises.model.Application;

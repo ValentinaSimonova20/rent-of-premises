@@ -2,7 +2,6 @@ package simonova.rent.rentofpremises.services;
 
 import simonova.rent.rentofpremises.dto.PremisesDTO;
 import simonova.rent.rentofpremises.model.FilterArea;
-import simonova.rent.rentofpremises.model.Premises;
 
 import java.util.List;
 
