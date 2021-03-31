@@ -35,6 +35,7 @@
             <div class="col-md-8">
                 <div class="card-body">
                     <p class="card-text" th:text="${app.additionalInfo}">Описание</p>
+                    <p class="card-text" th:if="${app.startRent != null || app.endRent != null}">Примерный срок аренды:</p>
                     <p class="card-text" th:if="${app.startRent != null}" th:text="'от: ' + ${app.startRent}">Примерный срок аренды от</p>
                     <p class="card-text" th:if="${app.endRent != null}" th:text="'до: '+${app.endRent}">Примерный срок аренды до</p>
                     <p class="card-text" th:text="'Цена/месяц: ' + ${app.premises.price}">Цена</p>
@@ -42,6 +43,7 @@
 
                     <div class="card-text form-group blu-margin" th:if="${userRole == 'MANAGER'}">
                         <form th:action="@{'/app/' + ${app.id} + '/changeStat'} " method="post">
+                            <p class="card-text">Статус заявки:</p>
                             <table>
                                 <tr>
                                     <td>
@@ -57,7 +59,7 @@
                         </form>
                     </div>
 
-                    <p class="card-text" th:if="${userRole == 'USER'}" th:text="${app.getStatus().getName()}">статус</p>
+                    <p class="card-text" th:if="${userRole == 'USER'}" th:text="'Статус: '+${app.getStatus().getName()}">статус</p>
 
                 </div>
             </div>
