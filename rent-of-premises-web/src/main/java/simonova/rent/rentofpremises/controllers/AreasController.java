@@ -55,6 +55,7 @@ public class AreasController {
      * @param model - контейнер, содержащий информацию приложения
      * @return html страница со списком площадей бизнес-центра
      */
+    @Transactional
     @GetMapping({"/areas", "/"})
     public String getAreas(Model model){
 
@@ -121,11 +122,26 @@ public class AreasController {
 
     }
 
-    @GetMapping("/areas/page/{pageNo}")
+    @GetMapping("areas/page/{pageNo}")
+    @Transactional
     public String findPaginated(@PathVariable int pageNo, Model model){
+        int pageSize = 3;
 
+
+        if(model.getAttribute("filter")==null) {
+            premisesDTOS = new ArrayList<>();
+            PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
+            Page<Premises> page = premisesService.findByIsRented(false,pageNo,pageSize);
+            page.forEach(prem -> premisesDTOS.add(premisesConverter.convertToDTO(prem)));
+            model.addAttribute("filter", new FilterArea());
+            model.addAttribute("totalPages", page.getTotalPages());
+            model.addAttribute("totalItems", page.getTotalElements());
+
+
+        }
 
         model.addAttribute(premises, premisesDTOS);
+
 
         model.addAttribute("currentPage", pageNo);
 

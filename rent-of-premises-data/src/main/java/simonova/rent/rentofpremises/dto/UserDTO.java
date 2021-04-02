@@ -1,17 +1,18 @@
 package simonova.rent.rentofpremises.dto;
 
+import java.util.List;
 import java.util.Set;
 
 public class UserDTO extends PersonDTO{
 
-    private Set<ApplicationDTO> applications;
+    private List<ApplicationDTO> applications;
 
 
-    public Set<ApplicationDTO> getApplications() {
+    public List<ApplicationDTO> getApplications() {
         return applications;
     }
 
-    public void setApplications(Set<ApplicationDTO> applications) {
+    public void setApplications(List<ApplicationDTO> applications) {
         this.applications = applications;
     }
 

@@ -70,7 +70,7 @@ public class ApplicationController {
 
     }
 
-    @GetMapping("page/{pageNo}")
+    @GetMapping("applications/page/{pageNo}")
     public String findPaginated(@PathVariable int pageNo, Model model){
         int pageSize = 3;
 

@@ -2,6 +2,7 @@ package simonova.rent.rentofpremises.model;
 
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -14,16 +15,16 @@ public class User extends Person{
 
     /** Поле для хранения списка заявок клиента*/
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // CascadeType.ALL - если удалится информация о клиенте - удалится информация о всех его заявках
-    private Set<Application> applications;
+    private List<Application> applications;
 
 
 
 
-    public Set<Application> getApplications() {
+    public List<Application> getApplications() {
         return applications;
     }
 
-    public void setApplications(Set<Application> applications) {
+    public void setApplications(List<Application> applications) {
         this.applications = applications;
     }
 

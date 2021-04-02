@@ -1,12 +1,14 @@
 package simonova.rent.rentofpremises.services;
 
 import org.springframework.data.domain.Page;
+import org.springframework.transaction.annotation.Transactional;
 import simonova.rent.rentofpremises.dto.PremisesDTO;
 import simonova.rent.rentofpremises.model.FilterArea;
 import simonova.rent.rentofpremises.model.Premises;
 
 import java.util.List;
 
+@Transactional
 public interface PremisesService extends CrudService<PremisesDTO, Long>{
 
     // Поиск помещения по названию

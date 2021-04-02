@@ -8,25 +8,40 @@
 <footer class="footer mt-auto py-3" th:fragment="pagination">
     <div class="container">
         <div th:if="${totalPages > 1}">
-            <div class ="row col-sm-10">
-                <div class="col-sm-2">
-                    Всего строк: [[${totalItems}]]
-                </div>
-                <div class="col-sm-1">
-                    <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-                        <a th:if="${currentPage != i}" th:href="@{'areas/page/'+${i}}">[[${i}]]</a>
-                        <span th:unless="${currentPage != i}">[[${i}]]</span>
-                    </span>
-                </div>
-                <div class="col-sm-1">
-                    <a th:if="${currentPage < totalPages}" th:href="@{'areas/page/'+${currentPage+1}}">Следующая</a>
-                    <span th:unless="${currentPage < totalPages}">Следующая</span>
-                </div>
+            <ul class="pagination">
 
-                <div class="col-sm-1">
-                    <a th:if="${currentPage < totalPages}" th:href="@{'areas/page/'+ ${totalPages}}">Последняя</a>
-                    <span th:unless="${currentPage < totalPages}">Последняя</span>
-                </div>
+            <li class="page-item" th:if="${currentPage <= totalPages && currentPage>1}">
+                <a class="page-link" th:href="@{'/areas/page/'+${currentPage-1}}">Предыдущая</a>
+            </li>
+
+            <li class="page-item disabled" th:if="${currentPage==1}">
+                 <a class="page-link" href="#">Предыдущая</a>
+            </li>
+
+
+            <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+              <li class="page-item" th:if="${currentPage != i}">
+                  <a class="page-link"  th:href="@{'/areas/page/'+${i}}">[[${i}]]</a>
+              </li>
+
+              <li class="page-item disabled" th:if="${currentPage == i}">
+                <a class="page-link" href="#">[[${i}]]</a>
+              </li>
+            </span>
+
+
+
+            <li class="page-item" th:if="${currentPage < totalPages}">
+                <a class="page-link" th:href="@{'/areas/page/'+${currentPage+1}}">Следующая</a>
+            </li>
+
+            <li class="page-item disabled" th:if="${currentPage == totalPages}">
+                <a class="page-link" href="#">Следующая</a>
+            </li>
+
+
+
+            </ul>
             </div>
         </div>
     </div>
