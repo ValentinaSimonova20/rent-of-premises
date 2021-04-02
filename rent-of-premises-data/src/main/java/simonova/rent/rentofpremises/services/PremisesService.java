@@ -1,6 +1,7 @@
 package simonova.rent.rentofpremises.services;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import simonova.rent.rentofpremises.dto.PremisesDTO;
 import simonova.rent.rentofpremises.model.FilterArea;
@@ -19,6 +20,10 @@ public interface PremisesService extends CrudService<PremisesDTO, Long>{
 
 
     Page<Premises> findAllPremisesPaginated(FilterArea filterArea, int floor,int pageNo, int pageSize);
+
+    Page<Premises> findAllByIsRentedSortByPrice(boolean isRented, int pageNo, int pageSize);
+
+    Page<Premises> findAllByIsRentedDescByPrice(boolean isRented, int pageNo, int pageSize);
 
 
     Page<Premises> findAllPremisesPaginated(FilterArea filterArea, int pageNo, int pageSize);

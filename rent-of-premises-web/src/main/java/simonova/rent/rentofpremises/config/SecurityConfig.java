@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/","/register","/areas", "/applications", "/profile", "/areas/*/show", "/login/error/*","/areas/page/*" ).permitAll()
+                .antMatchers("/","/register","/areas", "/applications", "/profile", "/areas/*/show", "/login/error/*","/areas/page/*","/sortByPriceDesc", "/sortByPriceAsc" ).permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

@@ -49,4 +49,5 @@ public interface PremisesRepository extends JpaRepository<Premises, Long> {
     List<Integer> getAllFloors();
 
 
+
 }

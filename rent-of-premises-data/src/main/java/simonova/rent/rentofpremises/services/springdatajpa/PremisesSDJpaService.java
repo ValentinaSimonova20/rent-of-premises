@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -150,5 +151,15 @@ public class PremisesSDJpaService implements PremisesService {
         return premisesRepository.findAllPremises(copyObject(filterArea), pageable);
     }
 
+    @Override
+    public Page<Premises> findAllByIsRentedSortByPrice(boolean isRented, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("price"));
+        return premisesRepository.findByIsRented(isRented, pageable);
+    }
 
+    @Override
+    public Page<Premises> findAllByIsRentedDescByPrice(boolean isRented, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("price").descending());
+        return premisesRepository.findByIsRented(isRented, pageable);
+    }
 }

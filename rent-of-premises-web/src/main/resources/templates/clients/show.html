@@ -18,22 +18,54 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
-<div th:text="${client.id}">Id</div><br><br>
-<div>Имя</div>
-<div th:text="${client.name}">Имя</div><br><br>
-<div>Отчество</div>
-<div th:text="${client.patronymic}">Отчество</div><br><br>
-<div>Фамилия</div>
-<div th:text="${client.surname}">Фамилия</div><br><br>
-<div>email</div>
-<div th:text="${client.email}">email</div><br><br>
-<div>телефон</div>
-<div th:text="${client.phoneNumber}">телефон</div><br><br>
-<div>Серия паспорта</div>
-<div th:text="${client.seriesNumberOfPassport}">Серия паспорта</div><br><br>
-<div>Номер паспорта</div>
-<div th:text="${client.passportNumber}">Номер паспорта</div><br><br>
+<div th:class="'container my-4'">
 
+    <div class="col-md-6 mb-6">
+
+    <div class="card">
+        <div class="card-header" th:text="${client.name} +' '+${client.patronymic} + ' ' +${client.surname}">
+             ФИО
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+
+                <div th:class="'form-group row mx-md-n5'">
+
+                    <div th:class="'card-text form-group col px-md-5'">
+                        <div th:text="'Серия паспорта'">
+                        </div>
+                    </div>
+
+                    <div th:class="'card-text form-group col px-md-5'">
+                        <div th:text="'Номер паспорта'">
+                        </div>
+                    </div>
+                </div>
+
+                <div th:class="'form-group row mx-md-n5'">
+
+                    <div th:class="'form-group col px-md-5'">
+                        <div th:class="'p-3 border bg-light'" th:text="${client.seriesNumberOfPassport}">
+                        </div>
+                    </div>
+
+                    <div th:class="'form-group col px-md-5'">
+                        <div th:class="'p-3 border bg-light'" th:text="${client.passportNumber}">
+                        </div>
+                    </div>
+
+                </div>
+            </li>
+            <li class="list-group-item" th:if="${client.organization} != null" th:text="'Организация: '+${client.organization}">Организация</li>
+            <li class="list-group-item" th:if="${client.activity} != null" th:text="'Деятельность: '+${client.activity}">Деятельность</li>
+            <li class="list-group-item" th:text="'Номер телефона: '+${client.phoneNumber}">Номер телефона</li>
+            <li class="list-group-item" th:text="'Почта: '+${client.email}">Email</li>
+        </ul>
+    </div>
+    </div>
+
+
+</div>
 
 
 <div th:replace="~{fragments/footer :: footer}"></div>

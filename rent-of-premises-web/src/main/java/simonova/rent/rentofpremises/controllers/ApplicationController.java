@@ -41,6 +41,7 @@ public class ApplicationController {
      * @return html-страницу со списком заявок клиента или со всеми заявками на аренду для менеджера
      */
     @GetMapping("/applications")
+    @Transactional
     public String getApplications(Model model){
         // получить информацию об авторизованном пользователе
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -71,6 +72,7 @@ public class ApplicationController {
     }
 
     @GetMapping("applications/page/{pageNo}")
+    @Transactional
     public String findPaginated(@PathVariable int pageNo, Model model){
         int pageSize = 3;
 
