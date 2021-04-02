@@ -27,9 +27,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -39,12 +37,12 @@ public class AreasController {
     private final PremisesService premisesService;
     private final ApplicationService applicationService;
     private final UserService userService;
-    private List<PremisesDTO> premisesDTOS;
-    private FilterArea filterAreaGlob;
+    private List<PremisesDTO> premisesDTOS = new ArrayList<>();
+    private FilterArea filterAreaGlob = new FilterArea();
     private static final String VIEWS_ADD_OR_EDIT_PREMISES_FORM = "areas/addOrEditPremisesForm";
     private final static String premises = "premises";
+    private boolean isFilter = false;
 
-    private String descAscFilter = "";
 
 
 
@@ -63,16 +61,8 @@ public class AreasController {
     @GetMapping({"/areas", "/"})
     public String getAreas(Model model){
 
-        // передача на страницу списка всех площадей
-        premisesDTOS = new ArrayList<>();
-        filterAreaGlob = new FilterArea();
         model.addAttribute("filter", filterAreaGlob);
-        Page<Premises> page = premisesService.findByIsRented(false,1,3);
-        ModelMapper modelMapper = new ModelMapper();
-        PremisesConverter premisesConverter = new PremisesConverter(modelMapper);
-        page.forEach(prem -> premisesDTOS.add(premisesConverter.convertToDTO(prem)));
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalItems", page.getTotalElements());
+
 
         return findPaginated(1,  model);
     }
@@ -131,30 +121,37 @@ public class AreasController {
     @Transactional
     public String findPaginated(@PathVariable int pageNo, Model model){
         int pageSize = 3;
+        Page<Premises> page;
 
 
-        if(model.getAttribute("filter")==null && descAscFilter.equals("")) {
+        if(!isFilter) {
             premisesDTOS = new ArrayList<>();
             PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
-            Page<Premises> page = premisesService.findByIsRented(false,pageNo,pageSize);
+            page = premisesService.findByIsRented(false,pageNo,pageSize);
             page.forEach(prem -> premisesDTOS.add(premisesConverter.convertToDTO(prem)));
             model.addAttribute("totalPages", page.getTotalPages());
             model.addAttribute("totalItems", page.getTotalElements());
 
-
         }
+        else {
+            if(filterAreaGlob.getFloor() == -1){
+                premisesDTOS = new ArrayList<>();
+                PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
+                page = premisesService.findAllPremisesPaginated(filterAreaGlob, pageNo, pageSize);
+                page.forEach(prem -> premisesDTOS.add(premisesConverter.convertToDTO(prem)));
+                model.addAttribute("totalPages", page.getTotalPages());
+                model.addAttribute("totalItems", page.getTotalElements());
 
-        if(descAscFilter.equals("filter")){
-            // todo обработка постранично отфильтрованного списка
+            }
+            else {
+                premisesDTOS = new ArrayList<>();
+                PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
+                page = premisesService.findAllPremisesPaginated(filterAreaGlob, filterAreaGlob.getFloor(), pageNo, pageSize);
+                page.forEach(prem -> premisesDTOS.add(premisesConverter.convertToDTO(prem)));
+                model.addAttribute("totalPages", page.getTotalPages());
+                model.addAttribute("totalItems", page.getTotalElements());
+            }
         }
-        if(descAscFilter.equals("asc")){
-            // todo обработка постранично списка с ценой по возрастанию
-        }
-
-        if(descAscFilter.equals("desc")){
-            // todo обработка постранично списка с ценой по убыванию
-        }
-
 
         model.addAttribute("filter", filterAreaGlob);
 
@@ -264,76 +261,17 @@ public class AreasController {
     @Transactional
     public String filterAreas(@Valid FilterArea filterArea, Model model){
 
-        int pageSize = 3;
-        Page<Premises> page;
 
-        if(filterArea.getFloor() == -1){
-            page = premisesService.findAllPremisesPaginated(filterArea, 1, pageSize);
-
-        }
-        else {
-            page = premisesService.findAllPremisesPaginated(filterArea, filterArea.getFloor(), 1, pageSize);
-        }
-
-        premisesDTOS = new ArrayList<>();
         filterAreaGlob = filterArea;
+        isFilter = true;
+        System.out.println(filterArea.getPriceSort());
 
-        ModelMapper modelMapper = new ModelMapper();
-        PremisesConverter premisesConverter = new PremisesConverter(modelMapper);
-        page.forEach(prem -> premisesDTOS.add(premisesConverter.convertToDTO(prem)));
         model.addAttribute("filter", filterAreaGlob);
 
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalItems", page.getTotalElements());
         return findPaginated(1, model);
 
     }
 
-    @GetMapping("/sortByPriceAsc")
-    public String sortByPriceAsc(Model model){
-        int pageSize = 3;
-        Page<Premises> page = premisesService.findAllByIsRentedSortByPrice(false, 1, pageSize);
-
-        List<PremisesDTO> prems = new ArrayList<>();
-
-        ModelMapper modelMapper = new ModelMapper();
-        PremisesConverter premisesConverter = new PremisesConverter(modelMapper);
-        page.forEach(prem -> prems.add(premisesConverter.convertToDTO(prem)));
-
-        premisesDTOS = prems;
-
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("filter", filterAreaGlob);
-        model.addAttribute("asc", "asc");
-        return findPaginated(1, model);
-
-    }
-
-    @GetMapping("/sortByPriceDesc")
-    public String sortByPriceDesc(Model model){
-
-        int pageSize = 3;
-        Page<Premises> page = premisesService.findAllByIsRentedDescByPrice(false, 1, pageSize);
-
-        // список со всеми площадями отсортированными по ренте
-        List<PremisesDTO> prems = new ArrayList<>();
-
-        ModelMapper modelMapper = new ModelMapper();
-        PremisesConverter premisesConverter = new PremisesConverter(modelMapper);
-        page.forEach(prem -> prems.add(premisesConverter.convertToDTO(prem)));
-
-
-        premisesDTOS = prems;
-
-
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("filter", filterAreaGlob);
-        model.addAttribute("desc", "desc");
-        return findPaginated(1, model);
-
-    }
 
     @ModelAttribute("floors")
     public List<Integer> setFloorsForFilter(){

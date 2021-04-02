@@ -21,10 +21,6 @@ public interface PremisesService extends CrudService<PremisesDTO, Long>{
 
     Page<Premises> findAllPremisesPaginated(FilterArea filterArea, int floor,int pageNo, int pageSize);
 
-    Page<Premises> findAllByIsRentedSortByPrice(boolean isRented, int pageNo, int pageSize);
-
-    Page<Premises> findAllByIsRentedDescByPrice(boolean isRented, int pageNo, int pageSize);
-
 
     Page<Premises> findAllPremisesPaginated(FilterArea filterArea, int pageNo, int pageSize);
 

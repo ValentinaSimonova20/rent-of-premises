@@ -10,6 +10,8 @@ public class FilterArea implements Cloneable{
 
     private Integer workplaces;
 
+    private String priceSort;
+
     public FilterArea(){}
 
     public Double getPriceMin() {
@@ -63,5 +65,13 @@ public class FilterArea implements Cloneable{
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public String getPriceSort() {
+        return priceSort;
+    }
+
+    public void setPriceSort(String priceSort) {
+        this.priceSort = priceSort;
     }
 }

@@ -77,32 +77,39 @@
                 </select>
 
             </div>
+        </div>
 
+         <div th:class="'row justify-content-start'">
+             <div class="form-group">
+
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-light">
+                        <input type="radio" value="asc" name="priceSort" id="asc" th:field="*{priceSort}" autocomplete="off">Цена по возрастанию
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" value="desc" name="priceSort" id="desc" th:field="*{priceSort}" autocomplete="off"> Цена по убыванию
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" value="none" name="priceSort" id="none" th:field="*{priceSort}" autocomplete="off" checked> Без сортировки
+                    </label>
+                </div>
+             </div>
+            </div>
+
+
+            <div th:class="'row justify-content-start'">
+                <div th:class="'form-group col-4'">
+                    <input type="submit" class="btn btn-outline-success btn-block" value="Поиск" />
+                </div>
+
+                <div th:class="'form-group col-4'">
+                    <input type="button" class="btn btn-outline-dark" value="Очистить" id="btnClear" onclick="clearSearch()" />
+                </div>
+            </div>
 
 
         </div>
 
-            <div th:class="'row justify-content-start'">
-                <div th:class="'form-group col-4'">
-                    <input type="submit" class="btn btn-success btn-block" value="Поиск" />
-                </div>
-
-                <div th:class="'form-group col-4'">
-                    <input type="button" class="btn btn-secondary btn-block" value="Очистить" id="btnClear" onclick="clearSearch()" />
-                </div>
-            </div>
-
-            <div th:class="'row justify-content-start'">
-                <div th:class="'form-group col-4'">
-                    <a th:href="'/sortByPriceAsc'">Цена по возрастанию</a>
-                </div>
-
-                <div th:class="'form-group col-4'">
-                    <a th:href="'/sortByPriceDesc'">Цена по убыванию</a>
-                </div>
-            </div>
-
-        </div>
     </form>
 
 

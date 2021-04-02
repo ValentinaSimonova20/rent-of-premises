@@ -141,25 +141,36 @@ public class PremisesSDJpaService implements PremisesService {
 
     @Override
     public Page<Premises> findAllPremisesPaginated(FilterArea filterArea, int floor, int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+        Pageable pageable;
+        switch (filterArea.getPriceSort()){
+            case "asc":
+                pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("price"));
+                break;
+            case "desc":
+                pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("price").descending());
+                break;
+            default:
+                pageable = PageRequest.of(pageNo-1, pageSize);
+        }
+
         return premisesRepository.findAllPremises(copyObject(filterArea), floor, pageable);
     }
 
     @Override
     public Page<Premises> findAllPremisesPaginated(FilterArea filterArea, int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+        Pageable pageable;
+        switch (filterArea.getPriceSort()){
+            case "asc":
+                pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("price"));
+                break;
+            case "desc":
+                pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("price").descending());
+                break;
+            default:
+                pageable = PageRequest.of(pageNo-1, pageSize);
+        }
         return premisesRepository.findAllPremises(copyObject(filterArea), pageable);
     }
 
-    @Override
-    public Page<Premises> findAllByIsRentedSortByPrice(boolean isRented, int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("price"));
-        return premisesRepository.findByIsRented(isRented, pageable);
-    }
 
-    @Override
-    public Page<Premises> findAllByIsRentedDescByPrice(boolean isRented, int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("price").descending());
-        return premisesRepository.findByIsRented(isRented, pageable);
-    }
 }
