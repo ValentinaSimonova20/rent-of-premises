@@ -22,11 +22,11 @@ public interface PremisesRepository extends JpaRepository<Premises, Long> {
 
     Page<Premises> findByIsRented(boolean isRented, Pageable pageable);
 
-    @Query(value = "SELECT * FROM premises WHERE floor= :filteredFloor AND price BETWEEN :#{#filter.priceMin} AND :#{#filter.priceMax} AND is_rented= FALSE", nativeQuery = true)
+    @Query(value = "SELECT * FROM premises WHERE floor= :filteredFloor AND price BETWEEN :#{#filter.priceMin} AND :#{#filter.priceMax} AND is_rented= :#{#filter.rented}", nativeQuery = true)
     Page<Premises> findAllPremises(@Param("filter") FilterArea filterArea, @Param("filteredFloor") int filteredFloor, Pageable pageable);
 
     @Query(value = "SELECT * FROM premises WHERE price BETWEEN :#{#filter.priceMin} AND :#{#filter.priceMax}" +
-            " AND area BETWEEN :#{#filter.areaMin} AND :#{#filter.areaMax} AND workplaces <= :#{#filter.workplaces} AND is_rented= FALSE", nativeQuery = true)
+            " AND area BETWEEN :#{#filter.areaMin} AND :#{#filter.areaMax} AND workplaces <= :#{#filter.workplaces} AND is_rented= :#{#filter.rented}", nativeQuery = true)
     Page<Premises> findAllPremises(@Param("filter") FilterArea filterArea, Pageable pageable);
 
 

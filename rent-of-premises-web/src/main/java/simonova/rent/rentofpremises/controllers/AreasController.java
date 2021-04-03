@@ -61,6 +61,7 @@ public class AreasController {
     @GetMapping({"/areas", "/"})
     public String getAreas(Model model){
 
+        filterAreaGlob.setPriceSort("none");
         model.addAttribute("filter", filterAreaGlob);
 
 
@@ -129,18 +130,19 @@ public class AreasController {
             PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
             page = premisesService.findByIsRented(false,pageNo,pageSize);
             page.forEach(prem -> premisesDTOS.add(premisesConverter.convertToDTO(prem)));
-            model.addAttribute("totalPages", page.getTotalPages());
-            model.addAttribute("totalItems", page.getTotalElements());
 
         }
         else {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+
+            if(Person.getAuthUser(authentication, userService).getRole().toString().equals("USER")) filterAreaGlob.setRented(false);
+
             if(filterAreaGlob.getFloor() == -1){
                 premisesDTOS = new ArrayList<>();
                 PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
                 page = premisesService.findAllPremisesPaginated(filterAreaGlob, pageNo, pageSize);
                 page.forEach(prem -> premisesDTOS.add(premisesConverter.convertToDTO(prem)));
-                model.addAttribute("totalPages", page.getTotalPages());
-                model.addAttribute("totalItems", page.getTotalElements());
 
             }
             else {
@@ -148,10 +150,13 @@ public class AreasController {
                 PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
                 page = premisesService.findAllPremisesPaginated(filterAreaGlob, filterAreaGlob.getFloor(), pageNo, pageSize);
                 page.forEach(prem -> premisesDTOS.add(premisesConverter.convertToDTO(prem)));
-                model.addAttribute("totalPages", page.getTotalPages());
-                model.addAttribute("totalItems", page.getTotalElements());
+
             }
         }
+
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+
 
         model.addAttribute("filter", filterAreaGlob);
 
@@ -264,7 +269,6 @@ public class AreasController {
 
         filterAreaGlob = filterArea;
         isFilter = true;
-        System.out.println(filterArea.getPriceSort());
 
         model.addAttribute("filter", filterAreaGlob);
 

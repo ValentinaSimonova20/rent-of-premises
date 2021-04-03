@@ -60,23 +60,23 @@
 
                 <div th:class="'form-group col px-md-5'">
                     <div th:class="'p-3 border bg-light'">
-                        <label for="passportNumber"> Номер паспорта: </label>
+                        <label for="seriesNumberOfPassport"> Серия паспорта: </label>
 
                         <input type="number"
                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                                maxlength = "4"
-                               id="passportNumber" th:class="'form-control'" th:field="*{passportNumber}"/>
+                               id="seriesNumberOfPassport" th:class="'form-control'" th:field="*{seriesNumberOfPassport}"/>
                     </div>
                 </div>
 
 
                 <div th:class="'form-group col px-md-5'">
                     <div th:class="'p-3 border bg-light'">
-                        <label> Серия паспорта: </label>
+                        <label for="passportNumber"> Номер паспорта: </label>
                         <input type="number"
                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                                maxlength = "6"
-                               th:class="'form-control'" id="seriesNumberOfPassport" th:field="*{seriesNumberOfPassport}"/>
+                               th:class="'form-control'" id="passportNumber" th:field="*{passportNumber}"/>
                     </div>
                 </div>
 

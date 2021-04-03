@@ -79,6 +79,15 @@
             </div>
         </div>
 
+            <div th:class="'row justify-content-start'">
+
+            <div th:class="'form-group'" th:if="${userRole == 'MANAGER'}">
+                <label for="form-check-input">Арендована</label>
+                <input type="checkbox" id="form-check-input" th:field="*{rented}" name="optradio" >
+
+            </div>
+            </div>
+
          <div th:class="'row justify-content-start'">
              <div class="form-group">
 
@@ -90,7 +99,7 @@
                         <input type="radio" value="desc" name="priceSort" id="desc" th:field="*{priceSort}" autocomplete="off"> Цена по убыванию
                     </label>
                     <label class="btn btn-light">
-                        <input type="radio" value="none" name="priceSort" id="none" th:field="*{priceSort}" autocomplete="off" checked> Без сортировки
+                        <input type="radio" value="none" name="priceSort" id="none" th:field="*{priceSort}" autocomplete="on" checked> Без сортировки
                     </label>
                 </div>
              </div>
@@ -130,6 +139,8 @@
                         <p class="card-text" th:text="'Цена: ' + ${prem.price}">Цена</p>
                         <p class="card-text" th:text="'Этаж: ' + ${prem.floor}">Этаж</p>
                         <p class="card-text" th:text="'Рабочих мест: ' + ${prem.workplaces}">Рабочих мест</p>
+
+                        <p class="card-text" th:with="text=${prem.getRented()} ? 'Арендована' : 'Не арендована'" th:text="${text}">аренда</p>
                         </div>
                     </div>
                 </div>

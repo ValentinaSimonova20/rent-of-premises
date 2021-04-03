@@ -136,6 +136,9 @@ public class PremisesSDJpaService implements PremisesService {
 
         filterArea2.setFloor(filterArea2.getFloor());
 
+        filterArea2.setRented(filterArea.isRented());
+        filterArea2.setPriceSort(filterArea.getPriceSort());
+
         return filterArea2;
     }
 
