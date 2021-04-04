@@ -58,13 +58,13 @@ public class FilterArea implements Cloneable{
         return workplaces;
     }
 
-    public boolean rented;
+    public String rented;
 
-    public boolean isRented() {
+    public String getRented() {
         return rented;
     }
 
-    public void setRented(boolean rented) {
+    public void setRented(String rented) {
         this.rented = rented;
     }
 

@@ -62,6 +62,7 @@ public class AreasController {
     public String getAreas(Model model){
 
         filterAreaGlob.setPriceSort("none");
+        filterAreaGlob.setRented("notRent");
         model.addAttribute("filter", filterAreaGlob);
 
 
@@ -136,19 +137,34 @@ public class AreasController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 
-            if(Person.getAuthUser(authentication, userService).getRole().toString().equals("USER")) filterAreaGlob.setRented(false);
+            if(Person.getAuthUser(authentication, userService).getRole().toString().equals("USER")) filterAreaGlob.setRented("notRent");
+
+            List<Boolean> rents = new ArrayList<>();
+            switch (filterAreaGlob.getRented()){
+                case "rent":
+                    rents.add(true);
+                    break;
+                case "notRent":
+                    rents.add(false);
+                    break;
+                default:
+                    rents.add(true);
+                    rents.add(false);
+            }
+
+
 
             if(filterAreaGlob.getFloor() == -1){
                 premisesDTOS = new ArrayList<>();
                 PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
-                page = premisesService.findAllPremisesPaginated(filterAreaGlob, pageNo, pageSize);
+                page = premisesService.findAllPremisesPaginated(filterAreaGlob,rents, pageNo, pageSize);
                 page.forEach(prem -> premisesDTOS.add(premisesConverter.convertToDTO(prem)));
 
             }
             else {
                 premisesDTOS = new ArrayList<>();
                 PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
-                page = premisesService.findAllPremisesPaginated(filterAreaGlob, filterAreaGlob.getFloor(), pageNo, pageSize);
+                page = premisesService.findAllPremisesPaginated(filterAreaGlob, filterAreaGlob.getFloor(),rents, pageNo, pageSize);
                 page.forEach(prem -> premisesDTOS.add(premisesConverter.convertToDTO(prem)));
 
             }

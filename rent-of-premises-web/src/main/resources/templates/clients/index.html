@@ -32,7 +32,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
-<div class="container">
+<div class="container ">
     <form id="filter-form" th:action="@{/areas}" name="filter-form" th:object="${filter}" method="post" >
 
         <div class="col-sm-8">
@@ -79,11 +79,19 @@
             </div>
         </div>
 
-            <div th:class="'row justify-content-start'">
+            <div th:class="'row justify-content-start'" th:if="${userRole=='MANAGER'}">
 
-            <div th:class="'form-group'" th:if="${userRole == 'MANAGER'}">
-                <label for="form-check-input">Арендована</label>
-                <input type="checkbox" id="form-check-input" th:field="*{rented}" name="optradio" >
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-light">
+                        <input type="radio" value="rent" name="rented" id="rent" th:field="*{rented}" autocomplete="off">Арендована
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" value="notRent" name="rented" id="notRent" th:field="*{rented}" autocomplete="off">Не Арендована
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" value="all" name="rented" id="all" th:field="*{rented}" autocomplete="on" checked>Все помещения
+                    </label>
+                </div>
 
             </div>
             </div>
@@ -116,8 +124,6 @@
                 </div>
             </div>
 
-
-        </div>
 
     </form>
 
