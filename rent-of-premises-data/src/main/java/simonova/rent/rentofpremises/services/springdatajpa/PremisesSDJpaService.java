@@ -142,8 +142,10 @@ public class PremisesSDJpaService implements PremisesService {
         return filterArea2;
     }
 
+
+
     @Override
-    public Page<Premises> findAllPremisesPaginated(FilterArea filterArea, int floor,List<Boolean> rent, int pageNo, int pageSize) {
+    public Page<Premises> findAllPremisesPaginated(FilterArea filterArea,List<Boolean> rent,List<Integer> floors, int pageNo, int pageSize) {
         Pageable pageable;
         switch (filterArea.getPriceSort()){
             case "asc":
@@ -155,24 +157,7 @@ public class PremisesSDJpaService implements PremisesService {
             default:
                 pageable = PageRequest.of(pageNo-1, pageSize);
         }
-
-        return premisesRepository.findAllPremises(copyObject(filterArea),floor,rent,  pageable);
-    }
-
-    @Override
-    public Page<Premises> findAllPremisesPaginated(FilterArea filterArea,List<Boolean> rent, int pageNo, int pageSize) {
-        Pageable pageable;
-        switch (filterArea.getPriceSort()){
-            case "asc":
-                pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("price"));
-                break;
-            case "desc":
-                pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("price").descending());
-                break;
-            default:
-                pageable = PageRequest.of(pageNo-1, pageSize);
-        }
-        return premisesRepository.findAllPremises(copyObject(filterArea),rent, pageable);
+        return premisesRepository.findAllPremises(copyObject(filterArea),rent, floors, pageable);
     }
 
 

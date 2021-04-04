@@ -134,10 +134,6 @@ public class AreasController {
 
         }
         else {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-
-            if(Person.getAuthUser(authentication, userService).getRole().toString().equals("USER")) filterAreaGlob.setRented("notRent");
 
             List<Boolean> rents = new ArrayList<>();
             switch (filterAreaGlob.getRented()){
@@ -152,22 +148,17 @@ public class AreasController {
                     rents.add(false);
             }
 
+            List<Integer> floor = new ArrayList<>();
+            if(filterAreaGlob.getFloor() == -1)
+                floor.addAll(premisesService.getAllFloors());
+            else
+                floor.add(filterAreaGlob.getFloor());
 
+            premisesDTOS = new ArrayList<>();
+            PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
+            page = premisesService.findAllPremisesPaginated(filterAreaGlob,rents, floor, pageNo, pageSize);
+            page.forEach(prem -> premisesDTOS.add(premisesConverter.convertToDTO(prem)));
 
-            if(filterAreaGlob.getFloor() == -1){
-                premisesDTOS = new ArrayList<>();
-                PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
-                page = premisesService.findAllPremisesPaginated(filterAreaGlob,rents, pageNo, pageSize);
-                page.forEach(prem -> premisesDTOS.add(premisesConverter.convertToDTO(prem)));
-
-            }
-            else {
-                premisesDTOS = new ArrayList<>();
-                PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
-                page = premisesService.findAllPremisesPaginated(filterAreaGlob, filterAreaGlob.getFloor(),rents, pageNo, pageSize);
-                page.forEach(prem -> premisesDTOS.add(premisesConverter.convertToDTO(prem)));
-
-            }
         }
 
         model.addAttribute("totalPages", page.getTotalPages());
@@ -284,6 +275,8 @@ public class AreasController {
 
 
         filterAreaGlob = filterArea;
+        if(filterArea.getRented() == null) filterAreaGlob.setRented("notRent");
+
         isFilter = true;
 
         model.addAttribute("filter", filterAreaGlob);

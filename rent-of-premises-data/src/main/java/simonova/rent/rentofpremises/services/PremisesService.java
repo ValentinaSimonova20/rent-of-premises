@@ -19,10 +19,7 @@ public interface PremisesService extends CrudService<PremisesDTO, Long>{
     PremisesDTO findByArea(double area);
 
 
-    Page<Premises> findAllPremisesPaginated(FilterArea filterArea, int floor,List<Boolean> rents, int pageNo, int pageSize);
-
-
-    Page<Premises> findAllPremisesPaginated(FilterArea filterArea,List<Boolean> rents, int pageNo, int pageSize);
+    Page<Premises> findAllPremisesPaginated(FilterArea filterArea,List<Boolean> rents, List<Integer> floors, int pageNo, int pageSize);
 
     Double getMaxArea();
 
