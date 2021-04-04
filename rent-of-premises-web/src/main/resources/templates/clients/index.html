@@ -72,7 +72,7 @@
             <div th:class="'form-group col-4'">
                 <label for="dropOperator" th:class="'form-label col-form-label-sm'">Этаж:</label>
                 <select th:name="floor" class="browser-default custom-select"  id="dropOperator">
-                    <option th:value="-1">Не выбран</option>
+                    <option th:value="${-1}">Не выбран</option>
                     <option th:each="floor : ${floors}" th:value="${floor}" th:field="*{floor}" th:text="${floor}"></option>
                 </select>
 
