@@ -246,6 +246,7 @@ public class AreasController {
                 log.debug(objectError.toString());
             });
             model.addAttribute(premises, premisesDTO);
+            model.addAttribute("activePage", "addArea");
 
             if(multipartFile.getSize() > 1_000_000)
                 model.addAttribute("fileError", "размер файла не должен превышать 10 МБ");
@@ -290,6 +291,7 @@ public class AreasController {
     public List<Integer> setFloorsForFilter(){
         return premisesService.getAllFloors();
     }
+
 
 
 
