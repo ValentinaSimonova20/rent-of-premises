@@ -1,0 +1,2 @@
+INSERT INTO users (email, name, pass,patronymic, role, status, surname)
+VALUES ('manager@gmail.com','name','$2y$12$BE6.MwZFIR/vrNzPKwAnAuQCHTXTQv6G45rjZNVAOuz6PlP..E/Uu','pser','MANAGER','ACTIVE','sadasd')
