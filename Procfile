@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar target/rent-of-premises-0.0.1-SNAPSHOT.jar
+web: java -jar rent-of-premises-web/target/rent-of-premises-web-0.0.1-SNAPSHOT.jar
