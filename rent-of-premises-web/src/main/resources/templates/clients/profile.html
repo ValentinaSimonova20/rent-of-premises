@@ -126,6 +126,7 @@
             <div th:switch="${client.getRole().toString()}">
                 <label th:case="'USER'"> <div th:text="'Роль: Арендатор'"></div></label>
                 <label th:case="'MANAGER'"><div th:text="'Роль: Менеджер'"></div></label>
+                <label th:case="'ADMIN'"><div th:text="'Роль: Администратор'"></div></label>
             </div>
 
             <div th:class="'form-group '">

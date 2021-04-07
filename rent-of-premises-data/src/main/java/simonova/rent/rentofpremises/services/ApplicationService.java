@@ -12,6 +12,7 @@ import java.util.List;
 public interface ApplicationService extends CrudService<ApplicationDTO, Long>{
     List<ApplicationDTO> findByUserId(Long id);
     ApplicationDTO findByUserIdAndPremisesId(Long userId, Long premId);
+
     Page<Application> findPaginated(int pageNo, int pageSize);
 
     Page<Application> findByUserId(Long id, int pageNo, int pageSize);

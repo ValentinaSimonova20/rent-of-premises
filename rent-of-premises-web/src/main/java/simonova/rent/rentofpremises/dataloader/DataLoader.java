@@ -27,14 +27,14 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private void loadData(){
-        UserDTO manager = new UserDTO();
-        manager.setName("name");
-        manager.setSurname("surname");
-        manager.setEmail("manager@gmail.com");
-        manager.setPass("$2y$12$LZsE5Ar2K4uvcqj3YBYFhulju3K.KqHTN9G61caGqASKGjEKUQQrq");
-        manager.setStatus(Status.ACTIVE);
-        manager.setRole(Role.MANAGER);
-        manager.setPatronymic("patrf");
-        userService.save(manager);
+        UserDTO admin = new UserDTO();
+        admin.setName("name");
+        admin.setSurname("surname");
+        admin.setEmail("manager@gmail.com");
+        admin.setPass("$2y$12$LZsE5Ar2K4uvcqj3YBYFhulju3K.KqHTN9G61caGqASKGjEKUQQrq");
+        admin.setStatus(Status.ACTIVE);
+        admin.setRole(Role.ADMIN);
+        admin.setPatronymic("patrf");
+        userService.save(admin);
     }
 }

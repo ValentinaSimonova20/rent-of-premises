@@ -1,6 +1,9 @@
 package simonova.rent.rentofpremises.services.springdatajpa;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import simonova.rent.rentofpremises.converters.UserConverter;
@@ -83,5 +86,11 @@ public class UserSDJpaService implements UserService {
     @Override
     public void deleteById(Long aLong) {
         clientRepository.deleteById(aLong);
+    }
+
+    @Override
+    public Page<User> findPaginated(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+        return clientRepository.findAll(pageable);
     }
 }

@@ -121,7 +121,7 @@ public class AreasController {
 
     @GetMapping("areas/page/{pageNo}")
     @Transactional
-    public String findPaginated(@PathVariable int pageNo, Model model){
+    public String findPaginated(@PathVariable("pageNo") int pageNo, Model model){
         int pageSize = 3;
         Page<Premises> page;
 

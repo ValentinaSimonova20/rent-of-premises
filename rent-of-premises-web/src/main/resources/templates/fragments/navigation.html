@@ -33,6 +33,14 @@
                 <a class="nav-link" th:href="@{'/areas/add'}">Добавить площадь</a>
             </li>
 
+            <li th:if="${userRole == 'ADMIN'}" th:class="${activePage == 'admin'} ? 'nav-item active' : 'nav-item'">
+                <a class="nav-link" th:href="@{'/adminPage'}">Администрирование</a>
+            </li>
+
+            <li th:if="${userRole == 'ADMIN'}" th:class="${activePage == 'addUser'} ? 'nav-item active' : 'nav-item'">
+                <a class="nav-link" th:href="@{'/users/add'}">Добавить пользователя</a>
+            </li>
+
             <li th:if="${userRole != 'NONE'}" th:class="'nav-item'">
                 <form th:action="@{/logout}" method="post">
                     <input th:class="'btn btn-link nav-link'" type="submit"  value="Выход"/>

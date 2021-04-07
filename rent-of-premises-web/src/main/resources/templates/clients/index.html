@@ -140,9 +140,9 @@
 
                     <div class="col-md-8">
                         <div class="card-body">
-                        <p class="card-text" th:text="${prem.description}">Описание</p>
-                        <p class="card-text" th:text="'Площадь: ' + ${prem.area} + ' м^2'">Площадь</p>
-                        <p class="card-text" th:text="'Цена: ' + ${prem.price}">Цена</p>
+                        <p class="card-text font-weight-normal" th:text="${prem.description}">Описание</p>
+                        <p class="card-text" th:text="'Площадь: ' + ${prem.area} + ' м²'">Площадь</p>
+                        <p class="card-text" th:text="'Цена/месяц: ' + ${prem.price} + ' ₽'">Цена</p>
                         <p class="card-text" th:text="'Этаж: ' + ${prem.floor}">Этаж</p>
                         <p class="card-text" th:text="'Рабочих мест: ' + ${prem.workplaces}">Рабочих мест</p>
 

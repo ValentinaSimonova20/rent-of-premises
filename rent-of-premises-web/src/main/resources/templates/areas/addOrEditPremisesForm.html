@@ -52,7 +52,7 @@
 
 
                 <div th:class="${#fields.hasErrors('area')} ? 'form-group text-danger col-sm-6 ' : 'form-group is-valid col-sm-6'">
-                    <label th:class="'form-label'" for="area"> Площадь: </label>
+                    <label th:class="'form-label'" for="area"> Площадь (м²): </label>
                     <input type="number" th:class="'form-control'" step="0.01" th:field="*{area}"  id="area"/>
 
                     <div>
@@ -65,7 +65,7 @@
                 </div>
 
                  <div th:class="${#fields.hasErrors('price')} ? 'form-group text-danger col-sm-6' : 'form-group is-valid col-sm-6'">
-                     <label th:class="'form-label'" for="price"> Цена/месяц:  </label>
+                     <label th:class="'form-label'" for="price"> Цена/месяц (₽):  </label>
                      <input type="number" th:class="'form-control'" step="0.01" th:field="*{price}" id="price"/>
 
                      <div>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<footer class="footer mt-auto py-3" th:fragment="pagination">
+    <div class="container">
+        <div th:if="${totalPages > 1}">
+            <ul class="pagination">
+
+                <li class="page-item" th:if="${currentPage <= totalPages && currentPage>1}">
+                    <a class="page-link" th:href="@{'/users/page/'+${currentPage-1}}">Предыдущая</a>
+                </li>
+
+                <li class="page-item disabled" th:if="${currentPage==1}">
+                    <a class="page-link" href="#">Предыдущая</a>
+                </li>
+
+
+                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+              <li class="page-item" th:if="${currentPage != i}">
+                  <a class="page-link"  th:href="@{'/users/page/'+${i}}">[[${i}]]</a>
+              </li>
+
+              <li class="page-item disabled" th:if="${currentPage == i}">
+                <a class="page-link" href="#">[[${i}]]</a>
+              </li>
+            </span>
+
+
+
+                <li class="page-item" th:if="${currentPage < totalPages}">
+                    <a class="page-link" th:href="@{'/users/page/'+${currentPage+1}}">Следующая</a>
+                </li>
+
+                <li class="page-item disabled" th:if="${currentPage == totalPages}">
+                    <a class="page-link" href="#">Следующая</a>
+                </li>
+
+
+
+            </ul>
+        </div>
+    </div>
+    </div>
+</footer>
+</body>
+</html>

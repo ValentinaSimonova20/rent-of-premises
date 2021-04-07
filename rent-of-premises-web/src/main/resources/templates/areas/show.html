@@ -29,8 +29,8 @@
             <div th:class="'card-body'">
 
                 <p th:class="'card-text'" th:text="${premises.description}">Описание</p>
-                <p th:class="'card-text'" th:text="'Цена: ' + ${premises.price}">Цена</p>
-                <p th:class="'card-text'" th:text="'Площадь: ' + ${premises.area} + ' м^2'">Площадь</p>
+                <p th:class="'card-text'" th:text="'Цена/месяц: ' + ${premises.price} +' ₽'">Цена</p>
+                <p th:class="'card-text'" th:text="'Площадь: ' + ${premises.area} + ' м²'">Площадь</p>
                 <p th:class="'card-text'" th:text="'Этаж: ' + ${premises.floor}">Этаж</p>
                 <p th:class="'card-text'" th:text="'Рабочих мест: ' + ${premises.workplaces}">Рабочих мест</p>
 
@@ -39,6 +39,12 @@
         <div th:switch="${userRole}">
             <form action="#" th:action="@{/areas/__${premises.id}__/show}"  th:object="${application}"  method="post" th:case="'USER'">
                 <div class="col-md-6 mb-6 card-text">
+
+                <div th:class="'form-group'">
+                   <div>
+                       Примерные сроки вашей аренды:
+                   </div>
+                </div>
 
                 <div th:class="'form-group is-valid card-text'">
                     <label for="startDate"> От: </label>
@@ -71,6 +77,8 @@
                     <a href="#" th:class="'btn btn-info'" role="button" th:href="@{'/areas/'+${premises.id}+'/edit'}">Изменить информацию о помещении</a>
                 </div>
             </div>
+
+
 
 
 

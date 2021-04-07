@@ -23,38 +23,38 @@
 
 <div th:class="'container my-4'">
 
-    <form action="#" th:action="@{/register}"  th:object="${client}"  method="post" >
+    <form th:object="${client}"  method="post" >
 
         <div class="col-md-6 mb-6">
 
-        <div th:class="${#fields.hasErrors('name')} ? 'form-group text-danger' : 'form-group is-valid'">
-            <label for="name"> Имя : </label>
+            <div th:class="${#fields.hasErrors('name')} ? 'form-group text-danger' : 'form-group is-valid'">
+                <label for="name"> Имя : </label>
 
-            <input type="text" id="name" th:class="${#fields.hasErrors('name')} ? 'form-control text-danger' : 'form-control'"  th:field="*{name}"/>
-            <div>
-            <small th:if="${#fields.hasErrors('name')}" class="text-danger" th:errors="*{name}">
-                <ul>
-                    <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
-                </ul>
-            </small>
+                <input type="text" id="name" th:class="${#fields.hasErrors('name')} ? 'form-control text-danger' : 'form-control'"  th:field="*{name}"/>
+                <div>
+                    <small th:if="${#fields.hasErrors('name')}" class="text-danger" th:errors="*{name}">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
+                        </ul>
+                    </small>
+                </div>
             </div>
-        </div>
 
-        <div th:class="'form-group is-valid'">
-            <label for="patronymic"> Отчество: </label>
-            <input th:class="'form-control'" type="text" id="patronymic" th:field="*{patronymic}"/>
-        </div>
+            <div th:class="'form-group is-valid'">
+                <label for="patronymic"> Отчество: </label>
+                <input th:class="'form-control'" type="text" id="patronymic" th:field="*{patronymic}"/>
+            </div>
 
-        <div th:class="${#fields.hasErrors('surname')} ? 'form-group text-danger' : 'form-group is-valid'">
+            <div th:class="${#fields.hasErrors('surname')} ? 'form-group text-danger' : 'form-group is-valid'">
 
-            <label for="surname"> Фамилия: </label>
-            <input type="text" th:class="${#fields.hasErrors('surname')} ? 'form-control text-danger' : 'form-control'" th:field="*{surname}" id="surname"/>
-            <small th:if="${#fields.hasErrors('surname')}" class="text-danger" th:errors="*{surname}">
-                <ul>
-                    <li th:each="err : ${#fields.errors('surname')}" th:text="${err}"></li>
-                </ul>
-            </small>
-        </div>
+                <label for="surname"> Фамилия: </label>
+                <input type="text" th:class="${#fields.hasErrors('surname')} ? 'form-control text-danger' : 'form-control'" th:field="*{surname}" id="surname"/>
+                <small th:if="${#fields.hasErrors('surname')}" class="text-danger" th:errors="*{surname}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('surname')}" th:text="${err}"></li>
+                    </ul>
+                </small>
+            </div>
 
             <div th:class="'form-group row mx-md-n5'">
 
@@ -101,9 +101,9 @@
 
             </div>
 
-    <div th:class="'form-group'">
-        <label for="phoneNumber"> Номер телефона:</label> <input type="text" th:class="'form-control'" id="phoneNumber" th:field="*{phoneNumber}"/>
-    </div>
+            <div th:class="'form-group'">
+                <label for="phoneNumber"> Номер телефона:</label> <input type="text" th:class="'form-control'" id="phoneNumber" th:field="*{phoneNumber}"/>
+            </div>
 
             <div th:class="${#fields.hasErrors('email')} ? 'form-group text-danger' : 'form-group is-valid'">
                 <label for="email"> Почта : </label>
@@ -124,8 +124,17 @@
             </div>
 
 
+            <div th:class="'form-group'" th:if="${userRole == 'ADMIN'}">
+                <label for="role"> Роль:</label>
 
-            <div th:class="${#fields.hasErrors('pass')} ? 'form-group text-danger' : 'form-group is-valid'">
+                <select class="browser-default custom-select" id="role" th:name="role" >
+                    <option th:each="role : ${roles}" th:value="${role}" th:text="${role.toString()}" th:selected="${role==client.getRole()}"></option>
+                </select>
+
+            </div>
+
+
+            <div th:if="${client['new']}" th:class="${#fields.hasErrors('pass')} ? 'form-group text-danger' : 'form-group is-valid'">
                 <label for="pass"> Пароль: </label>
 
                 <input type="password" id="pass" th:class="${#fields.hasErrors('pass')} ? 'form-control text-danger' : 'form-control'"  th:field="*{pass}"/>
@@ -140,10 +149,15 @@
 
 
 
-    <div th:class="'form-group'">
-        <input  type="submit" class="btn btn-success" value="Зарегистрироваться"/>
+            <div th:class="'form-group'">
 
-    </div>
+                <button
+                        th:with="text=${client['new']} ? 'Добавить пользователя' : 'Изменить'"
+                        class="btn btn-success" type="submit" th:text="${text}">Добавить пользователя</button>
+
+
+
+            </div>
 
         </div>
     </form>
