@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import simonova.rent.rentofpremises.dto.UserDTO;
 import simonova.rent.rentofpremises.model.Role;
 import simonova.rent.rentofpremises.model.Status;
-import simonova.rent.rentofpremises.model.User;
 import simonova.rent.rentofpremises.services.UserService;
 
 @Component
