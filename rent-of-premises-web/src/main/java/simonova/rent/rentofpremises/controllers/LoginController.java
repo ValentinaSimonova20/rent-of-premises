@@ -14,29 +14,25 @@ import simonova.rent.rentofpremises.services.UserService;
 import javax.validation.Valid;
 
 /**
- * Контроллер отображает страницу авторизациию В нем также определны страницы, которые отображаюются
+ * Контроллер отображает страницу авторизациию В нем также определены страницы, которые отображаюются
  * после авторизации того или иного пользователя (менеджер, клиент)
  */
 @Controller
 public class LoginController {
-
     UserService userService;
-
     public LoginController(UserService userService) {
         this.userService = userService;
     }
-
     @GetMapping("/login")
     public String login(Model model){
         PersonDTO personDTO = new PersonDTO();
         model.addAttribute("user", personDTO);
         return "index";
     }
-
     /**
      * Метод для сохранения введного email пользователем после неудачной попытки входа
-     * @param model
-     * @param email
+     * @param model модель приложения
+     * @param email введеная пользователем почта
      * @return
      */
     @GetMapping("/login/error/{email}")
@@ -47,7 +43,6 @@ public class LoginController {
         model.addAttribute("isLoginErr", true);
         return "index";
     }
-
     /**
      * Главная страница клиента
      * @return html страница клиента
@@ -57,12 +52,8 @@ public class LoginController {
 
         return "clients/index";
     }
-
     @ModelAttribute("activePage")
     public String setActivePage(){
         return "login";
     }
-
-
-
 }

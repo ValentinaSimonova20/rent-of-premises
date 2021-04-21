@@ -1,10 +1,6 @@
 package simonova.rent.rentofpremises.controllers;
-
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,24 +11,20 @@ import simonova.rent.rentofpremises.model.Person;
 import simonova.rent.rentofpremises.model.Role;
 import simonova.rent.rentofpremises.model.Status;
 import simonova.rent.rentofpremises.services.UserService;
-
 import javax.validation.Valid;
-
+/**
+ * Контроллер для обработки действий, связанных с регистрацией
+ */
 @Slf4j
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
-
     private final UserService clientService;
-
     private static final String VIEWS_REGISTER_FORM = "register/index";
-
     @Autowired
     public RegisterController(UserService clientService) {
-
         this.clientService = clientService;
     }
-
     /**
      * Отображение страницы регистрации
      * @return html страница регистрации
@@ -43,7 +35,6 @@ public class RegisterController {
         model.addAttribute("client",person);
         return VIEWS_REGISTER_FORM;
     }
-
     /**
      * Добавить нового клиента в бд
      * @param userDTO объект нового клиента
@@ -60,7 +51,6 @@ public class RegisterController {
             model.addAttribute("client", userDTO);
             return VIEWS_REGISTER_FORM;
         }
-
         // Проверка на то, нет ли в базе данных пользователя с таким email
         UserDTO newClient = clientService.findByEmail(userDTO.getEmail());
         if(newClient != null){
@@ -68,18 +58,14 @@ public class RegisterController {
             model.addAttribute("client", userDTO);
             return  VIEWS_REGISTER_FORM;
         }
-
         userDTO.setStatus(Status.ACTIVE);
         userDTO.setRole(Role.USER);
         userDTO.setPass(BCrypt.hashpw(userDTO.getPass(), BCrypt.gensalt(12)));
         clientService.save(userDTO);
         return "redirect:/login";
     }
-
     @ModelAttribute("activePage")
     public String setActivePage(){
         return "reg";
     }
-
-
 }

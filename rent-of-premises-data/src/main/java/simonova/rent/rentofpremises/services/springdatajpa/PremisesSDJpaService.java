@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import simonova.rent.rentofpremises.converters.PremisesConverter;
@@ -14,7 +13,6 @@ import simonova.rent.rentofpremises.model.FilterArea;
 import simonova.rent.rentofpremises.model.Premises;
 import simonova.rent.rentofpremises.repositories.PremisesRepository;
 import simonova.rent.rentofpremises.services.PremisesService;
-
 import java.util.ArrayList;
 import java.util.List;
 

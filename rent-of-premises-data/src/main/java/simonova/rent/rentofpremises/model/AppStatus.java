@@ -5,20 +5,14 @@ package simonova.rent.rentofpremises.model;
  * IN_PROCESSING - в обработке
  * ACCEPTED - принята
  * REJECTED - отклонена*/
-
 public enum  AppStatus {
-
     WAIT_FOR_CONSIDERATION ("Ожидает рассмотрения"), IN_PROCESSING("Рассматривается"),
     ACCEPTED("Принята"), REJECTED("Отклонена");
-
     private String name;
-
     AppStatus(String name) {
         this.name = name;
     }
-
     public String getName() {
         return name;
     }
-
 }

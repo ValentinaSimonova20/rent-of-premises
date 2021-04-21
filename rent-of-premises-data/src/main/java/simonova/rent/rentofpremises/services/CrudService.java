@@ -1,6 +1,5 @@
 package simonova.rent.rentofpremises.services;
 import java.util.List;
-
 /**
  * В интерфейсе определены общие для всех таблиц операции
  * @param <T> тип объекта (Client, Payment ...)

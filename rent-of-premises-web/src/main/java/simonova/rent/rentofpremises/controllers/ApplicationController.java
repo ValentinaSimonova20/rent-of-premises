@@ -3,8 +3,6 @@ package simonova.rent.rentofpremises.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import simonova.rent.rentofpremises.converters.ApplicationConverter;
 import simonova.rent.rentofpremises.dto.ApplicationDTO;
-import simonova.rent.rentofpremises.dto.UserDTO;
 import simonova.rent.rentofpremises.exception.NoAppException;
 import simonova.rent.rentofpremises.model.AppStatus;
 import simonova.rent.rentofpremises.model.Application;
@@ -25,6 +22,9 @@ import simonova.rent.rentofpremises.services.UserService;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Контроллер, обрабатывающий действия пользователей, связанные с подачей заявки на аренду
+ */
 @Controller
 public class ApplicationController {
 
@@ -100,7 +100,7 @@ public class ApplicationController {
     }
 
     /**
-     * Сераница заявок активная
+     * Страница заявок активная
      * @return свойство applications
      */
     @ModelAttribute("activePage")

@@ -6,7 +6,9 @@ import simonova.rent.rentofpremises.model.Status;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
-
+/**
+ * Базовый класс для классов-моделей пользователей
+ */
 public class PersonDTO extends BaseDTO{
 
     /** Поле для хранения фамилии */
@@ -38,106 +40,61 @@ public class PersonDTO extends BaseDTO{
     @Size(min = 8, max = 255)
     private String pass;
 
+    /** Поле для хранения роли*/
     private Role role;
 
+    /** Поле для хранения статуса*/
     private Status status;
 
+    /** Поле для хранения названия организации*/
     private String organization;
     private String activity;
 
-    public String getName() {
-        return name;
-    }
+    public String getName() {return name;}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) {this.name = name;}
 
-    public String getPatronymic() {
-        return patronymic;
-    }
+    public String getPatronymic() {return patronymic;}
 
-    public void setPatronymic(String patronymic) {
-        this.patronymic = patronymic;
-    }
+    public void setPatronymic(String patronymic) {this.patronymic = patronymic;}
 
-    public String getSeriesNumberOfPassport() {
-        return seriesNumberOfPassport;
-    }
+    public String getSeriesNumberOfPassport() {return seriesNumberOfPassport;}
 
-    public void setSeriesNumberOfPassport(String seriesNumberOfPassport) {
-        this.seriesNumberOfPassport = seriesNumberOfPassport;
-    }
+    public void setSeriesNumberOfPassport(String seriesNumberOfPassport) {this.seriesNumberOfPassport = seriesNumberOfPassport;}
 
-    public String getPassportNumber() {
-        return passportNumber;
-    }
+    public String getPassportNumber() {return passportNumber;}
 
-    public void setPassportNumber(String passportNumber) {
-        this.passportNumber = passportNumber;
-    }
+    public void setPassportNumber(String passportNumber) {this.passportNumber = passportNumber;}
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+    public String getPhoneNumber() {return phoneNumber;}
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+    public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber; }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getEmail() { return email;}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void setEmail(String email) {this.email = email;}
 
-    public String getPass() {
-        return pass;
-    }
+    public String getPass() {return pass;}
 
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
+    public void setPass(String pass) {this.pass = pass; }
 
-    public Role getRole() {
-        return role;
-    }
+    public Role getRole() {return role;}
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
+    public void setRole(Role role) {this.role = role;}
 
-    public Status getStatus() {
-        return status;
-    }
+    public Status getStatus() {return status;}
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
+    public void setStatus(Status status) {this.status = status; }
 
-    public String getSurname() {
-        return surname;
-    }
+    public String getSurname() {return surname;}
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
+    public void setSurname(String surname) {this.surname = surname;}
 
-    public String getOrganization() {
-        return organization;
-    }
+    public String getOrganization() {return organization; }
 
-    public void setOrganization(String organization) {
-        this.organization = organization;
-    }
+    public void setOrganization(String organization) {this.organization = organization; }
 
-    public String getActivity() {
-        return activity;
-    }
+    public String getActivity() {return activity;}
 
-    public void setActivity(String activity) {
-        this.activity = activity;
-    }
+    public void setActivity(String activity) {this.activity = activity;}
 }

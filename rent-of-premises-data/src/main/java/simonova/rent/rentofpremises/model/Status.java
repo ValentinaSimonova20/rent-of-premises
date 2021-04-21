@@ -1,5 +1,4 @@
 package simonova.rent.rentofpremises.model;
-
 /**
  * Класс статуса клиента
  */

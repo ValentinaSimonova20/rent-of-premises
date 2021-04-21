@@ -11,7 +11,6 @@ import simonova.rent.rentofpremises.dto.UserDTO;
 import simonova.rent.rentofpremises.model.User;
 import simonova.rent.rentofpremises.repositories.UserRepository;
 import simonova.rent.rentofpremises.services.UserService;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,8 +52,6 @@ public class UserSDJpaService implements UserService {
 
         return userConverter.convertToDto(user);
     }
-
-
 
     @Override
     public UserDTO findById(Long aLong) {

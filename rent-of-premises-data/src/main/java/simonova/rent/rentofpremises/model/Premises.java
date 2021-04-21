@@ -1,17 +1,13 @@
 package simonova.rent.rentofpremises.model;
-
 import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.util.Set;
-
 /**
  * Класс помещения на аренду бизнес-центра
  */
 @Entity
 @Table(name = "premises")
 public class Premises extends BaseEntity{
-
 
     /** Поле для хранения названия помещения*/
     private String name;
@@ -116,5 +112,4 @@ public class Premises extends BaseEntity{
     public void setPhoto(String photo) {
         this.photo = photo;
     }
-
 }

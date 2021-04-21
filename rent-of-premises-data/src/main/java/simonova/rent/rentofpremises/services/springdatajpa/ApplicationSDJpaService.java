@@ -12,7 +12,6 @@ import simonova.rent.rentofpremises.dto.ApplicationDTO;
 import simonova.rent.rentofpremises.model.Application;
 import simonova.rent.rentofpremises.repositories.ApplicationRepository;
 import simonova.rent.rentofpremises.services.ApplicationService;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,14 +89,13 @@ public class ApplicationSDJpaService implements ApplicationService {
         Application application = applicationRepository.findByUserIdAndPremisesId(userId, premId).orElse(null);
         if (application == null) return null;
         return applicationConverter.convertToDto(application);
-
     }
 
     /**
      * Все заявки
-     * @param pageNo
-     * @param pageSize
-     * @return
+     * @param pageNo номер страницы
+     * @param pageSize количество записей на странице
+     * @return все заявки на определенной странице
      */
     @Override
     public Page<Application> findPaginated(int pageNo, int pageSize) {
@@ -107,10 +105,10 @@ public class ApplicationSDJpaService implements ApplicationService {
 
     /**
      * Заявки определенного пользователя
-     * @param id
-     * @param pageNo
-     * @param pageSize
-     * @return
+     * @param id идентификатор заявки
+     * @param pageNo номер страницы
+     * @param pageSize количество записей на странице
+     * @return заявки пользователя
      */
     @Override
     public Page<Application> findByUserId(Long id, int pageNo, int pageSize) {

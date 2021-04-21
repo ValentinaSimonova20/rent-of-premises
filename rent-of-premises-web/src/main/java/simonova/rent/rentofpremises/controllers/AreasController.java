@@ -9,11 +9,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import simonova.rent.rentofpremises.converters.ApplicationConverter;
 import simonova.rent.rentofpremises.converters.PremisesConverter;
 import simonova.rent.rentofpremises.dto.ApplicationDTO;
 import simonova.rent.rentofpremises.dto.PremisesDTO;
@@ -28,8 +26,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-
-
+/**
+ * Контроллер для обработки действий, связанных с помещениями(офисами) бизнес-центра
+ */
 @Slf4j
 @Controller
 public class AreasController {
@@ -42,9 +41,6 @@ public class AreasController {
     private static final String VIEWS_ADD_OR_EDIT_PREMISES_FORM = "areas/addOrEditPremisesForm";
     private final static String premises = "premises";
     private boolean isFilter = false;
-
-
-
 
     public AreasController(PremisesService premisesService, ApplicationService applicationService, UserService userService) {
         this.premisesService = premisesService;
@@ -124,14 +120,11 @@ public class AreasController {
     public String findPaginated(@PathVariable("pageNo") int pageNo, Model model){
         int pageSize = 3;
         Page<Premises> page;
-
-
         if(!isFilter) {
             premisesDTOS = new ArrayList<>();
             PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
             page = premisesService.findByIsRented(false,pageNo,pageSize);
             page.forEach(prem -> premisesDTOS.add(premisesConverter.convertToDTO(prem)));
-
         }
         else {
 
@@ -147,13 +140,11 @@ public class AreasController {
                     rents.add(true);
                     rents.add(false);
             }
-
             List<Integer> floor = new ArrayList<>();
             if(filterAreaGlob.getFloor() == -1)
                 floor.addAll(premisesService.getAllFloors());
             else
                 floor.add(filterAreaGlob.getFloor());
-
             premisesDTOS = new ArrayList<>();
             PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
             page = premisesService.findAllPremisesPaginated(filterAreaGlob,rents, floor, pageNo, pageSize);
@@ -163,23 +154,14 @@ public class AreasController {
 
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
-
-
         model.addAttribute("filter", filterAreaGlob);
-
-
         model.addAttribute(premises, premisesDTOS);
-
-
         model.addAttribute("currentPage", pageNo);
-
-
         return "clients/index";
-
     }
 
     /**
-     * Страница просмотра менеджером информаии об определенном клиенте
+     * Страница просмотра менеджером информации об определенном клиенте
      * hasAuthority('developers:write') - проверяет существуют ли у пользователя права на просмотр данной страницы
      * в данном случае доступ имеет только менеджер
      * @param model контейнер данных
@@ -211,10 +193,7 @@ public class AreasController {
            model.addAttribute(premises, premisesDTO);
            return VIEWS_ADD_OR_EDIT_PREMISES_FORM;
        }
-
-
        premisesDTO.setId(premisesId);
-
        // Проверка на то, изменил ли пользователь изображение площади
         // Если пользователь не менял изображение, файл передастся пустой
        if(multipartFile.getSize() != 0){
@@ -223,9 +202,7 @@ public class AreasController {
        else {
            premisesDTO.setPhoto(premisesService.findById(premisesId).getPhoto());
        }
-
         PremisesDTO savedPremises = premisesService.save(premisesDTO);
-
         return "redirect:/areas/"+savedPremises.getId()+"/show";
     }
 
@@ -253,46 +230,28 @@ public class AreasController {
 
             return VIEWS_ADD_OR_EDIT_PREMISES_FORM;
         }
-
         premisesDTO.setPhoto(Base64.getEncoder().encodeToString(multipartFile.getBytes()));
         // при добавлении площадь еще не сдана
         premisesDTO.setRented(false);
-
-
-        // Загрузка фотографии помещения
-
-
         PremisesDTO savedPremises = premisesService.save(premisesDTO);
 
 
         return "redirect:/areas/"+savedPremises.getId()+"/show";
     }
 
-
     // Фильтрация помещений
     @PostMapping("/areas")
     @Transactional
     public String filterAreas(@Valid FilterArea filterArea, Model model){
-
-
         filterAreaGlob = filterArea;
         if(filterArea.getRented() == null) filterAreaGlob.setRented("notRent");
-
         isFilter = true;
-
         model.addAttribute("filter", filterAreaGlob);
-
         return findPaginated(1, model);
-
     }
-
 
     @ModelAttribute("floors")
     public List<Integer> setFloorsForFilter(){
         return premisesService.getAllFloors();
     }
-
-
-
-
 }

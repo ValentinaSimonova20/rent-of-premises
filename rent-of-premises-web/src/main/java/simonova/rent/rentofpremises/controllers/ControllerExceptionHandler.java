@@ -1,5 +1,4 @@
 package simonova.rent.rentofpremises.controllers;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -13,19 +12,16 @@ import simonova.rent.rentofpremises.exception.NoAppException;
 import simonova.rent.rentofpremises.model.Person;
 import simonova.rent.rentofpremises.services.UserService;
 
-
+/**
+ * Контроллер для обработки ошибок, происходящих во время работы контроллеров
+ */
 @Slf4j
 @ControllerAdvice
 public class ControllerExceptionHandler {
-
-
     UserService userService;
-
     public ControllerExceptionHandler(UserService userService) {
         this.userService = userService;
     }
-
-
     /**
      * Возвращает пользователю страницу с информацией об ошибке (ограничение доступа)
      * @param exception объект ошибки
@@ -34,28 +30,26 @@ public class ControllerExceptionHandler {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(AccessDeniedException.class)
     public ModelAndView handleForbiddenRequest(Exception exception){
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         log.error("Handling forbidden exception");
         log.error(exception.getMessage());
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("errors/403error");
-
         modelAndView.addObject("exception", exception);
         modelAndView.addObject("activePage","applications");
         modelAndView.addObject("userRole", Person.getAuthUser(authentication, userService).getRole().toString());
         return modelAndView;
-
-
     }
 
+    /**
+     * Возвращает пользователю страницу с информацией об ошибке (ресурс не найден)
+     * @param exception объект ошибки
+     * @return modelAndView
+     */
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoAppException.class)
     public ModelAndView handleAppException(Exception exception){
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         log.error("Handling not found exception");
         log.error(exception.getMessage());
         ModelAndView modelAndView = new ModelAndView();
@@ -63,15 +57,6 @@ public class ControllerExceptionHandler {
         modelAndView.addObject("exception", exception);
         modelAndView.addObject("activePage","applications");
         modelAndView.addObject("userRole", Person.getAuthUser(authentication, userService).getRole().toString());
-
         return modelAndView;
-
     }
-
-
-
-
-
-
-
 }

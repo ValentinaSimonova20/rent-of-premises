@@ -40,6 +40,11 @@ public class AdminController {
         this.modelMapper = modelMapper;
     }
 
+    /**
+     * Отображение списка пользователей
+     * @param model модель приложения для передачи/получения данных
+     * @return html страница
+     */
     @PreAuthorize("hasAuthority('developers:addUsers')")
     @GetMapping("/adminPage")
     public String showUsers(Model model) {
@@ -48,6 +53,12 @@ public class AdminController {
         return findPaginated(1, model);
     }
 
+    /**
+     * отображение списка пользователей постранично
+     * @param pageNo номер страницы
+     * @param model модель приложения
+     * @return html страница
+     */
     @PreAuthorize("hasAuthority('developers:addUsers')")
     @GetMapping("users/page/{pageNo}")
     public String findPaginated(@PathVariable int pageNo, Model model) {
@@ -67,6 +78,12 @@ public class AdminController {
         return "admin/clientsList";
     }
 
+    /**
+     * Отображение страницы с редактированием информации о пользователе
+     * @param userId id пользователя, информация о котором будет редактироваться
+     * @param model модель приложения
+     * @return html страница с формой редактирования информации о пользователе
+     */
     @PreAuthorize("hasAuthority('developers:addUsers')")
     @GetMapping("/users/{userId}/edit")
     public String editUser(@PathVariable Long userId, Model model){
@@ -76,6 +93,14 @@ public class AdminController {
         return "admin/addOrEditClient";
     }
 
+    /**
+     * Подтверждение внесенных изменений о пользователе и добавление их в базу данных
+     * @param userDTO модель данных пользователя
+     * @param result для проверки информации об ошибках
+     * @param userId id пользователя, измененная информация о котором вносится в систему
+     * @param model модель приложения
+     * @return
+     */
     @PreAuthorize("hasAuthority('developers:addUsers')")
     @PostMapping("/users/{userId}/edit")
     public String editUserPost(@Valid @ModelAttribute("client") UserDTO userDTO, BindingResult result, @PathVariable Long userId, Model model){
@@ -101,6 +126,11 @@ public class AdminController {
     }
 
 
+    /**
+     * Отображение страницы с формой добавления нового пользователя в систему
+     * @param model модель приложения
+     * @return html-страница с формой добавления
+     */
     @PreAuthorize("hasAuthority('developers:addUsers')")
     @GetMapping("/users/add")
     public String addUserInitForm(Model model){
@@ -110,6 +140,13 @@ public class AdminController {
         return "admin/addOrEditClient";
     }
 
+    /**
+     * Добавление нового пользователя в систему
+     * @param userDTO модель данных нового пользователя
+     * @param result переменная с информацией об ошибках
+     * @param model модель приложения
+     * @return html-страница со списком всех пользователей
+     */
     @PreAuthorize("hasAuthority('developers:addUsers')")
     @PostMapping("/users/add")
     public String addUserInitForm(@Valid @ModelAttribute("client") UserDTO userDTO, BindingResult result, Model model){

@@ -5,12 +5,11 @@ import java.time.LocalDate;
 import java.util.Date;
 
 /**
- * Класс заявки на аренду помещения бизнес-центров
+ * Класс-сущность заявки на аренду помещения бизнес-центров
  */
 @Entity
 @Table(name = "applications")
 public class Application extends BaseEntity{
-
 
     /** Поле для хранения клиента, который подал заявку*/
     @ManyToOne
@@ -31,10 +30,7 @@ public class Application extends BaseEntity{
     @Enumerated(value = EnumType.STRING)
     private AppStatus status;
 
-
-    public Application() {
-
-    }
+    public Application() {}
 
     public User getClient() {
         return user;
