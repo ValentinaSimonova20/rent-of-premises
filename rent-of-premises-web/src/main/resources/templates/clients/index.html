@@ -32,10 +32,12 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
-<div class="container ">
+<div class="container-fluid">
     <form id="filter-form" th:action="@{/areas}" name="filter-form" th:object="${filter}" method="post" >
 
-        <div class="col-sm-8">
+
+        <div th:class="'row d-flex justify-content-center'">
+        <div class="col-xs-12 col-md-6">
         &nbsp;
         <div th:class="'row'">
 
@@ -54,11 +56,9 @@
                 <input type="number" th:name="workplace" th:class="'form-control form-control-sm'" th:field="*{workplaces}" id="workPlace" size="50"  />
             </div>
 
-
-
         </div>
 
-        <div th:class="'row justify-content-start'">
+        <div th:class="'row d-flex justify-content-center'">
             <div th:class="'form-group col-4'">
                 <label for="priceMin" th:class="'form-label col-form-label-sm'">Цена от:</label>
                 <input type="number" th:class="'form-control form-control-sm'" step="0.01" th:field="*{priceMin}" th:name="priceMin" id="priceMin" size="50" />
@@ -79,66 +79,74 @@
             </div>
         </div>
 
-            <div th:class="'row justify-content-start'" th:if="${userRole=='MANAGER'}">
+            <div th:class="'row d-flex justify-content-center'">
+                <div class="form-group">
 
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-light">
-                        <input type="radio" value="rent" name="rented" id="rent" th:field="*{rented}" autocomplete="off">Арендована
-                    </label>
-                    <label class="btn btn-light">
-                        <input type="radio" value="notRent" name="rented" id="notRent" th:field="*{rented}" autocomplete="off">Не Арендована
-                    </label>
-                    <label class="btn btn-light">
-                        <input type="radio" value="all" name="rented" id="all" th:field="*{rented}" autocomplete="on" checked>Все помещения
-                    </label>
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-light">
+                            <input type="radio" value="asc" name="priceSort" id="asc" th:field="*{priceSort}" autocomplete="off">Цена по возрастанию
+                        </label>
+                        <label class="btn btn-light">
+                            <input type="radio" value="desc" name="priceSort" id="desc" th:field="*{priceSort}" autocomplete="off"> Цена по убыванию
+                        </label>
+                        <label class="btn btn-light">
+                            <input type="radio" value="none" name="priceSort" id="none" th:field="*{priceSort}" autocomplete="on" checked> Без сортировки
+                        </label>
+                    </div>
                 </div>
-
-            </div>
             </div>
 
-         <div th:class="'row justify-content-start'">
-             <div class="form-group">
+            <div th:class="'row d-flex justify-content-center'">
+                <div th:class="'form-group col-4'">
+                    <div th:class="'row d-flex justify-content-start'" th:if="${userRole=='MANAGER'}">
 
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-light">
-                        <input type="radio" value="asc" name="priceSort" id="asc" th:field="*{priceSort}" autocomplete="off">Цена по возрастанию
-                    </label>
-                    <label class="btn btn-light">
-                        <input type="radio" value="desc" name="priceSort" id="desc" th:field="*{priceSort}" autocomplete="off"> Цена по убыванию
-                    </label>
-                    <label class="btn btn-light">
-                        <input type="radio" value="none" name="priceSort" id="none" th:field="*{priceSort}" autocomplete="on" checked> Без сортировки
-                    </label>
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-light">
+                                <input type="radio" value="rent" name="rented" id="rent" th:field="*{rented}" autocomplete="off">Арендована
+                            </label>
+                            <label class="btn btn-light">
+                                <input type="radio" value="notRent" name="rented" id="notRent" th:field="*{rented}" autocomplete="off">Не Арендована
+                            </label>
+                            <label class="btn btn-light">
+                                <input type="radio" value="all" name="rented" id="all" th:field="*{rented}" autocomplete="on" checked>Все помещения
+                            </label>
+                        </div>
+
+                    </div>
                 </div>
-             </div>
             </div>
 
-
-            <div th:class="'row justify-content-start'">
+            <div th:class="'row d-flex justify-content-center'">
                 <div th:class="'form-group col-4'">
                     <input type="submit" class="btn btn-outline-success btn-block" value="Поиск" />
                 </div>
-
                 <div th:class="'form-group col-4'">
                     <input type="button" class="btn btn-outline-dark" value="Очистить" id="btnClear" onclick="clearSearch()" />
                 </div>
             </div>
 
+        </div>
+        </div>
 
     </form>
 
+    <div th:class="'row d-flex justify-content-center'">
+    <div class="col-md-9 col-xs-9 col-xl-9">
+        <div th:class="'row d-flex justify-content-center'">
 
-    <div class="col-md-9">
-        <div th:each="prem : ${premises}" class="card mb-3 "  style="max-width: 800px;">
-                <h4 class="card-header"><a href="#"  th:text="${prem.name}" th:href="@{'/areas/'+${prem.id}+'/show'}">Название</a></h4>
-                <div class="row no-gutters">
-                    <div class="col-md-4">
+        <div th:class="'row'" th:each="prem : ${premises}">
+            <div class="col-lg-12">
+        <div class="card mb-3 "  style="max-width: 800px;">
+            <h4 class="card-header"><a href="#"  th:text="${prem.name}" th:href="@{'/areas/'+${prem.id}+'/show'}">Название</a></h4>
+            <div class="row no-gutters">
+
+                    <div class="col-md-7 col-lg-4 col-xs-1">
                         <a href="#" th:href="@{'/areas/'+${prem.id}+'/show'}">
-                            <img th:src="*{'data:image/jpeg;base64,'+{prem.photo}}" class="card-img" width="300" height="250" alt="">
+                            <img th:src="*{'data:image/jpeg;base64,'+{prem.photo}}" class="card-img" alt="">
                         </a>
                     </div>
 
-                    <div class="col-md-8">
+                    <div class="col-md-4 col-lg-8  col-xs-1">
                         <div class="card-body">
                         <p class="card-text font-weight-normal" th:text="${prem.description}">Описание</p>
                         <p class="card-text" th:text="'Площадь: ' + ${prem.area} + ' м²'">Площадь</p>
@@ -152,6 +160,10 @@
                 </div>
 
         </div>
+        </div>
+        </div>
+    </div>
+    </div>
     </div>
 </div>
 <div th:replace="~{fragments/pagination/areas :: pagination}"></div>

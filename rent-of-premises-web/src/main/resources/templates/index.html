@@ -24,6 +24,7 @@
 
     <form th:action="@{/login}" th:object="${user}" method="post">
 
+        <div th:class="'row d-flex justify-content-center'">
         <div class="col-md-6 mb-6">
 
             <div th:class="${isLoginErr} ? 'form-group text-danger' : 'form-group is-valid'">
@@ -47,6 +48,7 @@
                 <input type="submit" class="btn btn-success" value="Войти"/>
             </div>
 
+        </div>
         </div>
 </form>
 

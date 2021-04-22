@@ -25,8 +25,9 @@
 
     <form action="#" th:action="@{/register}"  th:object="${client}"  method="post" >
 
-        <div class="col-md-6 mb-6">
-
+        <div class="col-md-12 col-lg-12">
+            <div class="row d-flex justify-content-center">
+            <div class="col-lg-6">
         <div th:class="${#fields.hasErrors('name')} ? 'form-group text-danger' : 'form-group is-valid'">
             <label for="name"> Имя : </label>
 
@@ -144,7 +145,8 @@
         <input  type="submit" class="btn btn-success" value="Зарегистрироваться"/>
 
     </div>
-
+</div>
+            </div>
         </div>
     </form>
 </div>

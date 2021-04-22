@@ -7,6 +7,7 @@
 <body>
 <footer class="footer mt-auto py-3" th:fragment="pagination">
     <div class="container">
+        <div th:class="'row d-flex justify-content-center'">
         <div th:if="${totalPages > 1}">
             <ul class="pagination">
 
@@ -30,7 +31,6 @@
             </span>
 
 
-
             <li class="page-item" th:if="${currentPage < totalPages}">
                 <a class="page-link" th:href="@{'/areas/page/'+${currentPage+1}}">Следующая</a>
             </li>
@@ -43,6 +43,7 @@
 
             </ul>
             </div>
+        </div>
         </div>
     </div>
 </footer>
