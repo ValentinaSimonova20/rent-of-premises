@@ -25,10 +25,10 @@
 
     <form action="#" th:action="@{/register}"  th:object="${client}"  method="post" >
 
-        <div class="col-md-12 col-lg-12">
+        <div class="col-mb-12 col-lg-12">
             <div class="row d-flex justify-content-center">
-            <div class="col-lg-6">
-        <div th:class="${#fields.hasErrors('name')} ? 'form-group text-danger' : 'form-group is-valid'">
+            <div class="col-lg-6 col-mb-12">
+        <div th:class="${#fields.hasErrors('name')} ? 'form-group mb-2 text-danger' : 'form-group mb2 is-valid'">
             <label for="name"> Имя : </label>
 
             <input type="text" id="name" th:class="${#fields.hasErrors('name')} ? 'form-control text-danger' : 'form-control'"  th:field="*{name}"/>
