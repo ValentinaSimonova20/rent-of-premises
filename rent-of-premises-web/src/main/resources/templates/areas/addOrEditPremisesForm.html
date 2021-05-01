@@ -23,11 +23,12 @@
     }
 </script>
 <div th:class="'container my-4'">
+    <div th:class="'row d-flex justify-content-center'">
 
     <form th:object="${premises}"  method="post" enctype="multipart/form-data">
 
 
-        <div class="col-md-6 mb-6">
+        <div class="col-mb-6 col-lg-12">
 
             <div th:class="${#fields.hasErrors('name')} ? 'form-group text-danger' : 'form-group is-valid'">
                 <label th:class="'form-label'" for="name"> Название : </label>
@@ -141,6 +142,7 @@
 
         </div>
     </form>
+    </div>
 
 </div>
 <div th:replace="~{fragments/footer :: footer}"></div>

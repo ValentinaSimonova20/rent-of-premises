@@ -19,8 +19,8 @@
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
 <div th:class="'container my-4'">
-
-    <div class="col-md-6 mb-6">
+    <div th:class="'row d-flex justify-content-center'">
+    <div class="col-lg-6 col-mb-6">
 
     <div class="card">
         <div class="card-header" th:text="${client.name} +' '+${client.patronymic} + ' ' +${client.surname}">
@@ -56,15 +56,15 @@
 
                 </div>
             </li>
-            <li class="list-group-item" th:if="${client.organization} != null" th:text="'Организация: '+${client.organization}">Организация</li>
-            <li class="list-group-item" th:if="${client.activity} != null" th:text="'Деятельность: '+${client.activity}">Деятельность</li>
+            <li class="list-group-item" th:if="${client.organization} != null and ${client.organization} !=''" th:text="'Организация: '+${client.organization}">Организация</li>
+            <li class="list-group-item" th:if="${client.activity} != null and ${client.activity} !=''" th:text="'Деятельность: '+${client.activity}">Деятельность</li>
             <li class="list-group-item" th:text="'Номер телефона: '+${client.phoneNumber}">Номер телефона</li>
             <li class="list-group-item" th:text="'Почта: '+${client.email}">Email</li>
         </ul>
     </div>
     </div>
 
-
+    </div>
 </div>
 
 

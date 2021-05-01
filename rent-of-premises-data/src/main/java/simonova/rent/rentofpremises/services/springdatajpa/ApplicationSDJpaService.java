@@ -5,6 +5,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import simonova.rent.rentofpremises.converters.ApplicationConverter;
@@ -99,7 +100,7 @@ public class ApplicationSDJpaService implements ApplicationService {
      */
     @Override
     public Page<Application> findPaginated(int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize,Sort.by("premises_id"));
         return this.applicationRepository.findAll(pageable);
     }
 
@@ -112,7 +113,7 @@ public class ApplicationSDJpaService implements ApplicationService {
      */
     @Override
     public Page<Application> findByUserId(Long id, int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("premises_id"));
         return applicationRepository.findByUserId(id, pageable);
     }
 }
