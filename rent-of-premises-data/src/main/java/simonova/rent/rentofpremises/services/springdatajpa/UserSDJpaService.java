@@ -85,6 +85,7 @@ public class UserSDJpaService implements UserService {
         clientRepository.deleteById(aLong);
     }
 
+    @Transactional
     @Override
     public Page<User> findPaginated(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo-1, pageSize);

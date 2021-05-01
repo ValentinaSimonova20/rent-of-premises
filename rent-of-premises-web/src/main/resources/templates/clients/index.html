@@ -97,8 +97,7 @@
             </div>
 
             <div th:class="'row d-flex justify-content-center'">
-                <div th:class="'form-group col-4'">
-                    <div th:class="'row d-flex justify-content-start'" th:if="${userRole=='MANAGER'}">
+                <div th:class="'form-group'" th:if="${userRole=='MANAGER'}">
 
                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
                             <label class="btn btn-light">
@@ -112,7 +111,7 @@
                             </label>
                         </div>
 
-                    </div>
+
                 </div>
             </div>
 

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +46,7 @@ public class AdminController {
      * @param model модель приложения для передачи/получения данных
      * @return html страница
      */
+    @Transactional
     @PreAuthorize("hasAuthority('developers:addUsers')")
     @GetMapping("/adminPage")
     public String showUsers(Model model) {
@@ -59,6 +61,7 @@ public class AdminController {
      * @param model модель приложения
      * @return html страница
      */
+    @Transactional
     @PreAuthorize("hasAuthority('developers:addUsers')")
     @GetMapping("users/page/{pageNo}")
     public String findPaginated(@PathVariable int pageNo, Model model) {
