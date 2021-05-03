@@ -119,6 +119,7 @@ public class AdminController {
         }
 
         userDTO.setId(userId);
+        userDTO.setStatus(Status.ACTIVE);
 
         if(userDTO.getPass() == null)
             userDTO.setPass(userService.findById(userId).getPass());
