@@ -129,10 +129,10 @@
 
     </form>
 
-    <div class="col-md-9 col-xs-9 col-sm-9 col-xl-9 col-lg-9">
+    <div class="container col-md-9 col-xs-9 col-sm-9 col-xl-9 col-lg-9">
 
         <div th:class="'row d-flex justify-content-center'" th:each="prem : ${premises}">
-            <div class="col-lg-12">
+            <div class="col-lg-12 d-flex justify-content-center">
         <div class="card mb-3 "  style="max-width: 800px;">
             <h4 class="card-header"><a href="#"  th:text="${prem.name}" th:href="@{'/areas/'+${prem.id}+'/show'}">Название</a></h4>
             <div class="row no-gutters">
