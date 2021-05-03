@@ -23,6 +23,13 @@ public class DataLoader implements CommandLineRunner {
         if(count == 0){
             loadData();
         }
+
+        if(count > 0) {
+            UserDTO admin = userService.findByEmail("admin@gmail.com");
+            admin.setStatus(Status.ACTIVE);
+            userService.save(admin);
+        }
+
     }
 
     private void loadData(){
