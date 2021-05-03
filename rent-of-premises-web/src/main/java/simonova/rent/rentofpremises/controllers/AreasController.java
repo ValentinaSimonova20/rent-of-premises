@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
 /**
  * Контроллер для обработки действий, связанных с помещениями(офисами) бизнес-центра
@@ -258,6 +259,8 @@ public class AreasController {
 
     @ModelAttribute("floors")
     public List<Integer> setFloorsForFilter(){
-        return premisesService.getAllFloors();
+        List <Integer> floors = premisesService.getAllFloors();
+        Collections.sort(floors);
+        return floors;
     }
 }
