@@ -29,5 +29,7 @@ public interface PremisesService extends CrudService<PremisesDTO, Long>{
 
     List<Integer> getAllFloors();
 
+    void deleteById(Long id);
+
     Page<Premises> findByIsRented(boolean isRented,int pageNo, int pageSize);
 }

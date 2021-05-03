@@ -24,6 +24,7 @@
             <th scope="col">Телефон</th>
             <th scope="col">Роль</th>
             <th scope="col"></th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
@@ -36,6 +37,7 @@
                 <td th:text="${user.phoneNumber}">Телефон</td>
                 <td th:text="${user.role}">Роль</td>
                 <td><a href="#" th:href="@{'/users/'+${user.id}+'/edit'}">Изменить</a></td>
+                <td><a href="#" th:href="@{'/users/'+${user.id}+'/delete'}">Удалить</a></td>
             </tr>
         </tbody>
     </table>

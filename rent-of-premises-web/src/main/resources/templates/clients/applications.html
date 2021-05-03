@@ -35,14 +35,30 @@
 
             <div class="col-mb-4 col-lg-5 col-sm-4  col-xs-1">
                 <div class="card-body">
-                    <p class="card-text" th:text="${app.additionalInfo}">Описание</p>
-                    <p class="card-text" th:if="${app.startRent != null || app.endRent != null}">Примерный срок аренды:</p>
-                    <p class="card-text" th:if="${app.startRent != null}" th:text="'от: ' + ${app.startRent}">Примерный срок аренды от</p>
-                    <p class="card-text" th:if="${app.endRent != null}" th:text="'до: '+${app.endRent}">Примерный срок аренды до</p>
-                    <p class="card-text" th:text="'Цена/месяц: ' + ${app.premises.price} + ' ₽'">Цена</p>
-                    <p class="card-text" th:if="${userRole == 'MANAGER'}"><a th:href="@{'/clientInfo/'+${app.getClient().getId()}+'/show'}" th:text="${app.getClient().getName()}+' '+${app.getClient().getSurname()}">фио клиента подавшего заявку</a></p>
 
-                    <p class="card-text" th:if="${userRole == 'USER'}" th:text="'Статус: '+${app.getStatus().getName()}">статус</p>
+                    <table class="table">
+                        <tr th:if="${app.startRent != null}">
+                            <th>Примерный срок аренды от</th>
+                            <td th:text="${app.startRent}">Примерный срок аренды от</td>
+                        </tr>
+                        <tr th:if="${app.endRent != null}">
+                            <th>Примерный срок аренды до</th>
+                            <td th:text="${app.endRent}">Примерный срок аренды до</td>
+                        </tr>
+                        <tr>
+                            <th>Цена/месяц</th>
+                            <td th:text="${app.premises.price} + ' ₽'">Цена/месяц</td>
+                        </tr>
+                        <tr th:if="${userRole == 'MANAGER'}">
+                            <th>Арендатор</th>
+                            <td><a th:href="@{'/clientInfo/'+${app.getClient().getId()}+'/show'}" th:text="${app.getClient().getName()}+' '+${app.getClient().getSurname()}">фио клиента подавшего заявку</a></td>
+                        </tr>
+
+                        <tr th:if="${userRole == 'USER'}">
+                            <th>Статус</th>
+                            <td th:text="${app.getStatus().getName()}">статус</td>
+                        </tr>
+                    </table>
 
 
                 </div>
@@ -51,11 +67,21 @@
 
         </div>
 
-        <div class="card-footer">
-            <div class="form-group blue-margin" th:if="${userRole == 'MANAGER'}">
+        <div class="card-footer" th:if="${app.additionalInfo != null && app.additionalInfo != ''}">
+            <table>
+                <tr>
+                    <th>Дополнение</th>
+                    <td th:text="${app.additionalInfo}">доп</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card-footer" th:if="${userRole == 'MANAGER'}">
+            <div class="form-group blue-margin">
                 <form th:action="@{'/app/' + ${app.id} + '/changeStat'} " method="post">
                     <div class="row">
-                        <label for="dropOperator">Статус заявки:</label>
+
+                        <label for="dropOperator"><b>Статус заявки:</b></label>
 
                         <div th:class="'form-group col-lg-5'">
                             <select class="browser-default custom-select" th:name="stat" id="dropOperator">
@@ -71,6 +97,7 @@
                 </form>
             </div>
         </div>
+
 
     </div>
 </div>

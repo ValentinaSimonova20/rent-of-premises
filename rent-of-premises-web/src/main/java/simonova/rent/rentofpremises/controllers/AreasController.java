@@ -250,6 +250,12 @@ public class AreasController {
         return findPaginated(1, model);
     }
 
+    @GetMapping("/areas/{premisesId}/delete")
+    public String deleteArea(@PathVariable Long premisesId){
+        premisesService.deleteById(premisesId);
+        return "redirect:/areas";
+    }
+
     @ModelAttribute("floors")
     public List<Integer> setFloorsForFilter(){
         return premisesService.getAllFloors();

@@ -1,4 +1,6 @@
 package simonova.rent.rentofpremises.model;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.util.Set;
@@ -35,7 +37,8 @@ public class Premises extends BaseEntity{
     private Boolean isRented;
 
     /** Поле для хранения списка заявок нв данное помещение*/
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "premises")
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "premises")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Application> applications;
 
 

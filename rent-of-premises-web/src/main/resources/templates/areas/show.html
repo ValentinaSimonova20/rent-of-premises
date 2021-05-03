@@ -86,9 +86,9 @@
                                 </div>
 
                                 <div class="row">
-                                    <div th:class="'form-group is-valid'">
+                                    <div th:class="'form-group is-valid col-lg-12'">
                                         <label for="addInf"> Дополнительна информация:  </label>
-                                        <input type="text" th:class="'form-control'" id="addInf" th:field="*{additionalInfo}" name="additionalInfo"/>
+                                        <textarea  th:class="'form-control'" id="addInf" th:field="*{additionalInfo}" name="additionalInfo">доп</textarea>
                                     </div>
                                 </div>
 
@@ -111,6 +111,10 @@
                     <div th:case="'MANAGER'">
                         <div th:class="'form-group'">
                             <a href="#" th:class="'btn btn-info'" role="button" th:href="@{'/areas/'+${premises.id}+'/edit'}">Изменить информацию о помещении</a>
+                        </div>
+
+                        <div th:class="'form-group'">
+                            <a href="#" th:class="'btn btn-danger'" role="button" th:href="@{'/areas/'+${premises.id}+'/delete'}">Удалить помещение</a>
                         </div>
                     </div>
 

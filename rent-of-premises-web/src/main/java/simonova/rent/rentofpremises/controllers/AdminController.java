@@ -163,10 +163,22 @@ public class AdminController {
             return "admin/addOrEditClient";
         }
 
+        if(userService.findByEmail(userDTO.getEmail())!=null){
+            model.addAttribute("client", userDTO);
+            model.addAttribute("message", "Пользователь с таким email уже зарегистрирован в системе");
+            return "admin/addOrEditClient";
+        }
+
         userDTO.setStatus(Status.ACTIVE);
         userDTO.setPass(BCrypt.hashpw(userDTO.getPass(), BCrypt.gensalt(12)));
         userService.save(userDTO);
 
+        return "redirect:/adminPage";
+    }
+
+    @GetMapping("/users/{userId}/delete")
+    public String deleteUser(@PathVariable Long userId){
+        userService.deleteById(userId);
         return "redirect:/adminPage";
     }
 

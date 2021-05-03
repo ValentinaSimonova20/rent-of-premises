@@ -11,4 +11,6 @@ public interface UserService extends CrudService<UserDTO, Long>{
     UserDTO findByEmail(String email);
 
     Page<User> findPaginated(int pageNo, int pageSize);
+
+    void deleteById(Long id);
 }

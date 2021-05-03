@@ -147,10 +147,24 @@
 
                     <div class="col-mb-4 col-lg-5 col-sm-4  col-xs-1">
                         <div class="card-body">
-                        <p class="card-text" th:text="'Площадь: ' + ${prem.area} + ' м²'">Площадь</p>
-                        <p class="card-text" th:text="'Цена/месяц: ' + ${prem.price} + ' ₽'">Цена</p>
-                        <p class="card-text" th:text="'Этаж: ' + ${prem.floor}">Этаж</p>
-                        <p class="card-text" th:text="'Рабочих мест: ' + ${prem.workplaces}">Рабочих мест</p>
+                            <table class="table">
+                                <tr>
+                                    <th>Площадь</th>
+                                    <td th:text="${prem.area} + ' м²'">Площадь</td>
+                                </tr>
+                                <tr>
+                                    <th>Цена/месяц</th>
+                                    <td th:text="${prem.price} + ' ₽'">Цена/месяц</td>
+                                </tr>
+                                <tr>
+                                    <th>Этаж</th>
+                                    <td th:text="${prem.floor}">Этаж</td>
+                                </tr>
+                                <tr>
+                                    <th>Рабочих мест</th>
+                                    <td th:text="${prem.workplaces}">Рабочих мест</td>
+                                </tr>
+                            </table>
 
                         <p class="card-text" th:with="text=${prem.getRented()} ? 'Арендована' : 'Не арендована'" th:text="${text}">аренда</p>
 

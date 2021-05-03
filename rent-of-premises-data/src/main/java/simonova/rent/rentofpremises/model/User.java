@@ -1,4 +1,7 @@
 package simonova.rent.rentofpremises.model;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.List;
 /**
@@ -8,7 +11,8 @@ import java.util.List;
 @Table(name = "users")
 public class User extends Person{
     /** Поле для хранения списка заявок клиента*/
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // CascadeType.ALL - если удалится информация о клиенте - удалится информация о всех его заявках
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user") // CascadeType.ALL - если удалится информация о клиенте - удалится информация о всех его заявках
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Application> applications;
     public List<Application> getApplications() {
         return applications;

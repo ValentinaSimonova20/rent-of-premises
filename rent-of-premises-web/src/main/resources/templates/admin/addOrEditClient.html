@@ -158,7 +158,7 @@
                         th:with="text=${client['new']} ? 'Добавить пользователя' : 'Изменить'"
                         class="btn btn-success" type="submit" th:text="${text}">Добавить пользователя</button>
 
-
+                <a class="btn btn-danger" th:if="!${client['new']}" th:href="@{'/users/'+${client.id}+'/delete'}">Удалить пользователя </a>
 
             </div>
 
