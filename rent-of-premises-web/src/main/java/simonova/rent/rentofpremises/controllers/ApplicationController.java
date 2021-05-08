@@ -71,6 +71,12 @@ public class ApplicationController {
 
     }
 
+    @GetMapping("/app/{appId}/delete")
+    public String delApp(@PathVariable Long appId){
+        applicationService.deleteById(appId);
+        return "redirect:/applications";
+    }
+
     @GetMapping("applications/page/{pageNo}")
     @Transactional
     public String findPaginated(@PathVariable int pageNo, Model model){

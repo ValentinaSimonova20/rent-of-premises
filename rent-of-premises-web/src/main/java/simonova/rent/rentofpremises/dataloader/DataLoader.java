@@ -24,11 +24,6 @@ public class DataLoader implements CommandLineRunner {
             loadData();
         }
 
-        if(count > 0) {
-            UserDTO admin = userService.findByEmail("admin@gmail.com");
-            admin.setStatus(Status.ACTIVE);
-            userService.save(admin);
-        }
 
     }
 

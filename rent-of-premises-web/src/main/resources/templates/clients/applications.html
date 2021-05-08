@@ -68,12 +68,10 @@
         </div>
 
         <div class="card-footer" th:if="${app.additionalInfo != null && app.additionalInfo != ''}">
-            <table>
-                <tr>
-                    <th>Дополнение</th>
-                    <td th:text="${app.additionalInfo}">доп</td>
-                </tr>
-            </table>
+
+            <p><b>Дополнение</b></p>
+           <p th:text="${app.additionalInfo}">доп</p>
+
         </div>
 
         <div class="card-footer" th:if="${userRole == 'MANAGER'}">
@@ -92,6 +90,10 @@
                         <div th:class="'form-group col-lg-5'">
                             <button type="submit" class="btn btn-primary">Подтвердить изменение</button>
                         </div>
+                    </div>
+
+                    <div class="row">
+                        <a th:class="'btn btn-danger'" role="button" th:href="'/app/'+${app.id}+'/delete'">Удалить</a>
                     </div>
 
                 </form>
