@@ -32,12 +32,14 @@
                 <div th:class="'form-group row mx-md-n5'">
 
                     <div th:class="'card-text form-group col px-md-5'">
-                        <div th:text="'Серия паспорта'">
+                        <div>
+                            <b>Серия паспорта</b>
                         </div>
                     </div>
 
                     <div th:class="'card-text form-group col px-md-5'">
-                        <div th:text="'Номер паспорта'">
+                        <div>
+                            <b>Номер паспорта</b>
                         </div>
                     </div>
                 </div>
@@ -56,10 +58,10 @@
 
                 </div>
             </li>
-            <li class="list-group-item" th:if="${client.organization} != null and ${client.organization} !=''" th:text="'Организация: '+${client.organization}">Организация</li>
-            <li class="list-group-item" th:if="${client.activity} != null and ${client.activity} !=''" th:text="'Деятельность: '+${client.activity}">Деятельность</li>
-            <li class="list-group-item" th:text="'Номер телефона: '+${client.phoneNumber}">Номер телефона</li>
-            <li class="list-group-item" th:text="'Почта: '+${client.email}">Email</li>
+            <li class="list-group-item" th:if="${client.organization} != null and ${client.organization} !=''"><table><tr><th>Организация </th><td th:text="${client.organization}"></td></tr></table></li>
+            <li class="list-group-item" th:if="${client.activity} != null and ${client.activity} !=''"><table><tr><th>Деятельность </th><td th:text="${client.activity}"></td></tr></table></li>
+            <li class="list-group-item" th:if="${client.phoneNumber} != null and ${client.phoneNumber} !=''"><table><tr><th>Номер телефона </th><td th:text="${client.phoneNumber}"></td></tr></table></li>
+            <li class="list-group-item"><table><tr><th>Email </th><td th:text="${client.email}"></td></tr></table></li>
         </ul>
     </div>
     </div>
