@@ -22,7 +22,7 @@
 
 <div class="container mt-4">
     <div th:class="'row d-flex justify-content-center'">
-        <div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">
+        <div class="col-md-12 col-xs-12 col-xl-12 col-lg-12">
             <div th:class="'row d-flex justify-content-center'">
     <div th:each="app : ${apps}" class="card mb-3 "  style="max-width: 800px;">
         <h4 class="card-header"><a href="#"  th:text="${app.premises.name}" th:href="@{'/areas/'+${app.getPremises().getId()}+'/show'}">Название</a></h4>
