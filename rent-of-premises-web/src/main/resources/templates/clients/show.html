@@ -61,7 +61,7 @@
             <li class="list-group-item" th:if="${client.organization} != null and ${client.organization} !=''"><table><tr><th scope="row">Организация: </th><td th:text="${client.organization}"></td></tr></table></li>
             <li class="list-group-item" th:if="${client.activity} != null and ${client.activity} !=''"><table><tr><th scope="row">Деятельность: </th><td th:text="${client.activity}"></td></tr></table></li>
             <li class="list-group-item" th:if="${client.phoneNumber} != null and ${client.phoneNumber} !=''"><table><tr><th scope="row">Номер телефона: </th><td th:text="${client.phoneNumber}"></td></tr></table></li>
-            <li class="list-group-item"><table><tr><th>Email </th><td th:text="${client.email}"></td></tr></table></li>
+            <li class="list-group-item"><table><tr><th scope="row">Email: </th><td th:text="${client.email}"></td></tr></table></li>
         </ul>
     </div>
     </div>
