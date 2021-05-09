@@ -69,6 +69,7 @@ public class PremisesSDJpaService implements PremisesService {
     public PremisesDTO findById(Long aLong) {
         PremisesConverter premisesConverter = new PremisesConverter(new ModelMapper());
         Premises premises = premisesRepository.findById(aLong).orElse(null);
+        if(premises == null) return null;
         return premisesConverter.convertToDTO(premises);
     }
 

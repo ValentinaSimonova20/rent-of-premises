@@ -16,6 +16,8 @@ import simonova.rent.rentofpremises.converters.PremisesConverter;
 import simonova.rent.rentofpremises.dto.ApplicationDTO;
 import simonova.rent.rentofpremises.dto.PremisesDTO;
 import simonova.rent.rentofpremises.dto.UserDTO;
+import simonova.rent.rentofpremises.exception.NoAppException;
+import simonova.rent.rentofpremises.exception.NoAreaException;
 import simonova.rent.rentofpremises.model.*;
 import simonova.rent.rentofpremises.services.ApplicationService;
 import simonova.rent.rentofpremises.services.UserService;
@@ -73,9 +75,14 @@ public class AreasController {
      * @return html-страницу с расширенной информацией о выбранном офисе
      */
     @GetMapping("/areas/{id}/show")
-    public String getAreaById(@PathVariable String id, Model model){
+    public String getAreaById(@PathVariable Long id, Model model){
 
-        model.addAttribute(premises, premisesService.findById(Long.valueOf(id)));
+        if(premisesService.findById(id) == null){
+            throw new NoAreaException("Помещения не существует");
+        }
+
+
+        model.addAttribute(premises, premisesService.findById(id));
         Application application = new Application();
         model.addAttribute("application", application);
 
@@ -98,6 +105,19 @@ public class AreasController {
         UserDTO client = Person.getAuthUser(authentication, userService);
         PremisesDTO premisesList = premisesService.findById(id);
 
+        // проверка на то раньше ли начало аренды чем ее окончание
+        if(startDate !=null & endDate !=null){
+
+        if(startDate.compareTo(endDate)>=0){
+            model.addAttribute("message", "Начало аренды должно быть раньше ее окончания");
+            model.addAttribute(premises, premisesService.findById(id));
+            model.addAttribute("application", applicationDTO);
+            model.addAttribute("startDate", startDate);
+            model.addAttribute("endDate", endDate);
+            return "areas/show";
+        }
+
+        }
         // Проверка подавал ли уже пользователь заявку на аренду данной площади
         if(applicationService.findByUserIdAndPremisesId(client.getId(), id) == null){
             // Добавить заявку
@@ -110,6 +130,8 @@ public class AreasController {
         else {
             model.addAttribute("message", "Вы уже подали заявку на данную площадь");
             model.addAttribute(premises, premisesService.findById(id));
+            model.addAttribute("startDate", startDate);
+            model.addAttribute("endDate", endDate);
             model.addAttribute("application", applicationDTO);
             return "areas/show";
         }

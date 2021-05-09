@@ -71,7 +71,7 @@
                                     <div th:class="'card-text'">
                                         <div th:class="'form-group form-inline is-valid'">
                                             <label for="startDate"><pre>От:    </pre></label>
-                                            <input type="date" id="startDate" name="startDate"  th:class="'form-control mt-auto'" />
+                                            <input type="date" id="startDate" name="startDate" th:value="${startDate}" th:class="'form-control mt-auto'" />
                                         </div>
                                     </div>
 
@@ -81,7 +81,7 @@
                                 <div class="row">
                                     <div th:class="'form-group form-inline is-valid'">
                                         <label for="endDate"><pre>До:   </pre></label>
-                                        <input type="date" id="endDate" name="endDate"  th:class="'form-control'"/>
+                                        <input type="date" id="endDate" name="endDate" th:value="${endDate}"  th:class="'form-control'"/>
                                     </div>
                                 </div>
 

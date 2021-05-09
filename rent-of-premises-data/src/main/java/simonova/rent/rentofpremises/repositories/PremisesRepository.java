@@ -20,6 +20,8 @@ public interface PremisesRepository extends JpaRepository<Premises, Long> {
 
     Optional<Premises> findByArea(double area);
 
+    Optional<Premises> findById(Long id);
+
     Page<Premises> findByIsRented(boolean isRented, Pageable pageable);
 
     @Query(value = "SELECT * FROM premises WHERE price BETWEEN :#{#filter.priceMin} AND :#{#filter.priceMax}" +
